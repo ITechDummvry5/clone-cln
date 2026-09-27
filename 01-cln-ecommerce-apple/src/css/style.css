@@ -1,0 +1,217 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #f2f4f8;
+}
+
+/* LAYOUT */
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-card {
+    display: flex;
+    max-width: 850px;
+    width: 90%;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+}
+
+/* IMAGE */
+.product-image {
+    flex: 1;
+    background: #1B211A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    
+}
+
+.product-image img {
+    width: 85%;
+}
+
+/* INFO */
+.product-info {
+    flex: 1;
+    padding: 40px;
+}
+
+.product-info h1 {
+    font-size: 28px;
+    color: #222;
+}
+
+.price {
+    margin: 15px 0;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.price span {
+    font-size: 14px;
+    margin-left: 5px;
+    color: #2ecc71;
+}
+
+.description {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+/* OPTIONS */
+.option {
+    margin-bottom: 20px;
+}
+
+.option label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+/* SIZE BUTTONS */
+.options button {
+    padding: 8px 14px;
+    margin-right: 8px;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.options .active {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+}
+
+/* COLORS */
+.colors span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.colors .active {
+    border-color: #111;
+}
+
+.c1 { background: #e74c3c; }
+.c2 { background: #f1c40f; }
+.c3 { background: #ecf0f1; border: 1px solid #ccc; }
+.c4 { background: #285079; }
+
+/* QUANTITY */
+.quantity {
+    display: flex;
+    align-items: center;
+    width: 120px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.quantity button {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: #f5f5f5;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.quantity input {
+    width: 50px;
+    border: none;
+    text-align: center;
+    outline: none;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+/* CART ROW */
+.cart-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+    align-items: center;
+}
+
+/* COUPON (SECONDARY) */
+.cart-row select {
+    width: 35%;
+    height: 34px;
+    padding: 0 8px;
+    font-size: 13px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+}
+
+.cart-row select:hover,
+.cart-row select:focus {
+    border-color: #111;
+    outline: none;
+}
+
+/* ADD TO CART (PRIMARY) */
+.cart-row .add-cart {
+    width: 65%;
+    height: 48px;
+    padding: 0 20px;
+    background: #111;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.cart-row .add-cart:hover {
+    background: #333;
+}
+.price #price {
+    font-size: 22px; /* Keep main price same size */
+}
+/* product Controls */
+.controls-view {
+position: absolute;
+bottom: 40px;
+right: 20px;
+}
+.btn{
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: white;
+    margin: 10px;
+    cursor: pointer;
+}
+.btn.active{
+    background: #1a3815;
+}
+
+
+

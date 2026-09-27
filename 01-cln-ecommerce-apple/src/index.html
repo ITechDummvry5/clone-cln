@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dragonball Ecommerce</title>
+    <link rel="shortcut icon" href="assets/icons/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="assets/images/image-white.png" type="image/x-icon">
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="product-card">
+
+        <!-- IMAGE -->
+        <div class="product-image">
+            <img id="productImg" src="assets/images/image-blue.png" alt="Product">
+            <div class="controls-view">
+                <span class="btn active"></span>
+                <span class="btn"></span>
+                <span class="btn"></span>
+            </div>
+        </div>
+
+        <!-- DETAILS -->
+        <div class="product-info">
+            <h1>Casual Clothes Android 18</h1>
+            <p class="price">
+    $<span id="price">14.00</span>
+    <span class="discount-text" id="discountText"></span>
+</p>
+            <p class="description">
+                A blue denim vest and skirt (with the Red Ribbon logo on the back of the vest) with dark blue tights, a brown belt, brown boots, and a black shirt that has white and black striped long sleeves
+            </p>
+
+            <!-- SIZE -->
+            <div class="option">
+                <label>Size</label>
+                <div class="options">
+                    <button>S</button>
+                    <button>M</button>
+                    <button class="active">L</button>
+                    <button>XL</button>
+                    <button>XXL</button>
+                </div>
+            </div>
+
+            <!-- COLOR -->
+            <div class="option">
+                <label>Color</label>
+                <div class="colors">
+                 <div class="colors">
+    <span class="c1" data-image="assets/images/image-red.png"></span>
+    <span class="c2" data-image="assets/images/image-yellow.png"></span>
+    <span class="c3" data-image="assets/images/image-white.png"></span>
+    <span class="c4" data-image="assets/images/image-blue.png"></span>
+</div>
+
+                </div>
+            </div>
+
+            <!-- QUANTITY -->
+            <div class="option">
+                <label>Quantity</label>
+                <div class="quantity">
+                    <button>-</button>
+                    <input type="number" value="1" min="1">
+                    <button>+</button>
+                </div>
+            </div>
+
+            <!-- BUTTON -->
+            <div class="cart-row">
+
+    <select id="couponSelect">
+        <option value="0">No Coupon</option>
+        <option value="10">2022 – 10%</option>
+        <option value="20">2023 – 20%</option>
+        <option value="30">2024 – 30%</option>
+        <option value="99">2025 – 99% Chrismast Sale</option>
+    </select>
+
+    <button class="add-cart">Add to Cart</button>
+
+</div>
+
+        </div>
+
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>

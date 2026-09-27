@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>4 Pics 1 Word – KPOP</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<!-- ══════════════ GAME SCREEN ══════════════ -->
+<div class="screen active" id="game-screen">
+  <div class="bg-overlay"></div>
+
+  <nav class="nav">
+    <span class="nav-badge" id="nav-badge">Level 1</span>
+    <span class="nav-title">4 Pics 1 Word · KPOP</span>
+    <button class="nav-btn" onclick="goAdmin()"><img src="assets/images/settings.png" alt="" style="width:13px;height:13px;object-fit:contain;vertical-align:middle;margin-right:4px">Admin</button>
+  </nav>
+
+  <div class="no-levels" id="no-levels">
+    <img src="assets/images/mic.png" alt="" style="width:80px;height:80px;object-fit:contain">
+    <h2>No Levels Yet</h2>
+    <p>Go to the Admin panel to create levels or import an existing JSON file.</p>
+    <div class="no-levels-btns">
+      <button class="act-btn btn-check" style="flex:none;width:100%" onclick="goAdmin()">⚙ Go to Admin</button>
+    </div>
+  </div>
+
+  <div id="game-area">
+    <div class="game-inner">
+      <div class="prog-wrap">
+        <div class="prog-meta">
+          <span id="prog-label">Level 1 of 1</span>
+          <span id="prog-pct">0%</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+      </div>
+      <div class="img-grid" id="img-grid"></div>
+      <div class="right-col">
+        <div class="ans-section">
+          <div class="section-label">Your Answer</div>
+          <div class="ans-row" id="ans-row"></div>
+        </div>
+        <div class="tiles-section">
+          <div class="section-label">Pick a Letter</div>
+          <div class="tiles-row" id="tiles-row"></div>
+        </div>
+        <div class="act-row">
+          <button class="act-btn btn-clear" onclick="clearAns()"><img src="assets/images/clear.png" alt="" style="width:18px;height:18px;object-fit:contain;margin-right:4px"> Clear</button>
+          <button class="act-btn btn-hint" onclick="openHint()"><img src="assets/images/hint.png" alt="" style="width:18px;height:18px;object-fit:contain;margin-right:4px"> Hint</button>
+          <button class="act-btn btn-check" onclick="checkAns()">Check ✓</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Win overlay -->
+  <div class="overlay" id="win-ov">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-icon"><img src="assets/images/win.png" alt="" style="width:72px;height:72px;object-fit:contain"></div>
+      <div class="sheet-word" id="win-word">WORD</div>
+      <div class="sheet-sub" id="win-sub">You got it!</div>
+      <button class="sheet-btn sbtn-primary" id="btn-next" onclick="nextLevel()">Next Level →</button>
+    </div>
+  </div>
+
+  <!-- Hint overlay -->
+  <div class="overlay" id="hint-ov">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-icon" style="animation:none"><img src="assets/images/hint.png" alt="" style="width:56px;height:56px;object-fit:contain"></div>
+      <div class="sheet-title">Use a Hint?</div>
+      <div class="sheet-sub">Reveals one correct letter. <strong id="hints-left" style="color:var(--orange)">100</strong> left.</div>
+      <button class="sheet-btn sbtn-primary orange" onclick="useHint()">Use Hint</button>
+      <button class="sheet-btn sbtn-ghost" onclick="closeHint()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ ADMIN SCREEN ══════════════ -->
+<div class="screen" id="admin-screen">
+  <nav class="admin-nav">
+    <button class="a-btn a-btn-ghost" onclick="goGame()">← Game</button>
+    <span class="admin-nav-title">Admin Panel</span>
+    <div class="admin-nav-actions">
+      <button class="a-btn a-btn-ghost" onclick="exportLevels()">Export</button>
+      <label class="a-btn a-btn-ghost" style="cursor:pointer">Import<input type="file" id="import-file" accept=".json" onchange="importLevels(event)"></label>
+      <button class="a-btn a-btn-primary" onclick="openModal()">+ New</button>
+    </div>
+  </nav>
+
+  <div class="admin-body">
+    <aside class="admin-sidebar">
+      <div class="sidebar-head">
+        <span class="sidebar-head-title">Levels <span id="lvl-count" style="color:var(--blue)">0</span></span>
+        <button class="a-btn a-btn-primary" style="height:28px;padding:0 10px;font-size:18px;line-height:1" onclick="openModal()">+</button>
+      </div>
+      <div class="lvl-list" id="lvl-list"></div>
+      <div class="sidebar-footer">
+        <button class="a-btn a-btn-primary" style="width:100%;height:40px;border-radius:var(--r-xl)" onclick="openModal()">+ Add Level</button>
+      </div>
+    </aside>
+
+    <main class="admin-main" id="admin-main">
+      <div class="empty-admin" id="empty-admin">
+        <img src="assets/images/logo.png" alt="" style="width:72px;height:72px;object-fit:contain;border-radius:16px">
+        <h2>No level selected</h2>
+        <p>Create a new level or pick one from the sidebar.</p>
+        <button class="a-btn a-btn-primary" onclick="openModal()" style="margin-top:6px;height:44px;padding:0 24px">Create First Level</button>
+        <div style="margin-top:24px;background:rgba(255,255,255,.05);border:1px solid var(--sep);border-radius:var(--r-xl);padding:16px;width:100%;max-width:320px;text-align:left">
+          <div style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px"><img src="assets/images/import.png" alt="" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;margin-right:4px"> Import Answers JSON</div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.5">You can import a JSON file with pre-made levels using the <strong style="color:var(--green)">Import</strong> button above. The JSON format is an array of level objects.</p>
+          <div style="margin-top:10px;background:rgba(0,0,0,.3);border-radius:var(--r-md);padding:10px;font-size:11px;color:var(--blue);font-family:monospace;line-height:1.6">
+[{<br>
+&nbsp;"name": "Level 1",<br>
+&nbsp;"word": "BTS",<br>
+&nbsp;"extraCount": 4,<br>
+&nbsp;"images": ["url1","url2","url3","url4"]<br>
+}]
+          </div>
+        </div>
+      </div>
+
+      <div id="editor" style="display:none">
+        <div class="ed-head">
+          <div class="ed-title" id="ed-title">Level 1</div>
+          <div style="display:flex;gap:8px">
+            <button class="a-btn a-btn-danger" onclick="delCurrent()">Delete</button>
+            <button class="a-btn a-btn-primary" onclick="saveCurrent()">Save ✓</button>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat"><div class="stat-n" id="s-imgs">0/4</div><div class="stat-l">Images</div></div>
+          <div class="stat"><div class="stat-n" id="s-len">0</div><div class="stat-l">Letters</div></div>
+          <div class="stat"><div class="stat-n" id="s-tiles">0</div><div class="stat-l">Tiles</div></div>
+        </div>
+
+        <div class="form-card">
+          <div class="form-card-title">Level Info</div>
+          <div class="form-row">
+            <div class="form-label">Level Name</div>
+            <input class="form-inp" type="text" id="f-name" placeholder="e.g. Level 1">
+          </div>
+          <div class="form-row">
+            <div class="form-label">Answer Word</div>
+            <input class="form-inp word-f" type="text" id="f-word" placeholder="WORD" maxlength="12" oninput="this.value=this.value.replace(/[^A-Za-z]/g,'').toUpperCase();updatePreview()">
+          </div>
+          <div class="form-row">
+            <div class="form-label">Extra Letters</div>
+            <input class="form-inp" type="number" id="f-extra" value="4" min="2" max="12" oninput="updatePreview()">
+          </div>
+        </div>
+
+        <div class="img-upload-grid" id="img-upload-grid"></div>
+
+        <div class="form-card">
+          <div class="form-card-title" style="padding:11px 14px 0">Letter Preview</div>
+          <div class="preview-tiles" id="preview-tiles"></div>
+          <div class="preview-legend"><span style="color:var(--blue)">■</span> Answer letters · ■ Random extras</div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- New Level Modal -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">New Level</div>
+    <div class="modal-row">
+      <div class="modal-label">Level Name</div>
+      <input class="modal-inp" type="text" id="m-name" placeholder="Level 1">
+    </div>
+    <div class="modal-row">
+      <div class="modal-label">Answer Word</div>
+      <input class="modal-inp word" type="text" id="m-word" placeholder="WORD" maxlength="12" oninput="this.value=this.value.replace(/[^A-Za-z]/g,'').toUpperCase()">
+    </div>
+    <div class="modal-actions">
+      <button class="m-btn m-cancel" onclick="closeModal()">Cancel</button>
+      <button class="m-btn m-create" onclick="createLevel()">Create</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confetti + Toast -->
+<div class="confetti-layer" id="cf"></div>
+<div class="toast" id="toast"></div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
