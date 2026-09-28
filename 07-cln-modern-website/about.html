@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — TOPKEYS | The Architects of Mechanical Luxury</title>
+  <meta name="description" content="The story behind TOPKEYS. A collective of acoustic engineers, industrial designers, and keyboard obsessives building the world's finest mechanical input devices.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="/public/techdummvry_logo.png" type="image/x-icon">
+  <link rel="shortcut icon" href="./public/logo.png" type="image/x-icon">
+
+
+  <style>
+    /* =====================================================
+       DESIGN TOKENS — Mirrors landing page root vars
+       ===================================================== */
+    :root {
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+
+      --bg-deep:       hsl(240, 10%, 3%);
+      --bg-card:       hsla(240, 10%, 6%, 0.55);
+      --text-primary:  hsl(0, 0%, 98%);
+      --text-secondary:hsl(240, 3%, 70%);
+      --text-tertiary: hsl(240, 2%, 45%);
+
+      --accent-blue:   hsl(200, 100%, 70%);
+      --accent-gold:   hsl(35, 100%, 65%);
+      --accent-green:  #39ff14;
+
+      --border-light:  rgba(255,255,255,0.08);
+      --border-active: rgba(255,255,255,0.2);
+
+      --ease-premium:  cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* =====================================================
+       RESET
+       ===================================================== */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      scrollbar-width: none;
+    }
+    body::-webkit-scrollbar { display: none; }
+
+    /* =====================================================
+       AMBIENT LAYERS
+       ===================================================== */
+    .grid-overlay {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .vignette {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,.75) 100%);
+    }
+    .cursor-glow {
+      position: fixed; width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(102,204,255,.045) 0%, transparent 70%);
+      pointer-events: none; z-index: 1; mix-blend-mode: screen;
+      transform: translate(-50%,-50%); top: 0; left: 0;
+      will-change: transform; transition: transform 0.05s linear;
+    }
+
+    /* =====================================================
+       HEADER — Floating pill (matches landing)
+       ===================================================== */
+    .main-header {
+      position: fixed; bottom: 2rem; left: 2rem;
+      height: 52px; display: flex; align-items: center; gap: 1.5rem;
+      padding: 0 1.5rem; z-index: 200;
+      background: rgba(12,13,16,.3);
+      backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 26px;
+      box-shadow: 0 20px 40px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.08);
+      transition: background .3s ease;
+    }
+    .main-header:hover { background: rgba(12,13,16,.45); }
+
+    .header-logo {
+      font-family: var(--font-display); font-size: .95rem; font-weight: 800;
+      letter-spacing: .2rem; color: var(--text-primary); cursor: pointer;
+      border-right: 1px solid rgba(255,255,255,.08); padding-right: 1.2rem;
+      height: 20px; display: flex; align-items: center; text-decoration: none;
+    }
+    .header-nav { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-link {
+      font-family: var(--font-display); font-size: .65rem; font-weight: 600;
+      letter-spacing: .1rem; text-transform: uppercase;
+      color: var(--text-secondary); text-decoration: none;
+      transition: color .3s ease; position: relative; padding: .4rem 0;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px;
+      background: var(--accent-blue); transform: scaleX(0); transform-origin: right;
+      transition: transform .3s var(--ease-premium);
+    }
+    .nav-link:hover { color: var(--text-primary); }
+    .nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); transform-origin: left; }
+    .nav-link.active { color: var(--text-primary); }
+
+    .auth-btn {
+      background: rgba(255,255,255,.04); border: 1px solid var(--border-light);
+      border-radius: 16px; padding: .4rem 1rem; color: var(--text-primary);
+      font-family: var(--font-display); font-size: .6rem; font-weight: 700;
+      letter-spacing: .05rem; text-transform: uppercase; cursor: pointer;
+      transition: background .3s, border-color .3s, transform .2s; outline: none;
+    }
+    .auth-btn:hover { background: rgba(255,255,255,.09); border-color: var(--border-active); transform: translateY(-1px); }
+
+    /* Stock HUD */
+    .stock-hud {
+      position: fixed; bottom: 6.2rem; left: 2rem; z-index: 100;
+      display: flex; align-items: center; gap: .6rem;
+      padding: .45rem 1.1rem;
+      background: rgba(12,13,16,.25); backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,.04); border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.4);
+    }
+    .hud-pulse {
+      width: 6px; height: 6px; background: var(--accent-green);
+      border-radius: 50%; box-shadow: 0 0 8px var(--accent-green); position: relative;
+    }
+    .hud-pulse::after {
+      content: ''; position: absolute; top: 50%; left: 50%;
+      width: 100%; height: 100%; background: var(--accent-green); border-radius: 50%;
+      transform: translate(-50%,-50%) scale(1); animation: pulse-ring 2s infinite ease-out;
+    }
+    @keyframes pulse-ring {
+      0% { transform: translate(-50%,-50%) scale(1); opacity: .8; }
+      100% { transform: translate(-50%,-50%) scale(2.8); opacity: 0; }
+    }
+    .hud-text { font-family: var(--font-display); font-size: .58rem; font-weight: 700; letter-spacing: .08rem; color: var(--text-tertiary); text-transform: uppercase; }
+    .hud-text .highlight { color: var(--text-primary); }
+
+    /* =====================================================
+       MAIN CONTENT WRAPPER
+       ===================================================== */
+    .page-wrapper {
+      position: relative; z-index: 10;
+      max-width: 1100px; margin: 0 auto;
+      padding: 0 2rem 12rem;
+    }
+
+    /* =====================================================
+       HERO — Page opener
+       ===================================================== */
+    .about-hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; padding-top: 6rem;
+      position: relative;
+    }
+
+    .about-hero-eyebrow {
+      font-family: var(--font-display); font-size: .8rem; font-weight: 700;
+      letter-spacing: .4rem; text-transform: uppercase;
+      color: var(--accent-blue); margin-bottom: 1.5rem;
+      opacity: 0; animation: fade-up .8s var(--ease-premium) .2s forwards;
+    }
+
+    .about-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 900; line-height: .92; letter-spacing: -.03em;
+      margin-bottom: 2.5rem;
+      opacity: 0; animation: fade-up .9s var(--ease-premium) .35s forwards;
+    }
+    .about-hero-title .line-1 { display: block; color: var(--text-primary); }
+    .about-hero-title .line-2 {
+      display: block; font-weight: 300;
+      background: linear-gradient(120deg, rgba(255,255,255,.9) 0%, rgba(255,255,255,.35) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .about-hero-title .accent {
+      background: linear-gradient(120deg, #fff 20%, var(--accent-blue) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .about-hero-body {
+      max-width: 560px; font-size: clamp(1rem, 1.8vw, 1.2rem);
+      line-height: 1.7; color: var(--text-secondary); font-weight: 300;
+      opacity: 0; animation: fade-up .9s var(--ease-premium) .5s forwards;
+    }
+
+    /* Decorative large rule */
+    .hero-rule {
+      position: absolute; right: 0; top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-display); font-size: clamp(6rem, 14vw, 14rem);
+      font-weight: 900; letter-spacing: -.06em; line-height: 1;
+      color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.04);
+      pointer-events: none; user-select: none;
+      opacity: 0; animation: fade-in 1.2s var(--ease-premium) .6s forwards;
+    }
+
+    @keyframes fade-up {
+      from { opacity:0; transform: translateY(28px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+    @keyframes fade-in {
+      from { opacity:0; } to { opacity:1; }
+    }
+
+    /* =====================================================
+       SECTION LABELS
+       ===================================================== */
+    .section-label {
+      font-family: var(--font-display); font-size: .7rem; font-weight: 700;
+      letter-spacing: .3rem; text-transform: uppercase; color: var(--text-tertiary);
+      margin-bottom: 1rem;
+    }
+
+    /* =====================================================
+       MANIFESTO — centered large text block
+       ===================================================== */
+    .manifesto {
+      padding: 8rem 0;
+      border-top: 1px solid var(--border-light);
+    }
+    .manifesto-quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      font-weight: 700; line-height: 1.2; letter-spacing: -.02em;
+      color: var(--text-primary); max-width: 820px;
+    }
+    .manifesto-quote em {
+      font-style: normal;
+      background: linear-gradient(120deg, var(--accent-blue), var(--accent-gold));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .manifesto-attribution {
+      margin-top: 2rem; font-size: .8rem; color: var(--text-tertiary);
+      letter-spacing: .1rem; font-family: var(--font-display); font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    /* =====================================================
+       NUMBERS — Stat row
+       ===================================================== */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; border: 1px solid var(--border-light);
+      border-radius: 24px; overflow: hidden; margin: 6rem 0;
+    }
+    .stat-cell {
+      padding: 2.5rem 2rem;
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      transition: background .3s ease;
+    }
+    .stat-cell:hover { background: hsla(240,10%,10%,.65); }
+    .stat-number {
+      font-family: var(--font-display); font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 900; letter-spacing: -.04em; line-height: 1;
+      color: var(--text-primary); margin-bottom: .5rem;
+    }
+    .stat-number span { color: var(--accent-blue); }
+    .stat-desc { font-size: .8rem; color: var(--text-tertiary); line-height: 1.4; font-weight: 500; }
+
+    /* =====================================================
+       PHILOSOPHY — Alternating two-col layout
+       ===================================================== */
+    .philosophy { padding: 6rem 0; border-top: 1px solid var(--border-light); }
+    .philosophy-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start;
+      margin-top: 3rem;
+    }
+    .philosophy-grid + .philosophy-grid { margin-top: 5rem; padding-top: 5rem; border-top: 1px solid var(--border-light); }
+    .philosophy-grid.flip { direction: rtl; }
+    .philosophy-grid.flip > * { direction: ltr; }
+
+    .philo-tag {
+      display: inline-block; padding: .3rem .85rem;
+      background: rgba(102,204,255,.07); border: 1px solid rgba(102,204,255,.2);
+      border-radius: 20px; color: var(--accent-blue);
+      font-family: var(--font-display); font-size: .65rem; font-weight: 700;
+      letter-spacing: .1rem; text-transform: uppercase; margin-bottom: 1.2rem;
+    }
+    .philo-heading {
+      font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 800; line-height: 1.1; letter-spacing: -.02em;
+      margin-bottom: 1.2rem;
+    }
+    .philo-body { font-size: .95rem; color: var(--text-secondary); line-height: 1.75; }
+    .philo-body + .philo-body { margin-top: 1rem; }
+
+    /* Visual accent card — fills right column */
+    .philo-visual {
+      border-radius: 28px; overflow: hidden;
+      border: 1px solid var(--border-light);
+      background: var(--bg-card); backdrop-filter: blur(20px);
+      padding: 2.5rem; min-height: 280px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      position: relative;
+    }
+    .philo-visual-bg {
+      position: absolute; inset: 0; border-radius: 28px; opacity: .12;
+      pointer-events: none;
+    }
+    .philo-visual-number {
+      font-family: var(--font-display); font-size: 7rem; font-weight: 900;
+      line-height: 1; letter-spacing: -.06em;
+      color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.15);
+      position: absolute; top: 1.5rem; left: 2rem;
+    }
+    .philo-visual-label {
+      font-family: var(--font-display); font-size: 1.4rem; font-weight: 700;
+      line-height: 1.2; position: relative; z-index: 1;
+    }
+    .philo-visual-sub { font-size: .8rem; color: var(--text-tertiary); margin-top: .5rem; position: relative; z-index: 1; }
+
+    /* Gradient bg options */
+    .philo-v1 { background: linear-gradient(135deg, rgba(230,92,0,.2) 0%, rgba(10,11,14,.9) 70%); }
+    .philo-v2 { background: linear-gradient(135deg, rgba(6,182,212,.2) 0%, rgba(10,11,14,.9) 70%); }
+    .philo-v3 { background: linear-gradient(135deg, rgba(168,85,247,.2) 0%, rgba(10,11,14,.9) 70%); }
+    .philo-v4 { background: linear-gradient(135deg, rgba(16,185,129,.2) 0%, rgba(10,11,14,.9) 70%); }
+
+    /* =====================================================
+       TEAM — Card grid
+       ===================================================== */
+    .team-section { padding: 6rem 0; border-top: 1px solid var(--border-light); }
+    .team-intro {
+      max-width: 580px; margin-bottom: 3.5rem;
+    }
+    .team-intro p { font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-top: 1rem; }
+
+    .team-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    .team-card {
+      border: 1px solid var(--border-light); border-radius: 24px;
+      padding: 2rem; background: var(--bg-card); backdrop-filter: blur(20px);
+      transition: border-color .3s ease, transform .3s var(--ease-premium);
+    }
+    .team-card:hover { border-color: var(--border-active); transform: translateY(-4px); }
+
+    .team-avatar {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-gold));
+      margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 1.1rem; font-weight: 800;
+      color: var(--bg-deep);
+    }
+    .team-name { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; margin-bottom: .25rem; }
+    .team-role { font-size: .75rem; color: var(--accent-blue); font-weight: 600; letter-spacing: .08rem; text-transform: uppercase; margin-bottom: 1rem; }
+    .team-bio { font-size: .85rem; color: var(--text-secondary); line-height: 1.6; }
+
+    /* =====================================================
+       PROCESS — Timeline
+       ===================================================== */
+    .process-section { padding: 6rem 0; border-top: 1px solid var(--border-light); }
+    .process-title { font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800; line-height: 1.1; max-width: 600px; margin-bottom: 3.5rem; }
+
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .timeline-item {
+      display: grid; grid-template-columns: 80px 1px 1fr;
+      gap: 0 2rem; align-items: stretch;
+    }
+    .timeline-num {
+      font-family: var(--font-display); font-size: 2.8rem; font-weight: 900;
+      color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.12);
+      line-height: 1; padding-top: .2rem;
+      display: flex; align-items: flex-start; justify-content: flex-end;
+    }
+    .timeline-line {
+      width: 1px;
+      background: linear-gradient(to bottom, rgba(255,255,255,.12), rgba(255,255,255,.04));
+      position: relative;
+    }
+    .timeline-line::before {
+      content: ''; position: absolute; top: .7rem; left: 50%;
+      transform: translateX(-50%);
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent-blue); box-shadow: 0 0 10px rgba(102,204,255,.6);
+    }
+    .timeline-content { padding: .5rem 0 3.5rem; }
+    .timeline-label {
+      font-family: var(--font-display); font-size: .65rem; font-weight: 700;
+      letter-spacing: .2rem; text-transform: uppercase; color: var(--accent-blue);
+      margin-bottom: .5rem;
+    }
+    .timeline-heading { font-family: var(--font-display); font-size: 1.3rem; font-weight: 800; margin-bottom: .6rem; }
+    .timeline-body { font-size: .88rem; color: var(--text-secondary); line-height: 1.65; max-width: 460px; }
+
+    /* =====================================================
+       CTA BANNER
+       ===================================================== */
+    .cta-banner {
+      margin-top: 6rem; border: 1px solid var(--border-light); border-radius: 32px;
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, rgba(102,204,255,.06) 0%, rgba(10,11,14,.95) 60%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 30px 60px rgba(0,0,0,.5);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+      min-height: 360px;
+    }
+    .cta-banner-glow {
+      position: absolute; top: -80px; left: -80px;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(102,204,255,.08) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    .cta-banner-content {
+      padding: 3rem; position: relative; z-index: 1;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .cta-banner h2 {
+      font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 900; line-height: 1.1; margin-bottom: 1rem;
+    }
+    .cta-banner p { color: var(--text-secondary); line-height: 1.6; margin-bottom: 2rem; font-size: .95rem; }
+    .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .cta-banner-image {
+      position: relative; overflow: hidden;
+      border-left: 1px solid var(--border-light);
+    }
+    .cta-banner-image img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
+      /* Subtle fade on left edge to blend with text side */
+      mask-image: linear-gradient(to right, transparent 0%, black 20%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20%);
+      transition: transform .6s var(--ease-premium);
+    }
+    .cta-banner:hover .cta-banner-image img { transform: scale(1.03); }
+
+    @media (max-width: 900px) {
+      .cta-banner { grid-template-columns: 1fr; }
+      .cta-banner-image {
+        height: 220px; border-left: none;
+        border-top: 1px solid var(--border-light);
+      }
+      .cta-banner-image img { mask-image: linear-gradient(to bottom, transparent 0%, black 25%); -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%); }
+      .cta-banner-content { padding: 2.5rem; }
+    }
+    .btn-primary {
+      font-family: var(--font-display); font-size: .75rem; font-weight: 700;
+      letter-spacing: .1rem; text-transform: uppercase;
+      height: 50px; padding: 0 2rem; border-radius: 14px; cursor: pointer;
+      background: var(--text-primary); border: none; color: var(--bg-deep);
+      transition: background .3s, transform .2s; text-decoration: none;
+      display: inline-flex; align-items: center;
+    }
+    .btn-primary:hover { background: #fff; transform: translateY(-2px); }
+    .btn-secondary {
+      font-family: var(--font-display); font-size: .75rem; font-weight: 700;
+      letter-spacing: .1rem; text-transform: uppercase;
+      height: 50px; padding: 0 2rem; border-radius: 14px; cursor: pointer;
+      background: transparent; border: 1px solid rgba(255,255,255,.15); color: var(--text-primary);
+      transition: border-color .3s, transform .2s; text-decoration: none;
+      display: inline-flex; align-items: center;
+    }
+    .btn-secondary:hover { border-color: var(--text-primary); transform: translateY(-2px); }
+
+    /* =====================================================
+       SCROLL REVEAL UTILITY
+       ===================================================== */
+    .reveal {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity .85s var(--ease-premium), transform .85s var(--ease-premium);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+    .reveal-delay-4 { transition-delay: .4s; }
+
+    /* =====================================================
+       RESPONSIVE
+       ===================================================== */
+    @media (max-width: 900px) {
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .philosophy-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .philosophy-grid.flip { direction: ltr; }
+      .team-grid { grid-template-columns: 1fr 1fr; }
+      .hero-rule { display: none; }
+      .cta-banner { padding: 2.5rem; }
+      .cta-row { flex-direction: column; }
+    }
+    @media (max-width: 600px) {
+      .stats-row { grid-template-columns: 1fr; border-radius: 18px; }
+      .team-grid { grid-template-columns: 1fr; }
+      .timeline-item { grid-template-columns: 40px 1px 1fr; }
+      .timeline-num { font-size: 1.6rem; }
+      .main-header { bottom: 1.5rem; left: 1.5rem; }
+      .stock-hud { left: 1.5rem; bottom: 5.2rem; }
+    }
+
+    /* ===== WHY CHOOSE SECTION ===== */
+    .why-section {
+      max-width: 1200px;
+      padding: 6rem 0;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 900;
+      margin-bottom: 3rem;
+      color: var(--text-primary);
+    }
+
+    .features-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .feature-item {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .feature-item:last-child {
+      border-bottom: none;
+    }
+
+    .feature-title {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.1rem;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-desc {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Ambient -->
+  <div class="grid-overlay" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+
+  <!-- Stock HUD -->
+  <div class="stock-hud" aria-live="polite">
+    <span class="hud-pulse" aria-hidden="true"></span>
+    <span class="hud-text">BATCH 03: <span class="highlight">86% ALLOCATED</span> (14 BUILD SLOTS REMAINING)</span>
+  </div>
+
+  <!-- Header -->
+  <header class="main-header" aria-label="Main Navigation">
+    <a href="/index.html" class="header-logo">TOPKEYS</a>
+    <nav class="header-nav">
+      <a href="./index.html#slide-6" class="nav-link">Home</a>
+      <a href="./product.html" class="nav-link">Shop</a>
+      <a href="./about.html" class="nav-link active">About</a>
+      <a href="./contact.html" class="nav-link">Contact</a>
+    </nav>
+    <div>
+      <button class="auth-btn">Login / Sign Up</button>
+    </div>
+  </header>
+
+  <!-- =====================================================
+       PAGE CONTENT
+       ===================================================== -->
+  <div class="page-wrapper">
+
+    <!-- HERO -->
+    <section class="about-hero">
+      <div class="about-hero-eyebrow">The Architects</div>
+      <h1 class="about-hero-title">
+        <span class="line-1">WE BUILD</span>
+        <span class="line-2">INSTRUMENTS,</span>
+        <span class="line-1">NOT <span class="accent">GADGETS.</span></span>
+      </h1>
+      <p class="about-hero-body">
+        TOPKEYS is a collective of acoustic engineers, CNC machinists, and obsessive keyboard builders. We exist because the world deserved a mechanical keyboard built the way a Leica camera or a Hasselblad lens is — with no compromises, no shortcuts, and no apologies for cost.
+      </p>
+      <div class="hero-rule" aria-hidden="true">VEO</div>
+    </section>
+
+    <!-- MANIFESTO -->
+    <section class="manifesto reveal">
+      <div class="section-label">Philosophy</div>
+      <blockquote class="manifesto-quote">
+        "Every keystroke is a micro-event. We spent three years ensuring that event produces a sound so <em>satisfying</em>, so <em>precise</em>, that typing itself becomes the reward."
+      </blockquote>
+      <p class="manifesto-attribution">— Founding Design Brief, 2021</p>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-row reveal">
+      <div class="stat-cell reveal reveal-delay-1">
+        <div class="stat-number">96<span>f</span></div>
+        <div class="stat-desc">Cinematic frame sequence. Every scroll tells the full disassembly story.</div>
+      </div>
+      <div class="stat-cell reveal reveal-delay-2">
+        <div class="stat-number">-18<span>dB</span></div>
+        <div class="stat-desc">High-frequency dampening via Poron leaf-spring gasket architecture.</div>
+      </div>
+      <div class="stat-cell reveal reveal-delay-3">
+        <div class="stat-number">42<span>g</span></div>
+        <div class="stat-desc">Factory-lubed linear switches tuned to a butter-smooth 42g actuation.</div>
+      </div>
+      <div class="stat-cell reveal reveal-delay-4">
+        <div class="stat-number">3<span>yr</span></div>
+        <div class="stat-desc">Development cycle. Veo was not rushed. It was engineered.</div>
+      </div>
+    </div>
+
+    <!-- PHILOSOPHY -->
+    <section class="philosophy">
+      <div class="section-label reveal">Design Philosophy</div>
+
+      <!-- Row 1 -->
+      <div class="philosophy-grid reveal">
+        <div>
+          <span class="philo-tag">Acoustics First</span>
+          <h2 class="philo-heading">Sound is the product's<br>first impression.</h2>
+          <p class="philo-body">Before a user sees the keyboard, they hear it. We use computational fluid dynamics to simulate and tune the internal sound bar cavity, redirecting every actuation's energy back through the keycap rather than outward into the room.</p>
+          <p class="philo-body">The result is the signature TOPKEYS "thock" — a deep, low-frequency resonance that feels as intentional as the snap of a high-end camera shutter.</p>
+        </div>
+        <div class="philo-visual philo-v1">
+          <div class="philo-visual-number">01</div>
+          <div class="philo-visual-label">CFD Acoustic Cavity<br>Engineering</div>
+          <div class="philo-visual-sub">Silicone diffuser + Molded EPDM case fill</div>
+        </div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="philosophy-grid flip reveal">
+        <div class="philo-visual philo-v2">
+          <div class="philo-visual-number">02</div>
+          <div class="philo-visual-label">FR4 Flex-Cut<br>PCB Design</div>
+          <div class="philo-visual-sub">1.2mm thickness / IXPE + Poron stack</div>
+        </div>
+        <div>
+          <span class="philo-tag">Material Honesty</span>
+          <h2 class="philo-heading">If it touches your hand,<br>it must be extraordinary.</h2>
+          <p class="philo-body">The case is CNC-milled from a single billet of 6063 aluminum, then sandblasted to a precise 20-micron matte texture. The quartz glass rotary encoder is optically polished — not to be luxurious, but because optical-grade clarity is the only standard worth meeting.</p>
+          <p class="philo-body">We chose brass for the plate not because it is fashionable, but because its acoustic mass properties are mathematically superior for sub-200Hz resonance amplification.</p>
+        </div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="philosophy-grid reveal">
+        <div>
+          <span class="philo-tag">Software as Hardware</span>
+          <h2 class="philo-heading">The firmware is as<br>refined as the chassis.</h2>
+          <p class="philo-body">Veo runs a custom QMK fork we call VeoOS. Every layer, macro, and RGB state is compiled locally and never touches a cloud server. Your configuration is stored in 128KB of onboard EEPROM flash — yours permanently, no app required.</p>
+          <p class="philo-body">Per-key polling happens at 8000Hz. Not because anyone needs it to, but because precision at that level changes how a board feels under latency-sensitive workloads.</p>
+        </div>
+        <div class="philo-visual philo-v3">
+          <div class="philo-visual-number">03</div>
+          <div class="philo-visual-label">VeoOS Firmware<br>8000Hz Polling</div>
+          <div class="philo-visual-sub">Compiled QMK fork / 128KB EEPROM / Zero cloud</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="team-section">
+      <div class="team-intro reveal">
+        <div class="section-label">The Collective</div>
+        <h2 style="font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.6rem);font-weight:800;line-height:1.1;margin-top:.5rem;">Small team.<br>Unreasonably high standards.</h2>
+        <p>Twelve people. No investors. No roadmap driven by quarterly targets. Just a shared obsession with building the finest mechanical input device ever made.</p>
+      </div>
+
+      <div class="team-grid">
+        <div class="team-card reveal reveal-delay-1">
+          <div class="team-avatar">MK</div>
+          <div class="team-name">Maren Kvist</div>
+          <div class="team-role">Acoustic Engineer</div>
+          <p class="team-bio">Former automotive NVH specialist. Responsible for the CFD cavity geometry and all dampening material stack decisions on Veo.</p>
+        </div>
+        <div class="team-card reveal reveal-delay-2">
+          <div class="team-avatar">RO</div>
+          <div class="team-name">Riku Okafor</div>
+          <div class="team-role">Industrial Design Lead</div>
+          <p class="team-bio">Designed hardware for aerospace tooling for 8 years before pivoting to keyboard design. Every chamfer on the Veo chassis is his work.</p>
+        </div>
+        <div class="team-card reveal reveal-delay-3">
+          <div class="team-avatar">SL</div>
+          <div class="team-name">Sasha Löfgren</div>
+          <div class="team-role">Switch Engineering</div>
+          <p class="team-bio">Designed the Opalescent Linear switch from a blank POM stem spec. The 22mm double-stage gold spring was her idea after 400 prototype iterations.</p>
+        </div>
+        <div class="team-card reveal reveal-delay-1">
+          <div class="team-avatar">TN</div>
+          <div class="team-name">Takeshi Noda</div>
+          <div class="team-role">Firmware Architecture</div>
+          <p class="team-bio">Wrote VeoOS from scratch. Responsible for the 8000Hz polling implementation and the local-only configuration philosophy.</p>
+        </div>
+        <div class="team-card reveal reveal-delay-2">
+          <div class="team-avatar">AV</div>
+          <div class="team-name">Amara Voss</div>
+          <div class="team-role">CNC Operations</div>
+          <p class="team-bio">Oversees all milling operations and quality control tolerances. Manages the three Haas machines responsible for every case produced.</p>
+        </div>
+        <div class="team-card reveal reveal-delay-3">
+          <div class="team-avatar">PE</div>
+          <div class="team-name">Patrick Elund</div>
+          <div class="team-role">Keycap Design</div>
+          <p class="team-bio">Former type designer at a major foundry. Responsible for the double-shot legends, profile geometry, and the proprietary TOPKEYS PBT blend.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS TIMELINE -->
+    <section class="process-section">
+      <div class="section-label reveal">How We Build</div>
+      <h2 class="process-title reveal">Every Veo is made-to-order.<br>Every detail is deliberate.</h2>
+
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-num">01</div>
+          <div class="timeline-line"></div>
+          <div class="timeline-content">
+            <div class="timeline-label">Configuration</div>
+            <div class="timeline-heading">You specify. We listen.</div>
+            <p class="timeline-body">Your case color, plate material, and switch preference are logged at the moment of reservation. No generic batch production — each build is assembled against a specific spec sheet with your name on it.</p>
+          </div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-num">02</div>
+          <div class="timeline-line"></div>
+          <div class="timeline-content">
+            <div class="timeline-label">Machining</div>
+            <div class="timeline-heading">CNC milled from billet.</div>
+            <p class="timeline-body">Your case is cut from a fresh 6063 aluminum block. The process takes 4.5 hours per unit. We don't speed it up. The final surface is hand-checked for any tooling marks before proceeding.</p>
+          </div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-num">03</div>
+          <div class="timeline-line"></div>
+          <div class="timeline-content">
+            <div class="timeline-label">Assembly</div>
+            <div class="timeline-heading">Layer by layer, by hand.</div>
+            <p class="timeline-body">IXPE sheet is cut to spec. Poron gaskets are seated. The PCB is checked under UV for trace continuity. Switches are hand-lubed a second time at this stage before installation.</p>
+          </div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-num">04</div>
+          <div class="timeline-line"></div>
+          <div class="timeline-content">
+            <div class="timeline-label">Acoustic QC</div>
+            <div class="timeline-heading">Every key must pass the test.</div>
+            <p class="timeline-body">Each completed unit is run through an automated acoustic analysis rig. All 87 keys are individually actuated and measured. Any key outside our -18dB frequency tolerance is replaced before shipping.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+        <!-- Why Choose Section -->
+    <section class="why-section">
+      <h2 class="section-title">Why Choose TOPRIUM Veo?</h2>
+      
+      <div class="features-2col">
+        <div class="feature-item">
+          <div class="feature-title">8 Programmable Macro Keys</div>
+          <div class="feature-desc">Comprehensive keyboard control that allows custom key mapping and advanced macros for maximum productivity.</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-title">USB-C Connectivity</div>
+          <div class="feature-desc">Fast data transfer rates with extended cable compatibility across all modern devices.</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-title">Optimized Gaming Mode</div>
+          <div class="feature-desc">Specialized mode designed to prioritize gaming performance with disabled accidental key presses.</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-title">Expandable Customization Options</div>
+          <div class="feature-desc">Support for infinite color schemes, key rebindings, and layout variations with VIA/QMK.</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-title">Advanced Anti-Ghosting Technology</div>
+          <div class="feature-desc">Full N-key rollover ensures every keystroke registers accurately during intense gaming sessions.</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-title">Personalized Lighting Effects</div>
+          <div class="feature-desc">Create custom RGB lighting patterns with per-key control and dynamic reactive effects.</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-title">Enhanced Key Mapping</div>
+          <div class="feature-desc">Unlimited key remapping possibilities with advanced layer switching for professional workflows.</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-title">Real-Time Battery Monitoring</div>
+          <div class="feature-desc">Always know your battery status with accurate real-time indicators for wireless models.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-banner reveal">
+      <div class="cta-banner-glow"></div>
+
+      <!-- Left: text content -->
+      <div class="cta-banner-content">
+        <h2>Ready to configure yours?</h2>
+        <p>Batch 03 has 14 remaining build slots. Once they're gone, the next batch opens in Q3 2026.</p>
+        <div class="cta-row">
+          <a href="#" class="btn-primary">Shop Veo now</a>
+          <a href="/index.html#slide-6" class="btn-secondary">View Full Story</a>
+        </div>
+      </div>
+
+      <!-- Right: image -->
+      <div class="cta-banner-image">
+        <img src="/public/logo.png" alt="TOPKEYS Veo keyboard" loading="lazy">
+      </div>
+    </div>
+
+  </div><!-- /.page-wrapper -->
+
+  <!-- =====================================================
+       SCRIPTS
+       ===================================================== -->
+  <script>
+    // Cursor glow
+    const glow = document.getElementById('cursor-glow');
+    window.addEventListener('mousemove', e => {
+      glow.style.transform = `translate3d(${e.clientX}px,${e.clientY}px,0) translate(-50%,-50%)`;
+    }, { passive: true });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => io.observe(el));
+  </script>
+  <script src="/global-nav.js"></script>
+</body>
+</html>

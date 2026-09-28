@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wander &mdash; Find your next escape</title>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===================== HERO SCREEN ===================== -->
+  <div class="hero-screen-wrap">
+
+  <div class="bg-stack" id="bgStack"></div>
+  <div class="bg-vignette"></div>
+
+  <header class="nav">
+    <div class="nav__logo">Wander<span>.</span></div>
+
+    <nav class="nav__links" aria-label="Main navigation">
+
+      <!-- Holidays — active, no dropdown -->
+      <div class="nav__item">
+        <a href="#" class="nav__trigger is-active">Holidays</a>
+      </div>
+
+      <!-- Destinations -->
+      <div class="nav__item">
+        <button class="nav__trigger" aria-haspopup="true" aria-expanded="false">
+          Destinations
+          <svg class="nav__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nav__drop" role="region" aria-label="Destinations menu">
+          <!-- Featured highlight -->
+          <div class="drop__featured">
+            <div class="drop__feat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            </div>
+            <div>
+              <p class="drop__feat-eyebrow">Trending Now</p>
+              <p class="drop__feat-title">Bali, Indonesia</p>
+              <p class="drop__feat-sub">Tropical beaches &middot; From $1,299</p>
+            </div>
+          </div>
+          <!-- Category grid -->
+          <div class="drop__grid drop__grid--3">
+            <a href="#destinations" class="drop__card">
+              <div class="drop__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+              </div>
+              <div>
+                <p class="drop__card-title">Beach Escapes</p>
+                <p class="drop__card-sub">Coastal &amp; tropical</p>
+              </div>
+            </a>
+            <a href="#destinations" class="drop__card">
+              <div class="drop__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="3 20 12 4 21 20 3 20"/></svg>
+              </div>
+              <div>
+                <p class="drop__card-title">Mountains</p>
+                <p class="drop__card-sub">Alpine &amp; trekking</p>
+              </div>
+            </a>
+            <a href="#destinations" class="drop__card">
+              <div class="drop__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              </div>
+              <div>
+                <p class="drop__card-title">City Breaks</p>
+                <p class="drop__card-sub">Urban culture</p>
+              </div>
+            </a>
+            <a href="#destinations" class="drop__card">
+              <div class="drop__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </div>
+              <div>
+                <p class="drop__card-title">Romantic</p>
+                <p class="drop__card-sub">Couples &amp; getaways</p>
+              </div>
+            </a>
+            <a href="#destinations" class="drop__card">
+              <div class="drop__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <div>
+                <p class="drop__card-title">Family</p>
+                <p class="drop__card-sub">Kid-friendly trips</p>
+              </div>
+            </a>
+            <a href="#destinations" class="drop__card">
+              <div class="drop__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+              <div>
+                <p class="drop__card-title">Luxury</p>
+                <p class="drop__card-sub">Resort &amp; spa</p>
+              </div>
+            </a>
+          </div>
+          <div class="drop__sep"></div>
+          <div class="drop__footer">
+            <span class="drop__badge">120+ countries</span>
+            <a href="#destinations" class="drop__see-all">
+              Browse all destinations
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flights -->
+      <div class="nav__item">
+        <button class="nav__trigger" aria-haspopup="true" aria-expanded="false">
+          Flights
+          <svg class="nav__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nav__drop" role="region" aria-label="Flights menu">
+          <div class="drop__grid drop__grid--2">
+            <a href="#packages" class="drop__card">
+              <div class="drop__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 22-7z"/></svg>
+              </div>
+              <div>
+                <p class="drop__card-title">One Way</p>
+                <p class="drop__card-sub">Simple single-leg routes</p>
+              </div>
+            </a>
+            <a href="#packages" class="drop__card">
+              <div class="drop__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </div>
+              <div>
+                <p class="drop__card-title">Return</p>
+                <p class="drop__card-sub">Best value round trips</p>
+              </div>
+            </a>
+            <a href="#packages" class="drop__card">
+              <div class="drop__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div>
+                <p class="drop__card-title">Multi-city</p>
+                <p class="drop__card-sub">Flexible stopover routes</p>
+              </div>
+            </a>
+            <a href="#packages" class="drop__card">
+              <div class="drop__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <div>
+                <p class="drop__card-title">Business Class</p>
+                <p class="drop__card-sub">Premium cabin deals</p>
+              </div>
+            </a>
+          </div>
+          <div class="drop__sep"></div>
+          <div class="drop__footer">
+            <span class="drop__badge">Best price guarantee</span>
+            <a href="#packages" class="drop__see-all">
+              Search flights
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Offers -->
+      <div class="nav__item">
+        <button class="nav__trigger" aria-haspopup="true" aria-expanded="false">
+          Offers
+          <svg class="nav__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nav__drop nav__drop--right" role="region" aria-label="Offers menu">
+          <div class="drop__grid drop__grid--2">
+            <a href="#offers" class="drop__card">
+              <div class="drop__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+              </div>
+              <div>
+                <p class="drop__card-title">Last-minute Deals</p>
+                <p class="drop__card-sub">Up to 40% off</p>
+              </div>
+            </a>
+            <a href="#offers" class="drop__card">
+              <div class="drop__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+              <div>
+                <p class="drop__card-title">Early Bird</p>
+                <p class="drop__card-sub">Book 6+ months ahead</p>
+              </div>
+            </a>
+            <a href="#offers" class="drop__card">
+              <div class="drop__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              </div>
+              <div>
+                <p class="drop__card-title">Package Deals</p>
+                <p class="drop__card-sub">Flight + hotel bundles</p>
+              </div>
+            </a>
+            <a href="#offers" class="drop__card">
+              <div class="drop__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div>
+                <p class="drop__card-title">Newsletter Deals</p>
+                <p class="drop__card-sub">Exclusive subscriber offers</p>
+              </div>
+            </a>
+          </div>
+          <div class="drop__sep"></div>
+          <div class="drop__footer">
+            <span class="drop__badge">New deals weekly</span>
+            <a href="#offers" class="drop__see-all">
+              View all offers
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <div class="nav__icons">
+      <button class="icon-btn" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <button class="nav__signin">Sign in</button>
+    </div>
+  </header>
+
+  <main class="hero">
+
+    <div class="hero__content" id="heroContent">
+      <p class="eyebrow" id="slidePlace">Tarifa &middot; Spain</p>
+      <h1 class="headline" id="slideTitle">Los Lances<br>Beach</h1>
+      <p class="description" id="slideDesc">
+        A wide stretch of sand where the Atlantic wind never sits still &mdash;
+        come for the kitesurfing, stay for the slow sunsets.
+      </p>
+      <div class="hero__actions">
+        <button class="cta">
+          Discover location
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <a href="#why-us" class="scroll-hint" aria-label="Scroll to learn more">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          Explore more
+        </a>
+      </div>
+    </div>
+
+    <section class="scroller" aria-label="Choose a destination">
+      <button class="arrow arrow--left" id="arrowLeft" aria-label="Scroll left">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="card-track" id="cardTrack"><!-- cards injected by JS --></div>
+      <button class="arrow arrow--right" id="arrowRight" aria-label="Scroll right">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </section>
+
+    <div class="progress" aria-hidden="true">
+      <span class="progress__fill" id="progressFill"></span>
+    </div>
+
+  </main>
+
+  </div><!-- end .hero-screen-wrap -->
+
+  <!-- ===================== PAGE CONTENT ===================== -->
+  <div class="page-content">
+
+    <!-- Why Choose Us -->
+    <section class="section why-us" id="why-us">
+      <div class="section__inner">
+        <div class="section__header">
+          <p class="section__eyebrow">Our Promise</p>
+          <h2 class="section__title">Travel differently,<br>remember forever.</h2>
+        </div>
+        <div class="why-grid">
+          <article class="why-card">
+            <div class="why-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            </div>
+            <h3 class="why-card__title">Handpicked Destinations</h3>
+            <p class="why-card__desc">Every location is vetted by our on-the-ground experts — not algorithms. If we wouldn't go ourselves, it doesn't make the list.</p>
+          </article>
+          <article class="why-card">
+            <div class="why-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h3 class="why-card__title">Best Price Guarantee</h3>
+            <p class="why-card__desc">Transparent pricing, no hidden fees. Found it cheaper? We'll match it, no questions asked.</p>
+          </article>
+          <article class="why-card">
+            <div class="why-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6 6l.95-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16.92z"/></svg>
+            </div>
+            <h3 class="why-card__title">24 / 7 Support</h3>
+            <p class="why-card__desc">A real person picks up. Wherever you are in the world, your dedicated travel concierge is one call away.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="section stats-section">
+      <div class="section__inner stats-inner">
+        <div class="stat">
+          <span class="stat__num">50k<span class="stat__plus">+</span></span>
+          <span class="stat__label">Happy Travellers</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat__num">120<span class="stat__plus">+</span></span>
+          <span class="stat__label">Countries Covered</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat__num">1,500<span class="stat__plus">+</span></span>
+          <span class="stat__label">Tours Available</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat__num">15</span>
+          <span class="stat__label">Years of Experience</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Popular Destinations -->
+    <section class="section" id="destinations">
+      <div class="section__inner">
+        <div class="section__header">
+          <p class="section__eyebrow">Trending Now</p>
+          <h2 class="section__title">Popular destinations</h2>
+        </div>
+        <div class="dest-grid">
+          <article class="dest-card dest-card--large">
+            <div class="dest-card__img" style="background-image:url('assets/img/img_1.png')"></div>
+            <div class="dest-card__body">
+              <span class="dest-card__tag">Beach</span>
+              <h3 class="dest-card__name">Bali, Indonesia</h3>
+              <p class="dest-card__sub">Tropical beaches and unforgettable sunsets.</p>
+            </div>
+          </article>
+          <article class="dest-card">
+            <div class="dest-card__img" style="background-image:url('assets/img/img_2.png')"></div>
+            <div class="dest-card__body">
+              <span class="dest-card__tag">Culture</span>
+              <h3 class="dest-card__name">Santorini, Greece</h3>
+              <p class="dest-card__sub">Whitewashed villages above the Aegean Sea.</p>
+            </div>
+          </article>
+          <article class="dest-card">
+            <div class="dest-card__img" style="background-image:url('assets/img/img_3.png')"></div>
+            <div class="dest-card__body">
+              <span class="dest-card__tag">Mountains</span>
+              <h3 class="dest-card__name">Kyoto, Japan</h3>
+              <p class="dest-card__sub">Ancient temples and breathtaking seasons.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Travel Styles -->
+    <section class="section styles-section">
+      <div class="section__inner">
+        <div class="section__header">
+          <p class="section__eyebrow">Find Your Match</p>
+          <h2 class="section__title">Every kind of escape</h2>
+        </div>
+        <ul class="styles-list" role="list">
+          <li class="style-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            Beach Escapes
+          </li>
+          <li class="style-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="3 20 12 4 21 20 3 20"/></svg>
+            Mountain Adventures
+          </li>
+          <li class="style-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Luxury Resorts
+          </li>
+          <li class="style-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Family Holidays
+          </li>
+          <li class="style-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            Romantic Getaways
+          </li>
+          <li class="style-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            City Breaks
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Featured Packages -->
+    <section class="section" id="packages">
+      <div class="section__inner">
+        <div class="section__header">
+          <p class="section__eyebrow">Curated for You</p>
+          <h2 class="section__title">Featured packages</h2>
+        </div>
+        <div class="pkg-grid">
+          <article class="pkg-card">
+            <div class="pkg-card__img" style="background-image:url('assets/img/img_4.png')"></div>
+            <div class="pkg-card__body">
+              <div class="pkg-card__meta">
+                <span class="pkg-card__tag">7 Days</span>
+                <span class="pkg-card__price">From $1,299</span>
+              </div>
+              <h3 class="pkg-card__title">7 Days in Bali</h3>
+              <p class="pkg-card__desc">Flights, boutique hotel, and guided tours through rice terraces and coastal temples.</p>
+              <button class="pkg-card__btn">View Package →</button>
+            </div>
+          </article>
+          <article class="pkg-card">
+            <div class="pkg-card__img" style="background-image:url('assets/img/img_5.png')"></div>
+            <div class="pkg-card__body">
+              <div class="pkg-card__meta">
+                <span class="pkg-card__tag">14 Days</span>
+                <span class="pkg-card__price">From $2,799</span>
+              </div>
+              <h3 class="pkg-card__title">European Summer Escape</h3>
+              <p class="pkg-card__desc">Italy, France, and Spain in one journey. High-speed rail passes and hand-selected stays included.</p>
+              <button class="pkg-card__btn">View Package →</button>
+            </div>
+          </article>
+          <article class="pkg-card">
+            <div class="pkg-card__img" style="background-image:url('assets/img/img_2.png')"></div>
+            <div class="pkg-card__body">
+              <div class="pkg-card__meta">
+                <span class="pkg-card__tag">10 Days</span>
+                <span class="pkg-card__price">From $2,150</span>
+              </div>
+              <h3 class="pkg-card__title">Japan Alps & Onsen</h3>
+              <p class="pkg-card__desc">Cedar forests, traditional ryokan stays, and mountain ridgelines that vanish into cloud.</p>
+              <button class="pkg-card__btn">View Package →</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Customer Reviews -->
+    <section class="section reviews-section">
+      <div class="section__inner">
+        <div class="section__header">
+          <p class="section__eyebrow">Traveller Stories</p>
+          <h2 class="section__title">Heard from the road</h2>
+        </div>
+        <div class="reviews-grid">
+          <article class="review-card">
+            <div class="review-stars" aria-label="5 stars">★★★★★</div>
+            <blockquote class="review-quote">The Bali package was extraordinary. Everything from airport transfers to dinner reservations was taken care of — we just had to show up.</blockquote>
+            <footer class="review-author">
+              <div class="review-avatar">S</div>
+              <div>
+                <strong>Sarah M.</strong>
+                <span>Bali, 2024</span>
+              </div>
+            </footer>
+          </article>
+          <article class="review-card">
+            <div class="review-stars" aria-label="5 stars">★★★★★</div>
+            <blockquote class="review-quote">I've booked through a dozen agencies. Wander is the only one that felt like it actually cared where I ended up. Everything was organised with genuine thought.</blockquote>
+            <footer class="review-author">
+              <div class="review-avatar">J</div>
+              <div>
+                <strong>James T.</strong>
+                <span>European Tour, 2024</span>
+              </div>
+            </footer>
+          </article>
+          <article class="review-card">
+            <div class="review-stars" aria-label="5 stars">★★★★★</div>
+            <blockquote class="review-quote">Our family trip to Japan was seamlessly planned. The kids are already asking when we can go back — that says it all.</blockquote>
+            <footer class="review-author">
+              <div class="review-avatar">L</div>
+              <div>
+                <strong>Lisa &amp; Tom K.</strong>
+                <span>Japan, 2025</span>
+              </div>
+            </footer>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Travel Blog -->
+    <section class="section" id="offers">
+      <div class="section__inner">
+        <div class="section__header">
+          <p class="section__eyebrow">Travel Guides</p>
+          <h2 class="section__title">Latest from the journal</h2>
+        </div>
+        <div class="blog-grid">
+          <article class="blog-card blog-card--featured">
+            <div class="blog-card__img" style="background-image:url('assets/img/img_1.png')"></div>
+            <div class="blog-card__body">
+              <span class="blog-card__tag">Europe</span>
+              <h3 class="blog-card__title">10 Hidden Beaches in Europe Worth the Journey</h3>
+              <p class="blog-card__desc">Secret coves and untouched coastlines the crowd hasn't found — yet.</p>
+              <a href="#" class="blog-card__link">Read guide →</a>
+            </div>
+          </article>
+          <article class="blog-card">
+            <div class="blog-card__img" style="background-image:url('assets/img/img_4.png')"></div>
+            <div class="blog-card__body">
+              <span class="blog-card__tag">Asia</span>
+              <h3 class="blog-card__title">Best Time to Visit Japan</h3>
+              <p class="blog-card__desc">A seasonal guide for first-time and returning travellers.</p>
+              <a href="#" class="blog-card__link">Read guide →</a>
+            </div>
+          </article>
+          <article class="blog-card">
+            <div class="blog-card__img" style="background-image:url('assets/img/img_3.png')"></div>
+            <div class="blog-card__body">
+              <span class="blog-card__tag">Alps</span>
+              <h3 class="blog-card__title">Winter in the Swiss Alps Without the Crowds</h3>
+              <p class="blog-card__desc">The villages and trails that reward those who look past the resorts.</p>
+              <a href="#" class="blog-card__link">Read guide →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="section newsletter-section">
+      <div class="section__inner newsletter-inner">
+        <div class="newsletter-text">
+          <p class="section__eyebrow">Stay Inspired</p>
+          <h2 class="newsletter-title">Get travel ideas<br>in your inbox.</h2>
+          <p class="newsletter-sub">Destination guides, exclusive offers, and trip ideas — delivered monthly. No noise, just inspiration.</p>
+        </div>
+        <form class="newsletter-form" onsubmit="handleSubscribe(event)">
+          <div class="newsletter-input-wrap">
+            <input type="email" class="newsletter-input" placeholder="your@email.com" required>
+            <button type="submit" class="newsletter-btn">Subscribe</button>
+          </div>
+          <p class="newsletter-legal">No spam, ever. Unsubscribe any time.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section faq-section">
+      <div class="section__inner faq-inner">
+        <div class="section__header">
+          <p class="section__eyebrow">Got Questions?</p>
+          <h2 class="section__title">Frequently asked</h2>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary class="faq-q">Can I cancel or change my booking?</summary>
+            <p class="faq-a">Yes. Most packages offer free cancellation up to 30 days before departure. Specific terms vary by package and are clearly shown before checkout.</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-q">Do you offer travel insurance?</summary>
+            <p class="faq-a">Optional insurance plans are available at checkout. We partner with leading providers to cover trip cancellation, medical emergencies, and lost luggage.</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-q">How do I get support while travelling?</summary>
+            <p class="faq-a">Your dedicated concierge is reachable 24/7 via phone, WhatsApp, or in-app chat. Emergency contacts are provided in your digital travel pack before departure.</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-q">Are flights included in packages?</summary>
+            <p class="faq-a">Packages are marked clearly as flight-inclusive or land-only. You can also customise any package to add or remove flights at the point of booking.</p>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-q">Can I build a custom itinerary?</summary>
+            <p class="faq-a">Absolutely. Our bespoke team can design a trip from scratch around your dates, interests, and budget. Contact us to get started.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <div class="footer__logo">Wander<span>.</span></div>
+          <p class="footer__tagline">Find your next escape.</p>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Company</h4>
+          <ul class="footer__links">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Press</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Explore</h4>
+          <ul class="footer__links">
+            <li><a href="#destinations">Destinations</a></li>
+            <li><a href="#packages">Packages</a></li>
+            <li><a href="#offers">Travel Guides</a></li>
+            <li><a href="#why-us">Why Wander</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Support</h4>
+          <ul class="footer__links">
+            <li><a href="#">Help Centre</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Terms &amp; Conditions</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2025 Wander. All rights reserved.</p>
+      </div>
+    </footer>
+
+  </div><!-- end .page-content -->
+
+  <script src="js/script.js"></script>
+  <script>
+    function handleSubscribe(e) {
+      e.preventDefault();
+      const input = e.target.querySelector('.newsletter-input');
+      const btn = e.target.querySelector('.newsletter-btn');
+      btn.textContent = 'Subscribed ✓';
+      btn.style.background = '#2a7a4f';
+      input.value = '';
+      input.disabled = true;
+      setTimeout(() => {
+        btn.textContent = 'Subscribe';
+        btn.style.background = '';
+        input.disabled = false;
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

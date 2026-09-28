@@ -1,0 +1,36 @@
+/* ============================================================
+   VGO CAR RENTAL — responsive.css
+   Breakpoints: 1100px (tablet), 800px (mobile), 480px (small)
+============================================================ */
+
+@media (max-width: 1100px) {
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .fleet-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero-car { width: 55%; right: -60px; }
+}
+
+@media (max-width: 800px) {
+  .nav-links, .nav-actions { display: none; }
+  .hamburger { display: flex; }
+  .hero { padding: 120px 5% 220px; }
+  .hero-car { display: none; }
+  .hero-title { font-size: 72px; }
+  .search-bar { flex-direction: column; padding: 16px; bottom: 20px; gap: 0; }
+  .search-field { width: 100%; padding: 14px 16px; }
+  .search-divider { width: 100%; height: 1px; }
+  .search-btn { width: 100%; justify-content: center; margin: 8px 0 0; }
+  .services-grid { grid-template-columns: 1fr; }
+  .fleet-grid { grid-template-columns: 1fr; }
+  .steps { flex-direction: column; gap: 8px; }
+  .step-arrow { transform: rotate(90deg); }
+  .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+  .booking-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 20px; }
+}
+
+@media (max-width: 480px) {
+  .hero-title { font-size: 56px; }
+  .hero-btns { flex-direction: column; }
+  .hero-btns .btn-solid, .hero-btns .btn-outline { text-align: center; }
+  .footer-inner { flex-direction: column; text-align: center; }
+}

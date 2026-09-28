@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOPRIUM Veo — Premium Exploded Mechanical Keyboard Showcase</title>
+  <meta name="description" content="Experience the cinematic assembly of the TOPRIUM Veo. An interactive, ultra-premium showcase of high-end mechanical keyboard design, internals, and acoustic engineering.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="/public/techdummvry_logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="shortcut icon" href="./public/logo.png" type="image/x-icon">
+</head>
+<body class="loading-active">
+
+  <!-- Cinematic Preloader Overlay -->
+  <div id="preloader" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+    <div class="loader-content">
+      <div class="loader-logo">TOPKEYBOARD</div>
+      <div class="loader-product-title">VEO MECHANICAL ENGINE</div>
+      <div class="loader-progress-container">
+        <div class="loader-bar-bg">
+          <div id="loader-bar"></div>
+        </div>
+        <div class="loader-percentage-text">
+          <span id="loader-percentage">0</span>%
+        </div>
+      </div>
+      <p class="loader-status">Preloading high-fidelity components...</p>
+    </div>
+  </div>
+
+  <!-- Floating Stock Status HUD -->
+  <div class="stock-hud" id="stock-hud" aria-live="polite">
+    <span class="hud-pulse" aria-hidden="true"></span>
+    <span class="hud-text">BATCH 03: <span class="highlight">86% ALLOCATED</span> (14 BUILD SLOTS REMAINING)</span>
+  </div>
+
+  <!-- Floating Premium Header Navigation -->
+  <header class="main-header" aria-label="Main Navigation">
+    <div class="header-logo">TOPKEYS</div>
+    <nav class="header-nav" aria-label="Header Links">
+      <a href="#slide-1" class="nav-link">Home</a>
+      <a href="./product.html" class="nav-link">Shop</a>
+      <a href="./about.html" class="nav-link">About</a>
+      <a href="./contact.html" class="nav-link">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="auth-btn" id="auth-trigger">Login / Sign Up</button>
+    </div>
+  </header>
+
+  <!-- Ambient Mouse Glow Effect -->
+  <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+
+  <!-- Background Ambient Grids and Noise -->
+  <div class="vignette-overlay" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <!-- Fixed Cinematic Canvas Backdrop -->
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+  <!-- Left Ambient HUD Gauge -->
+  <div class="hud-gauge-container" id="hud-gauge" aria-hidden="true">
+    <div class="hud-gauge-visual">
+      <svg class="progress-ring" width="120" height="120">
+        <circle class="progress-ring__circle-bg" stroke="rgba(255,255,255,0.06)" stroke-width="6" fill="transparent" r="48" cx="60" cy="60"/>
+        <circle class="progress-ring__circle" id="hud-progress-circle" stroke="#39ff14" stroke-width="6" fill="transparent" r="48" cx="60" cy="60" stroke-dasharray="301.59" stroke-dashoffset="301.59" stroke-linecap="round"/>
+      </svg>
+      <div class="gauge-value"><span id="gauge-percent">100</span>%</div>
+    </div>
+  </div>
+
+  <!-- Apple-Style Big Title — Floating Left -->
+  <div class="hud-big-title" aria-hidden="true">
+    <h2 class="hud-big-heading">BEAST<br>AI POWER<br>KEYBOARD</h2>
+  </div>
+
+  <!-- Top Right Brand Logo -->
+  <div class="brand-logo-container" id="brand-logo" aria-hidden="true">
+    <img src="/public/logo.png" alt="TechDummvry Logo" class="brand-logo-img">
+  </div>
+
+  <!-- Hero Video Container -->
+  <div id="hero-video-container">
+    <video id="hero-video" autoplay loop muted playsinline aria-hidden="true">
+      <source src="/hero-vid.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- Immersive Audio Interface -->
+  <div id="audio-container">
+    <button id="audio-toggle" aria-label="Toggle immersive synth audio" class="audio-btn">
+      <span class="audio-text">IMMERSIVE SOUND</span>
+      <div class="audio-waves" id="audio-waves">
+        <span class="wave-bar"></span>
+        <span class="wave-bar"></span>
+        <span class="wave-bar"></span>
+        <span class="wave-bar"></span>
+      </div>
+    </button>
+  </div>
+
+  <!-- Scroll Down Helper Hint -->
+  <div class="scroll-hint" id="scroll-hint">
+    <div class="mouse-icon">
+      <div class="wheel"></div>
+    </div>
+    <span class="scroll-text">SCROLL TO DISASSEMBLE</span>
+  </div>
+
+  <!-- Side Dot Navigation -->
+  <nav class="side-nav" id="side-nav" aria-label="Story sections navigation">
+    <ul>
+      <li><a href="#slide-1" class="active" aria-label="Introduction"><span class="nav-dot"></span><span class="nav-label">Overview</span></a></li>
+      <li><a href="#slide-2" aria-label="Exploded View"><span class="nav-dot"></span><span class="nav-label">Deconstruction</span></a></li>
+      <li><a href="#slide-3" aria-label="Switch Design"><span class="nav-dot"></span><span class="nav-label">Precision Switches</span></a></li>
+      <li><a href="#slide-4" aria-label="Acoustic Architecture"><span class="nav-dot"></span><span class="nav-label">Acoustics</span></a></li>
+      <li><a href="#slide-5" aria-label="Artisan Dial"><span class="nav-dot"></span><span class="nav-label">Rotary Encoder</span></a></li>
+      <li><a href="#slide-6" aria-label="Acoustic Resonance & Sound Test"><span class="nav-dot"></span><span class="nav-label">Acoustic Test</span></a></li>
+    </ul>
+  </nav>
+
+  <!-- Scroll Narrative Container -->
+  <main class="narrative-container">
+
+    <!-- Section 1: Overview -->
+    <section class="narrative-section" id="slide-1">
+      <div class="sticky-wrapper">
+        <div class="hero-title-container" id="hero-title-section">
+          <span class="hero-subtitle">INTRODUCING</span>
+          <h1 class="hero-main-title">
+            <span class="light-weight">TOPRIUM</span> <span class="bold-weight">VEO</span>
+          </h1>
+          <p class="hero-tagline">Aerospace engineering. Acoustic isolation. Pure luxury typing mechanics.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Deconstruction -->
+    <section class="narrative-section" id="slide-2">
+      <div class="sticky-wrapper">
+        <div class="content-card" id="card-2">
+          <div class="card-header-row">
+            <div class="card-header-left">
+              <div class="card-icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                  <polyline points="2 17 12 22 22 17"/>
+                  <polyline points="2 12 12 17 22 12"/>
+                </svg>
+              </div>
+              <span class="card-header-tag">Internal Engineering</span>
+            </div>
+            <div class="card-header-right">
+              <div class="card-pill-dropdown">
+                <span>FR4 Plate</span>
+                <span class="dropdown-chevron">▼</span>
+              </div>
+              <button class="card-action-circle" aria-label="More details">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="card-metric-block">
+            <span class="card-metric-value">1.2mm</span>
+            <span class="card-metric-arrow">↗</span>
+          </div>
+          <div class="card-body-section">
+            <h2 class="card-title">Exploded Engine</h2>
+            <div class="card-scroll-body">
+              <p><strong class="highlight-bold">Every layer is acoustically isolated,</strong> designed to absorb high frequencies and amplify deep, resonant acoustic tones. Scroll down to reveal how Veo comes together. We've layered a custom brass plate with isolated silicone gaskets, double-shot dampening sheets, and an anti-static FR4 PCB plate to build a highly responsive and satisfying typewriter feel.</p>
+              <div class="card-specs">
+                <div class="spec-item">
+                  <span class="spec-label">PCB thickness</span>
+                  <span class="spec-value">1.2mm Flex-cut</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-label">Plate</span>
+                  <span class="spec-value">Sandblasted Brass / PC</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-label">Dampening</span>
+                  <span class="spec-value">IXPE + Poron + EPDM Foam</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-carousel-dots">
+            <span class="dot"></span>
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Precision Switches -->
+    <section class="narrative-section" id="slide-3">
+      <div class="sticky-wrapper">
+        <div class="content-card" id="card-3">
+          <div class="card-header-row">
+            <div class="card-header-left">
+              <div class="card-icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <circle cx="12" cy="12" r="4"/>
+                  <line x1="12" y1="8" x2="12" y2="16"/>
+                  <line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+              </div>
+              <span class="card-header-tag">Actuation Systems</span>
+            </div>
+            <div class="card-header-right">
+              <div class="card-pill-dropdown">
+                <span>Linear Stem</span>
+                <span class="dropdown-chevron">▼</span>
+              </div>
+              <button class="card-action-circle" aria-label="More details">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="card-metric-block">
+            <span class="card-metric-value">42g</span>
+            <span class="card-metric-arrow">↗</span>
+          </div>
+          <div class="card-body-section">
+            <h2 class="card-title">Opalescent Linear Switches</h2>
+            <div class="card-scroll-body">
+              <p><strong class="highlight-bold">Factory lubed with custom transparent stems</strong> for a friction-free, butter-smooth typing response. Our custom linear switch is designed with a fully transparent polycarbonate housing and a long-pole POM stem. Actuating at a crisp 42g, it provides a deep "clack" without any scratchiness or metallic pinging.</p>
+              <div class="card-specs">
+                <div class="spec-item">
+                  <span class="spec-label">Actuation Force</span>
+                  <span class="spec-value">42g ± 5g</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-label">Total Travel</span>
+                  <span class="spec-value">3.6 mm</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-label">Spring Type</span>
+                  <span class="spec-value">22mm Double-stage Gold</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-carousel-dots">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Acoustics -->
+    <section class="narrative-section" id="slide-4">
+      <div class="sticky-wrapper">
+        <div class="content-card" id="card-4">
+          <div class="card-header-row">
+            <div class="card-header-left">
+              <div class="card-icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v20M17 5v14M22 9v6M7 5v14M2 9v6"/>
+                </svg>
+              </div>
+              <span class="card-header-tag">Acoustic Cavity</span>
+            </div>
+            <div class="card-header-right">
+              <div class="card-pill-dropdown">
+                <span>Poron Leaf</span>
+                <span class="dropdown-chevron">▼</span>
+              </div>
+              <button class="card-action-circle" aria-label="More details">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="card-metric-block">
+            <span class="card-metric-value">-18dB</span>
+            <span class="card-metric-arrow">↗</span>
+          </div>
+          <div class="card-body-section">
+            <h2 class="card-title">Poron Leaf-spring</h2>
+            <div class="card-scroll-body">
+              <p><strong class="highlight-bold">Acoustically tuned sound bar cavities</strong> to maximize the deep, low-frequency "thock" sound signature. Using computational fluid dynamics, we mapped the sound waves generated by key actuations. The result is a mathematically optimized sound bar cavity that redirects sound back upward through the custom keycaps, dampening harsh high pitches.</p>
+              <div class="card-specs">
+                <div class="spec-item">
+                  <span class="spec-label">Gasket Density</span>
+                  <span class="spec-value">Soft 15 Degree Poron</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-label">Sound Reduction</span>
+                  <span class="spec-value">-18dB High Freq Dampening</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-label">Case Fill</span>
+                  <span class="spec-value">Molded Silicone Diffuser</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-carousel-dots">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Rotary Encoder -->
+    <section class="narrative-section" id="slide-5">
+      <div class="sticky-wrapper">
+        <div class="content-card" id="card-5">
+          <div class="card-header-row">
+            <div class="card-header-left">
+              <div class="card-icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 6V12L16 14"/>
+                </svg>
+              </div>
+              <span class="card-header-tag">Tactile Control</span>
+            </div>
+            <div class="card-header-right">
+              <div class="card-pill-dropdown">
+                <span>Quartz Glass</span>
+                <span class="dropdown-chevron">▼</span>
+              </div>
+              <button class="card-action-circle" aria-label="More details">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="card-metric-block">
+            <span class="card-metric-value">CNC</span>
+            <span class="card-metric-arrow">↗</span>
+          </div>
+          <div class="card-body-section">
+            <h2 class="card-title">Crystal Artisan Dial</h2>
+            <div class="card-scroll-body">
+              <p><strong class="highlight-bold">Real optical quartz dial knob</strong> polished to high-transparency glass. Nestled on a premium rotary encoder, it spins with a smooth magnetic detent that gives users high precision control over volume and layout customization.</p>
+              <div class="card-specs">
+                <div class="spec-item">
+                  <span class="spec-label">Encoder Type</span>
+                  <span class="spec-value">Alps Magnetic Detent</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-label">Knob Material</span>
+                  <span class="spec-value">CNC Optical Quartz Glass</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-label">RGB Lighting</span>
+                  <span class="spec-value">Individually Addressable Halo</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-carousel-dots">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot active"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: CTA & Acoustic Test -->
+    <section class="narrative-section" id="slide-6">
+      <div class="sticky-wrapper">
+        <div class="content-card" id="card-6">
+          <div class="card-header-row">
+            <div class="card-header-left">
+              <div class="card-icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2" ry="2"/>
+                  <line x1="6" y1="8" x2="6" y2="8"/>
+                  <line x1="10" y1="8" x2="10" y2="8"/>
+                  <line x1="14" y1="8" x2="14" y2="8"/>
+                  <line x1="18" y1="8" x2="18" y2="8"/>
+                  <line x1="6" y1="12" x2="6" y2="12"/>
+                  <line x1="10" y1="12" x2="10" y2="12"/>
+                  <line x1="14" y1="12" x2="14" y2="12"/>
+                  <line x1="18" y1="12" x2="18" y2="12"/>
+                  <line x1="7" y1="16" x2="17" y2="16"/>
+                </svg>
+              </div>
+              <span class="card-header-tag">Acoustic Showcase</span>
+            </div>
+            <div class="card-header-right">
+              <div class="card-pill-dropdown">
+                <span>5-Key Synth</span>
+                <span class="dropdown-chevron">▼</span>
+              </div>
+              <button class="card-action-circle" aria-label="More details">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="card-metric-block">
+            <span class="card-metric-value">5-Key</span>
+            <span class="card-metric-arrow">↗</span>
+          </div>
+          <div class="card-body-section">
+            <h2 class="card-title">Sound of Veo</h2>
+            <div class="card-scroll-body">
+              <p><strong class="highlight-bold">Click the interactive keys below</strong> to experience the satisfying mechanical sound signature of the TOPRIUM Veo.</p>
+              <div class="sound-test-container">
+                <div class="sound-test-row">
+                  <button class="sound-key" data-note="C3" aria-label="Key Q">Q</button>
+                  <button class="sound-key" data-note="D3" aria-label="Key W">W</button>
+                  <button class="sound-key" data-note="E3" aria-label="Key E">E</button>
+                  <button class="sound-key" data-note="F3" aria-label="Key R">R</button>
+                  <button class="sound-key" data-note="G3" aria-label="Key T">T</button>
+                </div>
+                <div class="sound-test-row">
+                  <button class="sound-key key-large" data-note="A3" aria-label="Spacebar">SPACEBAR</button>
+                </div>
+              </div>
+              <div class="cta-actions">
+                <button class="cta-button primary-cta" id="config-btn">CONFIGURE NOW</button>
+                <button class="cta-button secondary-cta" id="specs-btn">TECHNICAL SPECS</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-carousel-dots">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot active"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Configurator Modal -->
+  <dialog id="configurator-modal" class="premium-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="close-modal" aria-label="Close modal">&times;</button>
+      <h2>Tailor Your Veo</h2>
+      <p class="modal-description">Select your premium finishes. Milled and assembled to order in our laboratories.</p>
+      <div class="configurator-options">
+        <div class="config-group">
+          <h3>Aluminum Top Case</h3>
+          <div class="option-grid">
+            <button class="config-opt active" data-group="case" data-val="Obsidian">
+              <span class="color-dot obsidian"></span>Obsidian Black
+            </button>
+            <button class="config-opt" data-group="case" data-val="Lunar">
+              <span class="color-dot lunar"></span>Lunar White
+            </button>
+            <button class="config-opt" data-group="case" data-val="Titanium">
+              <span class="color-dot titanium"></span>Titanium Gray
+            </button>
+          </div>
+        </div>
+        <div class="config-group">
+          <h3>Plate Core Material</h3>
+          <div class="option-grid">
+            <button class="config-opt active" data-group="plate" data-val="Brass">Brass (Deepest Sound)</button>
+            <button class="config-opt" data-group="plate" data-val="FR4">FR4 (Flex &amp; Bouncy)</button>
+            <button class="config-opt" data-group="plate" data-val="POM">Polycarbonate (Crisp Clack)</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="price-info">
+          <span class="price-label">Estimated Build</span>
+          <span class="price-val">$480.00</span>
+        </div>
+        <button class="cta-button primary-cta" id="checkout-btn">RESERVE BUILD SLOT</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Global Navigation & Auth Bundle -->
+  <script src="/global-nav.js"></script>
+
+  <!-- Main JavaScript Bundle -->
+  <script type="module" src="/main.js"></script>
+
+  <!-- Page Configurator Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Configurator modal
+      document.getElementById('config-btn')?.addEventListener('click', function () {
+        document.getElementById('configurator-modal').showModal();
+      });
+      document.getElementById('close-modal')?.addEventListener('click', function () {
+        document.getElementById('configurator-modal').close();
+      });
+      document.getElementById('configurator-modal')?.addEventListener('click', function (e) {
+        if (e.target === this) this.close();
+      });
+
+      // Config option selection
+      document.querySelectorAll('.config-opt').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const group = this.dataset.group;
+          document.querySelectorAll(`.config-opt[data-group="${group}"]`).forEach(function (b) {
+            b.classList.remove('active');
+          });
+          this.classList.add('active');
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Analytics Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="dashboard.js"></script>
+
+</head>
+<body>
+    <header>
+        <div class="logo">ANALYTICS DASHBOARD</div>
+        <div class="user-controls">
+            <div class="user-name">Admin</div>
+            <a href="../adminlogin/login-admin.html" id="logout-btn">Logout</a>
+        </div>
+    </header>
+    <div class="admin-container">
+        <!-- Left sidebar with navigation -->
+        <div class="admin-sidebar">
+            <div class="admin-nav">
+                <ul>
+                    
+                    <li><a href="dashboard.html" >Dashboard</a></li>
+                    <li><a href="#" >Orders</a></li>
+                    
+                    <li><a href="#">Appointment</a></li>
+                    <li><a href="#" >Reports</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h1>Performance Analytics</h1>
+                <div class="filter-controls">
+                    <!-- <label for="time-period">Time Period:</label>
+                    <select id="time-period">
+                        <option>Today</option>
+                        <option>Yesterday</option>
+                        <option>Last 7 days</option>
+                        <option selected>Last 30 days</option>
+                        <option>This Month</option>
+                        <option>Last Month</option>
+                        <option>This Quarter</option>
+                        <option>Custom Range</option>
+                    </select> -->
+                    <a href="form.html" class="refresh-btn">Add New Order</a>
+                    <button class="export-btn">
+                        Export Report
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <!-- <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-title">TOTAL REVENUE</div>
+                    <div class="stat-number">0</div>
+                    <div class="stat-change positive">0%</div>
+                </div> -->
+                <!-- <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-title">NEW USERS</div>
+                    <div class="stat-number">0</div>
+                    <div class="stat-change positive">0%</div>
+                </div> -->
+                <!-- <div class="stat-card">
+                    <div class="stat-icon">🛒</div>
+                    <div class="stat-title">CONVERSION RATE</div>
+                    <div class="stat-number">0%</div>
+                    <div class="stat-change negative">-0%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-title">AVG. SESSION TIME</div>
+                    <div class="stat-number">0</div>
+                    <div class="stat-change positive">+0%</div>
+                </div> -->
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2>Revenue by Service Offered [Automotive Repair]</h2>
+                    <div class="segmented-control">
+                        <button class="active">Monthly</button>
+                        <button>Quarterly</button>
+                        <button>Yearly</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="serviceChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h2>Staff Performance</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="staffChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

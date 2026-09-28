@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOPRIUM Veo — Premium Mechanical Keyboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="./public/logo.png" type="image/x-icon">
+
+  <style>
+    :root {
+      --font-display: 'Outfit', sans-serif;
+      --font-body:    'Inter', sans-serif;
+      --bg-deep:        hsl(240, 10%, 3%);
+      --bg-card:        hsla(240, 10%, 6%, 0.55);
+      --text-primary:   hsl(0, 0%, 98%);
+      --text-secondary: hsl(240, 3%, 70%);
+      --text-tertiary:  hsl(240, 2%, 45%);
+      --accent-blue:    hsl(200, 100%, 70%);
+      --accent-gold:    hsl(35,  100%, 65%);
+      --accent-green:   #39ff14;
+      --border-light:   rgba(255,255,255,0.08);
+      --border-active:  rgba(255,255,255,0.2);
+      --ease-premium:   cubic-bezier(0.16, 1, 0.3, 1);
+      --glow-color:     102, 204, 255;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    html, body {
+      width:100%; height:100%; overflow:hidden;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .grid-overlay {
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .vignette {
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,.75) 100%);
+    }
+    .cursor-glow {
+      position:fixed; width:500px; height:500px; border-radius:50%;
+      background: radial-gradient(circle, rgba(102,204,255,.045) 0%, transparent 70%);
+      pointer-events:none; z-index:1; mix-blend-mode:screen;
+      transform:translate(-50%,-50%); top:0; left:0; will-change:transform;
+      transition: background .6s ease;
+    }
+
+    /* ── Stock HUD ── */
+    .stock-hud {
+      position:fixed; bottom:6.2rem; left:2rem; z-index:100;
+      display:flex; align-items:center; gap:.6rem;
+      padding:.45rem 1.1rem;
+      background:rgba(12,13,16,.25); backdrop-filter:blur(20px);
+      border:1px solid rgba(255,255,255,.04); border-radius:16px;
+      box-shadow:0 10px 25px rgba(0,0,0,.4);
+    }
+    .hud-pulse {
+      width:6px; height:6px; background:var(--accent-green);
+      border-radius:50%; box-shadow:0 0 8px var(--accent-green); position:relative;
+    }
+    .hud-pulse::after {
+      content:''; position:absolute; top:50%; left:50%;
+      width:100%; height:100%; background:var(--accent-green); border-radius:50%;
+      transform:translate(-50%,-50%) scale(1); animation:pulse-ring 2s infinite ease-out;
+    }
+    @keyframes pulse-ring {
+      0%   { transform:translate(-50%,-50%) scale(1);   opacity:.8; }
+      100% { transform:translate(-50%,-50%) scale(2.8); opacity:0;  }
+    }
+    .hud-text {
+      font-family:var(--font-display); font-size:.58rem; font-weight:700;
+      letter-spacing:.08rem; color:var(--text-tertiary); text-transform:uppercase;
+    }
+    .hud-text .highlight { color:var(--text-primary); }
+
+    /* ── Nav ── */
+    .main-header {
+      position:fixed; bottom:2rem; left:2rem;
+      height:52px; display:flex; align-items:center; gap:1.5rem;
+      padding:0 1.5rem; z-index:200;
+      background:rgba(12,13,16,.3);
+      backdrop-filter:blur(25px); -webkit-backdrop-filter:blur(25px);
+      border:1px solid rgba(255,255,255,.06); border-radius:26px;
+      box-shadow:0 20px 40px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.08);
+      transition:background .3s ease;
+    }
+    .main-header:hover { background:rgba(12,13,16,.45); }
+    .header-logo {
+      font-family:var(--font-display); font-size:.95rem; font-weight:800;
+      letter-spacing:.2rem; color:var(--text-primary);
+      border-right:1px solid rgba(255,255,255,.08); padding-right:1.2rem;
+      height:20px; display:flex; align-items:center; text-decoration:none;
+    }
+    .header-nav { display:flex; gap:1.5rem; align-items:center; list-style:none; }
+    .nav-link {
+      font-family:var(--font-display); font-size:.65rem; font-weight:600;
+      letter-spacing:.1rem; text-transform:uppercase;
+      color:var(--text-secondary); text-decoration:none;
+      transition:color .3s ease; position:relative; padding:.4rem 0;
+    }
+    .nav-link::after {
+      content:''; position:absolute; bottom:0; left:0; width:100%; height:1px;
+      background:var(--accent-blue); transform:scaleX(0); transform-origin:right;
+      transition:transform .3s var(--ease-premium);
+    }
+    .nav-link:hover { color:var(--text-primary); }
+    .nav-link:hover::after, .nav-link.active::after { transform:scaleX(1); transform-origin:left; }
+    .nav-link.active { color:var(--text-primary); }
+    .auth-btn {
+      background:rgba(255,255,255,.04); border:1px solid var(--border-light);
+      border-radius:16px; padding:.4rem 1rem; color:var(--text-primary);
+      font-family:var(--font-display); font-size:.6rem; font-weight:700;
+      letter-spacing:.05rem; text-transform:uppercase; cursor:pointer;
+      transition:background .3s, border-color .3s, transform .2s; outline:none;
+    }
+    .auth-btn:hover { background:rgba(255,255,255,.09); border-color:var(--border-active); transform:translateY(-1px); }
+
+    /* ── Shell ── */
+    .shell {
+      position:relative; z-index:5;
+      width:100vw; height:100vh;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* ── LEFT PANEL ── */
+    .left {
+      display:flex; flex-direction:column; justify-content:center;
+      padding:2.5rem 2.5rem 6rem 3rem;
+      border-right:1px solid var(--border-light);
+      overflow:hidden; position:relative;
+    }
+
+    .left-content {
+      display:flex; flex-direction:column;
+      transition: opacity .35s var(--ease-premium), transform .35s var(--ease-premium);
+    }
+
+    .eyebrow {
+      font-family:var(--font-display); font-size:.75rem; font-weight:700;
+      letter-spacing:.35rem; text-transform:uppercase;
+      color:var(--accent-blue); margin-bottom:.9rem;
+    }
+    .headline {
+      font-family:var(--font-display);
+      font-size:clamp(2.4rem, 4.5vw, 3.8rem);
+      font-weight:900; line-height:.95; letter-spacing:-.03em;
+      margin-bottom:1rem;
+    }
+    .headline .line-plain { display:block; color:var(--text-primary); }
+    .headline .line-accent {
+      display:block; font-weight:300;
+      background:linear-gradient(120deg, #fff 20%, var(--accent-blue) 100%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .desc {
+      font-size:.88rem; font-weight:300; line-height:1.75;
+      color:var(--text-secondary); max-width:400px; margin-bottom:1.5rem;
+    }
+
+    /* Spec grid */
+    .specs {
+      display:grid; grid-template-columns:repeat(4,1fr);
+      gap:1px; border:1px solid var(--border-light);
+      border-radius:14px; overflow:hidden; margin-bottom:1.5rem;
+    }
+    .spec {
+      background:var(--bg-card); backdrop-filter:blur(20px);
+      padding:.7rem .75rem; transition:background .3s;
+    }
+    .spec:hover { background:hsla(240,10%,10%,.65); }
+    .spec-k {
+      font-family:var(--font-display); font-size:.56rem; font-weight:700;
+      letter-spacing:.15rem; text-transform:uppercase;
+      color:var(--text-tertiary); margin-bottom:.3rem;
+    }
+    .spec-v {
+      font-family:var(--font-display); font-size:.82rem; font-weight:800;
+      color:var(--text-primary); line-height:1.2;
+    }
+    .spec-v em { font-style:normal; color:var(--accent-blue); }
+
+    /* CTA */
+    .cta-row {
+      display:flex; align-items:center; gap:1.1rem;
+      padding-top:1.3rem; border-top:1px solid var(--border-light);
+    }
+    .price {
+      font-family:var(--font-display); font-size:2rem; font-weight:900;
+      letter-spacing:-.03em; transition: color .4s;
+    }
+    .btn-primary {
+      font-family:var(--font-display); font-size:.7rem; font-weight:700;
+      letter-spacing:.1rem; text-transform:uppercase;
+      height:44px; padding:0 1.6rem; border-radius:12px; cursor:pointer;
+      background:var(--text-primary); border:none; color:var(--bg-deep);
+      transition:background .3s, transform .2s;
+    }
+    .btn-primary:hover { background:#fff; transform:translateY(-2px); }
+    .btn-secondary {
+      font-family:var(--font-display); font-size:.7rem; font-weight:700;
+      letter-spacing:.1rem; text-transform:uppercase;
+      height:44px; padding:0 1.6rem; border-radius:12px; cursor:pointer;
+      background:transparent; border:1px solid rgba(255,255,255,.15);
+      color:var(--text-primary); transition:border-color .3s, transform .2s;
+    }
+    .btn-secondary:hover { border-color:var(--text-primary); transform:translateY(-2px); }
+
+    /* ── RIGHT PANEL ── */
+    .right {
+      position:relative; display:flex; flex-direction:column;
+      align-items:center; justify-content:center; overflow:hidden;
+    }
+
+    /* ── SELECTORS — top-right of right panel, stacked vertically ── */
+    .right-selectors {
+      position:absolute; top:1.6rem; right:1.8rem; z-index:10;
+      display:flex;
+      flex-direction:column;
+      gap:1rem;
+    }
+
+    .selector-row {
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:.45rem;
+    }
+
+    /* separator between case and plate groups */
+    .selector-sep {
+      width:1px; height:10px;
+      background:rgba(255,255,255,.1);
+      margin:0 auto;
+    }
+
+    /* shared circle style */
+    .opt-btn {
+      width:15px; height:15px; border-radius:50%;
+      border:2px solid rgba(255,255,255,.15);
+      cursor:pointer; transition:all .25s var(--ease-premium);
+      position:relative; flex-shrink:0; outline:none;
+      padding:0;
+    }
+    .opt-btn.active {
+      border-color:rgba(255,255,255,.85);
+      transform:scale(1.3);
+      box-shadow:0 0 0 2px rgba(255,255,255,.07);
+    }
+    /* tooltip to the left */
+    .opt-btn::after {
+      content:attr(data-label);
+      position:absolute; right:calc(100% + .6rem); top:50%;
+      transform:translateY(-50%);
+      font-family:var(--font-display); font-size:.5rem; font-weight:700;
+      letter-spacing:.07rem; text-transform:uppercase;
+      color:var(--text-secondary); white-space:nowrap;
+      opacity:0; pointer-events:none; transition:opacity .18s;
+      background:rgba(10,10,14,.88); padding:.15rem .45rem;
+      border-radius:5px; border:1px solid rgba(255,255,255,.06);
+    }
+    .opt-btn:hover::after, .opt-btn.active::after { opacity:1; }
+
+    /* ghost word */
+    .ghost-word {
+      position:absolute;
+      font-family:var(--font-display);
+      font-size:clamp(9rem, 18vw, 18rem); font-weight:900;
+      letter-spacing:-.06em; color:transparent;
+      -webkit-text-stroke:1px rgba(255,255,255,.04);
+      pointer-events:none; z-index:0; user-select:none;
+    }
+
+    .glow-blob {
+      position:absolute; width:55%; aspect-ratio:1;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(var(--glow-color),.12) 0%, transparent 70%);
+      pointer-events:none; z-index:0;
+      transition:background .6s ease;
+    }
+
+    .keyboard-wrap {
+      position:relative; z-index:2; width:80%;
+      display:flex; flex-direction:column; align-items:center;
+      gap:1.4rem;
+    }
+
+    .kb-img-box {
+      width:100%; display:flex; align-items:center; justify-content:center;
+    }
+
+    .keyboard-image {
+      width:100%; object-fit:contain;
+      filter:drop-shadow(0 20px 70px rgba(var(--glow-color),.28));
+      animation:float 5s ease-in-out infinite;
+      transition:filter .6s ease, opacity .3s ease;
+    }
+    @keyframes float {
+      0%,100% { transform:translateY(0)    rotate(-4deg); }
+      50%      { transform:translateY(-22px) rotate(-4deg); }
+    }
+
+    /* ── PAGINATION ── */
+    .pagination {
+      display:flex; align-items:center; gap:1rem; z-index:3;
+    }
+    .pag-btn {
+      width:38px; height:38px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      background:rgba(255,255,255,.05); border:1px solid var(--border-light);
+      color:var(--text-secondary); cursor:pointer;
+      font-size:.9rem; font-family:var(--font-display);
+      transition:all .25s var(--ease-premium);
+      backdrop-filter:blur(10px);
+    }
+    .pag-btn:hover {
+      background:rgba(255,255,255,.12); border-color:var(--border-active);
+      color:var(--text-primary); transform:scale(1.08);
+    }
+    .pag-btn:disabled { opacity:.2; cursor:not-allowed; transform:none; }
+
+    .pag-dots { display:flex; gap:.45rem; align-items:center; }
+    .pag-dot {
+      width:6px; height:6px; border-radius:50%;
+      background:var(--border-active);
+      cursor:pointer; transition:all .3s var(--ease-premium);
+      border:none; padding:0;
+    }
+    .pag-dot.active {
+      width:22px; border-radius:3px;
+      background:var(--accent-blue);
+      box-shadow:0 0 8px rgba(102,204,255,.5);
+    }
+    .pag-label {
+      font-family:var(--font-display); font-size:.6rem; font-weight:700;
+      letter-spacing:.15rem; text-transform:uppercase; color:var(--text-tertiary);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width:900px) {
+      html,body { overflow:auto; }
+      .shell { grid-template-columns:1fr; grid-template-rows:auto auto; height:auto; }
+      .left  { border-right:none; border-bottom:1px solid var(--border-light); padding:2rem; }
+      .right { height:60vw; min-height:300px; }
+      .specs { grid-template-columns:repeat(2,1fr); }
+      .stock-hud { display:none; }
+    }
+    @media (max-width:600px) {
+      .specs { grid-template-columns:1fr 1fr; }
+      .main-header { gap:1rem; padding:0 1rem; }
+      .header-nav { display:none; }
+      .left { padding-bottom:5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="grid-overlay" aria-hidden="true"></div>
+<div class="vignette"     aria-hidden="true"></div>
+<div class="cursor-glow"  id="cursor-glow" aria-hidden="true"></div>
+
+<div class="stock-hud">
+  <span class="hud-pulse"></span>
+  <span class="hud-text">BATCH 03: <span class="highlight">86% ALLOCATED</span> (14 BUILD SLOTS REMAINING)</span>
+</div>
+
+<header class="main-header">
+  <a href="./index.html" class="header-logo">TOPKEYS</a>
+  <nav><ul class="header-nav">
+    <li><a href="./index.html"   class="nav-link">Home</a></li>
+    <li><a href="./product.html" class="nav-link active">Shop</a></li>
+    <li><a href="./about.html"   class="nav-link">About</a></li>
+    <li><a href="./contact.html" class="nav-link">Contact</a></li>
+  </ul></nav>
+  <button class="auth-btn">Login / Sign Up</button>
+</header>
+
+<div class="shell">
+
+  <!-- LEFT -->
+  <div class="left">
+    <div class="left-content" id="left-content">
+      <div class="eyebrow">Aluminum Top Case</div>
+      <h1 class="headline">
+        <span class="line-plain">TOPRIUM</span>
+        <span class="line-accent" id="v-name">Veo.</span>
+      </h1>
+      <p class="desc" id="v-desc">
+        The darkest expression of the Veo. CNC-milled aluminum in Obsidian Black pairs with a brass plate for maximum low-frequency resonance — the deepest thock in the lineup.
+      </p>
+      <div class="specs">
+        <div class="spec"><div class="spec-k">Case</div><div class="spec-v" id="v-case">Obsidian <em>Black</em></div></div>
+        <div class="spec"><div class="spec-k">Plate</div><div class="spec-v" id="v-plate">Brass <em>Core</em></div></div>
+        <div class="spec"><div class="spec-k">Sound</div><div class="spec-v" id="v-sound">Deep <em>Thock</em></div></div>
+        <div class="spec"><div class="spec-k">Weight</div><div class="spec-v" id="v-weight">480<em>g</em></div></div>
+      </div>
+      <div class="cta-row">
+        <div class="price" id="v-price">$520</div>
+        <button class="btn-primary">Add to Cart</button>
+        <button class="btn-secondary">▶ Watch Film</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right">
+
+    <!-- Selectors: vertical stack, no labels -->
+    <div class="right-selectors">
+
+      <div class="selector-row" id="case-options"></div>
+
+      <div class="selector-sep"></div>
+
+      <div class="selector-row" id="plate-options"></div>
+
+    </div>
+
+    <div class="ghost-word">VEO</div>
+    <div class="glow-blob" id="glow-blob"></div>
+
+    <div class="keyboard-wrap">
+      <div class="kb-img-box">
+        <img
+          id="keyboard-image"
+       src="/folder-list/veo-obsidian-brass.png"
+          alt="TOPRIUM Veo Keyboard"
+          class="keyboard-image"
+          onerror="this.style.opacity='0.08'"
+        >
+      </div>
+
+      <div class="pagination">
+        <button class="pag-btn" id="btn-prev" aria-label="Previous">&#8592;</button>
+        <div class="pag-dots" id="pag-dots"></div>
+        <button class="pag-btn" id="btn-next" aria-label="Next">&#8594;</button>
+        <span class="pag-label" id="pag-counter">1 / 9</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+const CASES = [
+  { label:'Obsidian', color:'#1a1a22', glow:'60,60,80',     accentGrad:'linear-gradient(120deg,#fff 20%,hsl(200,100%,70%) 100%)', sub:'Black'   },
+  { label:'Lunar',    color:'#e8e8f0', glow:'220,230,255',  accentGrad:'linear-gradient(120deg,#fff 20%,hsl(35,100%,65%) 100%)',  sub:'White'   },
+  { label:'Titanium', color:'#6b7a8d', glow:'130,160,190',  accentGrad:'linear-gradient(120deg,#fff 20%,hsl(210,40%,65%) 100%)',  sub:'Gray'    },
+];
+
+const PLATES = [
+  { label:'Brass', color:'#', inner:'#', plateSub:'Core',        sound:'Deep',   soundSub:'Thock', wOff:0,   pOff:0   },
+  { label:'FR4',   color:'#', inner:'#', plateSub:'Flex',        sound:'Bouncy', soundSub:'Flex',  wOff:-40, pOff:-30 },
+  { label:'Poly',  color:'#', inner:'#', plateSub:'carbonate',   sound:'Crisp',  soundSub:'Clack', wOff:-60, pOff:-40 },
+];
+
+const CASE_BASE = [
+  { weight:480, price:520 },
+  { weight:480, price:530 },
+  { weight:485, price:540 },
+];
+
+const DESCS = [
+  [
+    'The darkest expression of the Veo. CNC-milled aluminum in Obsidian Black pairs with a brass plate for maximum low-frequency resonance — the deepest thock in the lineup.',
+    'Obsidian Black with an FR4 plate delivers a bouncy, springy keystroke feel — the flex-cut PCB stack absorbs every press and returns it with satisfying rebound.',
+    'The crispest Obsidian build. A polycarbonate plate gives every keystroke a clean, clacky signature — ideal for typists who want clarity over depth.',
+  ],
+  [
+    'Lunar White aluminum machined to a flawless matte surface. Combined with a brass plate, this variant delivers the full low-frequency signature in the purest visual form.',
+    'The lightest feeling Veo. Lunar White over an FR4 flex-cut plate offers a soft, forgiving typing experience — perfect for marathon sessions with zero fatigue.',
+    'Clarity in white. The polycarbonate plate under Lunar White creates the most articulate, bright acoustic signature in the Veo lineup — every keystroke sings.',
+  ],
+  [
+    'The industrial choice. Titanium Gray anodize with a brass plate gives this Veo its commanding, understated presence — built for those who let performance speak.',
+    'Titanium Gray meets flex-cut FR4 — a board that absorbs shocks and returns energy with a soft, pillowy bounce. Rugged aesthetics, tender keystroke.',
+    'Titanium Gray\'s hard exterior over a polycarbonate plate. The contrast between tactile rigidity and acoustic lightness makes this the most technically interesting build.',
+  ],
+];
+
+const CASE_KEYS  = ['obsidian','lunar','titanium'];
+const PLATE_KEYS = ['brass','fr4','poly'];
+const imgPath = (ci, pi) =>
+  `./folder-list/veo-${CASE_KEYS[ci]}-${PLATE_KEYS[pi]}.png`;
+
+let selCase = 0, selPlate = 0, animating = false;
+
+const lc         = document.getElementById('left-content');
+const vName      = document.getElementById('v-name');
+const vDesc      = document.getElementById('v-desc');
+const vCase      = document.getElementById('v-case');
+const vPlate     = document.getElementById('v-plate');
+const vSound     = document.getElementById('v-sound');
+const vWeight    = document.getElementById('v-weight');
+const vPrice     = document.getElementById('v-price');
+const kbImg      = document.getElementById('keyboard-image');
+const glowBlob   = document.getElementById('glow-blob');
+const btnPrev    = document.getElementById('btn-prev');
+const btnNext    = document.getElementById('btn-next');
+const dotsEl     = document.getElementById('pag-dots');
+const counter    = document.getElementById('pag-counter');
+const cursorGlow = document.getElementById('cursor-glow');
+const caseOpts   = document.getElementById('case-options');
+const plateOpts  = document.getElementById('plate-options');
+
+/* dots */
+const dots = [];
+for (let i = 0; i < 9; i++) {
+  const d = document.createElement('button');
+  d.className = 'pag-dot' + (i === 0 ? ' active' : '');
+  d.setAttribute('aria-label', `Variant ${i+1}`);
+  d.addEventListener('click', () => goTo(Math.floor(i/3), i%3));
+  dotsEl.appendChild(d);
+  dots.push(d);
+}
+
+/* case circles */
+const caseEls = [];
+CASES.forEach((c, ci) => {
+  const btn = document.createElement('button');
+  btn.className = 'opt-btn' + (ci === 0 ? ' active' : '');
+  btn.style.background = c.color;
+  btn.setAttribute('data-label', c.label);
+  btn.setAttribute('aria-label', c.label);
+  btn.addEventListener('click', () => goTo(ci, selPlate));
+  caseOpts.appendChild(btn);
+  caseEls.push(btn);
+});
+
+/* plate circles */
+const plateEls = [];
+PLATES.forEach((p, pi) => {
+  const btn = document.createElement('button');
+  btn.className = 'opt-btn' + (pi === 0 ? ' active' : '');
+  btn.style.background = `radial-gradient(circle at center, ${p.inner} 35%, ${p.color} 35%)`;
+  btn.setAttribute('data-label', p.label);
+  btn.setAttribute('aria-label', p.label);
+  btn.addEventListener('click', () => goTo(selCase, pi));
+  plateOpts.appendChild(btn);
+  plateEls.push(btn);
+});
+
+function applyVariant(ci, pi) {
+  const c    = CASES[ci];
+  const p    = PLATES[pi];
+  const base = CASE_BASE[ci];
+  const idx  = ci * 3 + pi;
+
+  vDesc.textContent  = DESCS[ci][pi];
+  vCase.innerHTML    = `${c.label} <em>${c.sub}</em>`;
+  vPlate.innerHTML   = `${p.label} <em>${p.plateSub}</em>`;
+  vSound.innerHTML   = `${p.sound} <em>${p.soundSub}</em>`;
+  vWeight.innerHTML  = `${base.weight + p.wOff}<em>g</em>`;
+  vPrice.textContent = `$${base.price + p.pOff}`;
+
+  vName.style.background          = c.accentGrad;
+  vName.style.webkitBackgroundClip = 'text';
+  vName.style.webkitTextFillColor  = 'transparent';
+
+  kbImg.style.opacity = '0';
+  setTimeout(() => { kbImg.src = imgPath(ci, pi); kbImg.style.opacity = '1'; }, 180);
+
+  glowBlob.style.background  = `radial-gradient(circle, rgba(${c.glow},.14) 0%, transparent 70%)`;
+  kbImg.style.filter         = `drop-shadow(0 20px 70px rgba(${c.glow},.32))`;
+  cursorGlow.style.background = `radial-gradient(circle, rgba(${c.glow},.05) 0%, transparent 70%)`;
+
+  dots.forEach((d, i)   => d.classList.toggle('active', i === idx));
+  caseEls.forEach((el,i)  => el.classList.toggle('active', i === ci));
+  plateEls.forEach((el,i) => el.classList.toggle('active', i === pi));
+
+  counter.textContent = `${idx+1} / 9`;
+  btnPrev.disabled = idx === 0;
+  btnNext.disabled = idx === 8;
+}
+
+function goTo(ci, pi) {
+  const next = ci * 3 + pi;
+  const curr = selCase * 3 + selPlate;
+  if (animating || next === curr) return;
+  animating = true;
+  const dir = next > curr ? 1 : -1;
+
+  lc.style.transition = 'opacity .3s ease, transform .3s ease';
+  lc.style.transform  = `translateY(${dir * 14}px)`;
+  lc.style.opacity    = '0';
+
+  setTimeout(() => {
+    selCase = ci; selPlate = pi;
+    applyVariant(ci, pi);
+    lc.style.transition = 'none';
+    lc.style.transform  = `translateY(${dir * -14}px)`;
+    lc.style.opacity    = '0';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      lc.style.transition = 'opacity .35s cubic-bezier(0.16,1,0.3,1), transform .35s cubic-bezier(0.16,1,0.3,1)';
+      lc.style.transform  = 'translateY(0)';
+      lc.style.opacity    = '1';
+      setTimeout(() => { animating = false; }, 380);
+    }));
+  }, 300);
+}
+
+btnPrev.addEventListener('click', () => {
+  const n = Math.max(0, selCase*3+selPlate-1);
+  goTo(Math.floor(n/3), n%3);
+});
+btnNext.addEventListener('click', () => {
+  const n = Math.min(8, selCase*3+selPlate+1);
+  goTo(Math.floor(n/3), n%3);
+});
+
+document.addEventListener('keydown', e => {
+  const curr = selCase*3+selPlate;
+  if (e.key==='ArrowRight') { const n=Math.min(8,curr+1); goTo(Math.floor(n/3),n%3); }
+  if (e.key==='ArrowLeft')  { const n=Math.max(0,curr-1); goTo(Math.floor(n/3),n%3); }
+});
+
+window.addEventListener('mousemove', e => {
+  cursorGlow.style.transform = `translate3d(${e.clientX}px,${e.clientY}px,0) translate(-50%,-50%)`;
+}, { passive:true });
+
+document.querySelectorAll('.btn-primary,.btn-secondary').forEach(b => {
+  b.addEventListener('click', () => {
+    b.style.transform = 'scale(.95)';
+    setTimeout(() => b.style.transform = '', 120);
+  });
+});
+
+applyVariant(0, 0);
+</script>
+<script src="/global-nav.js"></script>
+</body>
+</html>

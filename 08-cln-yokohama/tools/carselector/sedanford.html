@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YOKOHAMA - MINERVA 3D Viewer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+  
+  <link rel="stylesheet" href="../3dcar.css">
+</head>
+<body>
+  <!-- Fixed Background Container -->
+  <div class="background-container"></div>
+  
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="logo">YOKOHAMA - MINERVA</div>
+    <div class="nav-links">
+     <a href="../bodytype/forsedan.html" class="return-button">Return</a>
+    </div>
+  </div>
+
+  <!-- Model Selection Buttons -->
+  <div class="model-buttons">
+    <button class="model-button active" data-model="./base_basic_shaded.glb">1</button>
+    <button class="model-button" data-model="./base_basic_shadeded.glb">2</button>
+    <button class="model-button" data-model="./car_model_3.glb">3</button>
+    <button class="model-button" data-model="./car_model_4.glb">4</button>
+    <button class="model-button" data-model="./car_model_5.glb">5</button>
+  </div>
+
+  <!-- Loading overlay -->
+  <div id="loading" class="flex flex-col items-center">
+    <div class="mb-4 text-xl font-bold text-white">Loading 3D Model...</div>
+    <div class="w-40 h-2 bg-gray-700 rounded-full overflow-hidden">
+      <div id="progress-bar" class="h-full bg-red-600 rounded-full" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <!-- Error message -->
+  <div id="error-message" class="hidden fixed top-16 left-0 w-full p-4 bg-red-900 text-white text-center">
+    Failed to load 3D model. Please check the console for details.
+  </div>
+
+  <!-- Controls info - Updated to show rotation only -->
+  <div class="controls-info absolute bottom-4 left-4 p-3 rounded shadow-md">
+    <h3 class="font-bold text-white mb-1">Controls:</h3>
+    <ul class="text-sm text-gray-300">
+      <li>🖱️ Left Click + Drag: Rotate view</li>
+    </ul>
+  </div>
+
+  <!-- File path input -->
+  <div class="model-input absolute bottom-4 right-4 p-3 rounded shadow-md">
+    <label class="block text-sm font-medium text-gray-300 mb-1">Model Path:</label>
+    <div class="flex">
+      <input 
+        type="text" 
+        id="model-path" 
+        class="block w-64 px-3 py-2 border rounded-l shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"
+        value="./base_basic_shaded.glb"
+      >
+      <button 
+        id="load-model" 
+        class="px-4 py-2 text-white text-sm font-medium rounded-r hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+      >
+        Load
+      </button>
+    </div>
+  </div>
+
+  <canvas id="monteroCanvas"></canvas>
+
+  <script type="module" src="../3dcar.js"></script>
+</body>
+</html>

@@ -1,0 +1,241 @@
+
+/* 
+ABOUT US 
+*/
+
+/* Hero Banner Styles - Matching the exact design in the image */
+.hero-banner {
+  position: relative;
+  width: 100%;
+  height: 170px; /* Height matching the image */
+  overflow: hidden;
+  background-color: #000;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8; /* Creating the dark overlay effect seen in the image */
+}
+
+.banner-overlay {
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.banner-overlay h1 {
+  color: #fff;
+  font-size: 36px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-left: 40px; /* Positioning as seen in the image */
+}
+
+/* Main Content Styles - Matching the exact design in the image */
+main {
+  padding: 0;
+}
+
+.company-profile {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.section-title {
+  color: #c80000; /* Yokohama brand red */
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+
+.profile-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.text-content {
+  flex: 1;
+  min-width: 300px;
+}
+
+.text-content p {
+  margin-bottom: 20px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #000;
+}
+
+.text-content p a {
+  color: #c80000; /* Yokohama brand red */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.image-content {
+  flex: 1;
+  min-width: 300px;
+}
+
+.profile-image {
+  width: 100%;
+  border: none;
+  box-shadow: none;
+}
+
+/* Black bar under the hero image with red stripe at bottom */
+.hero-banner::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px; /* Thin red strip */
+  background-color: #c80000; /* Yokohama brand red */
+}
+
+/* Angled Tab Heading */
+.angled-tab {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.angled-box {
+  background-color: #444;
+  color: white;
+  padding: 12px 24px;
+  position: relative;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+
+.angled-box h2 {
+  margin: 0;
+  font-style: italic;
+  font-weight: bold;
+  font-size: inherit;
+  color: #fff;
+}
+
+.angled-box::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  right: -40px;
+  width: 0;
+  height: 0;
+  border-top: 30px solid transparent;
+  border-left: 40px solid #444;
+  border-bottom: 30px solid transparent;
+}
+
+.angled-line {
+  flex: 1;
+  height: 6px;
+  background-color: #444;
+}
+
+/* Responsive Fix */
+@media (max-width: 768px) {
+  .angled-box {
+    font-size: 1.2rem;
+    padding: 10px 16px;
+  }
+
+  .angled-box::after {
+    right: -30px;
+    border-top: 20px solid transparent;
+    border-left: 30px solid #444;
+    border-bottom: 20px solid transparent;
+  }
+
+  .angled-line {
+    height: 4px;
+  }
+}
+
+/* Yokohama Tire Philippines Info Section */
+.ytpi-section {
+  width: 100%;
+  background: #000;
+  color: #fff;
+  margin-top: 40px;
+}
+
+.ytpi-container {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 400px;
+}
+
+.ytpi-text {
+  flex: 1 1 50%;
+  padding: 40px 60px;
+  background: linear-gradient(to right, #000 75%, transparent);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ytpi-text h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.ytpi-text p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.ytpi-button {
+  display: inline-block;
+  background-color: #e60012;
+  color: #fff;
+  padding: 12px 20px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.ytpi-button:hover {
+  background-color: #b0000d;
+}
+
+.ytpi-image {
+  flex: 1 1 50%;
+ background-image: url('../images/Minerva.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 400px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ytpi-container {
+    flex-direction: column;
+  }
+
+  .ytpi-text {
+    padding: 30px 20px;
+    background: #000;
+  }
+
+  .ytpi-image {
+    height: 200px;
+  }
+}
+
+

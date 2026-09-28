@@ -1,0 +1,105 @@
+/* Header Styles */
+header {
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  box-sizing: border-box;
+}
+
+/* Body Style */
+body {
+  margin: 0;
+  padding-top: 70px; /* match actual header height */
+  font-family: 'Montserrat', sans-serif;
+  background-color: #3a3a3a;
+  color: #fff;
+  height: 100vh;
+  overflow: hidden; /* prevent scroll */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Logo */
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #e60012;
+}
+
+.return-button {
+  padding: 5px 15px;
+  background-color: transparent;
+  border: 2px solid #00ff00;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Main Content */
+.container {
+  text-align: center;
+  flex: 1; /* take remaining space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: -50px; /* Move content higher */
+}
+
+/* Heading */
+h2 {
+  margin-bottom: 50px;
+  font-size: 28px;
+}
+
+/* Button Grid */
+.button-grid {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+  max-width: 800px;
+}
+
+.vehicle-button {
+  display: inline-block;
+  padding: 25px 30px; /* Larger buttons */
+  width: 180px; /* Fixed width */
+  background-color: #00cc00;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+  font-size: 18px; /* Larger text */
+}
+
+.vehicle-button:hover {
+  background-color: #009900;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .button-grid {
+    gap: 15px;
+  }
+  
+  .vehicle-button {
+    width: 150px;
+    padding: 20px 15px;
+  }
+}

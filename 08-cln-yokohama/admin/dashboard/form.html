@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Service Form</title>
+    <link rel="stylesheet" href="form.css">
+    <script src="form.js"></script>
+
+</head>
+<body>
+    <a href="../dashboard/dashboard.html" class="return-button">← Return to Dashboard</a>
+    <div class="form-container">
+        <div class="sidebar"></div>
+        <div class="form-content">
+            <!-- Customer Name Row -->
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label for="customer">Name of Cust</label>
+                    <input type="text" id="customer" class="form-control">
+                </div>
+            </div>
+            
+            <!-- CP Row -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="cp">Cp</label>
+                    <input type="text" id="cp" class="form-control sm">
+                </div>
+            </div>
+            
+            <!-- Classification & Brand Row -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="classification">Classification</label>
+                    <input type="text" id="classification" class="form-control sm">
+                </div>
+                <div class="form-group">
+                    <label for="brand">Brand</label>
+                    <input type="text" id="brand" class="form-control sm">
+                </div>
+            </div>
+            
+            <!-- Plate & Year Row -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="plate">Plate no.</label>
+                    <input type="text" id="plate" class="form-control sm">
+                </div>
+                <div class="form-group">
+                    <label for="year">Year model</label>
+                    <select id="year" class="form-control sm">
+                        <option value="">Select Year</option>
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                        <option value="2019">2019</option>
+                        <option value="2018">2018</option>
+                        <option value="2017">2017</option>
+                        <option value="2016">2016</option>
+                        <option value="2015">2015</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Two Column Layout -->
+            <div class="two-column">
+                <!-- Left Column -->
+                <div class="left-column">
+                    <div class="form-group bottom-space">
+                        <label for="service">Service</label>
+                        <select id="service" class="form-control">
+                            <option value="">Select Service</option>
+                            <option value="Oil Change">Oil Change</option>
+                            <option value="Tire Replacement">Tire Replacement</option>
+                            <option value="Brake Service">Brake Service</option>
+                            <option value="Engine Tune-up">Engine Tune-up</option>
+                            <option value="Transmission Service">Transmission Service</option>
+                            <option value="Battery Replacement">Battery Replacement</option>
+                            <option value="AC Service">AC Service</option>
+                            <option value="Wheel Alignment">Wheel Alignment</option>
+                            <option value="Full Inspection">Full Inspection</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group bottom-space">
+                        <label for="notes">Notes</label>
+                        <textarea id="notes" class="form-control lg"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="issue">Issue</label>
+                        <textarea id="issue" class="form-control lg"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Right Column -->
+                <div class="right-column">
+                    <div class="form-group bottom-space">
+                        <label for="mechanic">Staff/Mechanic</label>
+                        <select id="mechanic" class="form-control">
+                            <option value="">Select Staff</option>
+                            <option value="John Doe">John Doe</option>
+                            <option value="Jane Smith">Jane Smith</option>
+                            <option value="Robert Johnson">Robert Johnson</option>
+                            <option value="Maria Garcia">Maria Garcia</option>
+                            <option value="David Chen">David Chen</option>
+                            <option value="Sarah Wilson">Sarah Wilson</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group bottom-space">
+                        <textarea id="additionalNotes" class="form-control xl"></textarea>
+                    </div>
+                    
+                    <div class="price-row">
+                        <div class="price-label">Price</div>
+                        <button id="addOrder" class="btn-primary">Place Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

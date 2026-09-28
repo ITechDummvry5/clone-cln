@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <link rel="stylesheet" href="../../userpage/homepage.css" />
+  <link rel="stylesheet" href="login-admin.css" />
+    <script src="../../userpage/homepage.js"></script>
+    <title>Login - YOKOHAMA - Minerva Tires</title>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <div class="logo">YOKOHAMA - MINERVA</div>
+        </div>
+       
+    </header>
+    
+    <main>
+        <div class="login-container">
+          <div class="login-header">
+            <h2>Admin Account Login</h2>
+            <p>Please enter your credentials to access your account</p>
+          </div>
+    
+          <!-- form ID used by JS -->
+          <form id="adminLoginForm" class="login-form">
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="Enter your email" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" placeholder="Enter your password" required />
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+          </form>
+        </div>
+      </main>
+    
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script src="login-admin.js"></script>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="homepage.html">Home</a></li>
+                    <li><a href="products.html">Service</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+                
+            <div class="footer-section">
+                <h3>Services</h3>
+                  <ul>
+                    <li><a href="#">Alignment</a></li>
+                    <li><a href="#">Balancing</a></li>
+                    <li><a href="#">Mounting</a></li>
+                    <li><a href="#">Tune up</a></li>
+                    <li><a href="#">Chage Oil</a></li>
+                    <li><a href="#">Underchasis</a></li>
+                    <li><a href="#">Brakes</a></li>
+                </ul>
+            </div>
+                
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <ul>
+                    <li>Email: </li>
+                    <li>Phone: </li>
+                    <li>Address: </li>
+                </ul>
+            </div>
+        </div>
+            
+        <div class="copyright">
+            &copy; 2025 YOKOHAMA - Minerva Tires. All Rights Reserved.
+        </div>
+    </footer>
+</body>
+</html>

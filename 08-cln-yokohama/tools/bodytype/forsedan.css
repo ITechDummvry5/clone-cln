@@ -1,0 +1,144 @@
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Style */
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #3a3a3a;
+  color: #fff;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Header Styles */
+header {
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #e60012;
+}
+
+.return-button {
+  padding: 5px 15px;
+  background-color: transparent;
+  border: 2px solid #00ff00;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Main Content */
+.container {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 4rem;
+  color: #cccccc;
+}
+
+/* Manufacturer Logo Grid */
+.logo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.logo-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.logo-item:hover {
+  transform: scale(1.1);
+}
+
+.logo-image {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.logo-image img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.logo-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+/* Toyota */
+.toyota .logo-name {
+  color: #e60012;
+}
+
+/* Mitsubishi */
+.mitsubishi .logo-name {
+  color: #e60012;
+}
+
+/* Ford */
+.ford .logo-name {
+  color: #ffffff;
+}
+
+/* Nissan */
+.nissan .logo-name {
+  color: #ffffff;
+}
+
+/* Suzuki */
+.suzuki .logo-name {
+  color: #0046bd;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .logo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .logo-image {
+    width: 120px;
+    height: 120px;
+  }
+}
