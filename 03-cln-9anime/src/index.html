@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CinemaX — Watch. Experience. Feel.</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="site-wrap">
+
+    <!-- ═══ NAVBAR (injected by components.js) ═══ -->
+    <div id="navbar-mount"></div>
+
+    <!-- ═══ HERO + COVERFLOW ═══ -->
+    <main>
+      <section class="hero-section">
+        <div class="bg-backdrop" id="bgBackdrop"></div>
+        <div class="bg-vignette"></div>
+        <div class="bg-gradient-bottom"></div>
+
+        <!-- LEFT: hero info -->
+        <div class="hero">
+          <div class="hero-meta" id="heroMeta">
+            <div class="hero-badges" id="heroBadges"></div>
+            <h1 class="hero-title" id="heroTitle"></h1>
+            <p class="hero-desc" id="heroDesc"></p>
+            <div class="hero-stats" id="heroStats"></div>
+            <div class="hero-actions">
+              <button class="btn-play"><i class="ti ti-player-play-filled" aria-hidden="true"></i> Play Now</button>
+              <button class="btn-info"><i class="ti ti-info-circle" aria-hidden="true"></i> Details</button>
+              <button class="btn-icon-round" id="heroBookmarkBtn" aria-label="Add to list"><i class="ti ti-bookmark" aria-hidden="true" id="heroBookmarkIcon"></i></button>
+              <button class="btn-icon-round" id="heroHeartBtn" aria-label="Like"><i class="ti ti-heart" aria-hidden="true" id="heroHeartIcon"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: coverflow -->
+        <div class="cf-column">
+          <div class="coverflow-root" id="coverflow">
+            <div class="stage" id="stage" role="region" aria-label="Movie carousel"></div>
+            <div class="reflection-stage" id="reflectionStage" aria-hidden="true"></div>
+            <div class="controls">
+              <div class="dots" id="dots" role="tablist" aria-label="Select movie"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ GENRE FILTER ROW ═══ -->
+      <section class="genre-section">
+        <div class="genre-filters" id="genreFilters"></div>
+      </section>
+
+      <!-- ═══ TRENDING ROW ═══ -->
+      <section class="row-section" id="trendingSection">
+        <div class="row-header">
+          <h2 class="row-title"><span class="row-title-accent">Trending</span> This Week</h2>
+          <a href="#" class="row-see-all">See all <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="movie-row" id="trendingRow"></div>
+      </section>
+
+      <!-- ═══ TOP RANKED ROW ═══ -->
+      <section class="row-section" id="topRatedSection">
+        <div class="row-header">
+          <h2 class="row-title"><span class="row-title-accent">Top</span> Ranked</h2>
+          <a href="#" class="row-see-all">See all <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="movie-row" id="topRatedRow"></div>
+      </section>
+    </main>
+
+    <!-- ═══ FOOTER (injected by components.js) ═══ -->
+    <div id="footer-mount"></div>
+
+  </div><!-- /site-wrap -->
+
+  <!-- ═══ MODAL (injected by components.js) ═══ -->
+  <div id="modal-mount"></div>
+
+  <script src="js/modules/components.js"></script>
+  <script>
+    renderNavbar();
+    renderFooter();
+    renderFooterTop10();  // ← add this line
+    renderModal();
+  </script>
+  <script src="js/app.js"></script>
+</body>
+</html>

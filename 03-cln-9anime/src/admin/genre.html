@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CinemaX — Genre Management</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Space+Mono&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link rel="stylesheet" href="../css/admin.css"/>
+
+<style>
+/* ── GENRE-PAGE ONLY ── */
+:root{ --panel-w:420px }
+
+.genre-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:0.85rem}
+.genre-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.15rem;display:flex;align-items:center;gap:12px;transition:border-color 0.2s,background 0.2s;position:relative;overflow:hidden}
+.genre-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);opacity:0;transition:opacity 0.2s}
+.genre-card:hover{border-color:var(--border2);background:var(--surface2)}
+.genre-card:hover::before{opacity:1}
+.genre-card.disabled{opacity:0.45}
+.genre-card.disabled .genre-name{text-decoration:line-through;color:var(--text-muted)}
+.genre-icon{width:38px;height:38px;border-radius:9px;background:var(--surface3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;transition:background 0.2s}
+.genre-card:hover .genre-icon{background:var(--accent-dim)}
+.genre-info{flex:1;min-width:0}
+.genre-name{font-size:0.9rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.genre-meta{display:flex;align-items:center;gap:6px;margin-top:3px}
+.genre-count{font-size:0.68rem;color:var(--text-muted);font-family:var(--font-mono)}
+.genre-status-badge{font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:1px 6px;border-radius:4px}
+.gsb-active{background:var(--green-dim);color:var(--green);border:1px solid rgba(34,197,94,0.2)}
+.gsb-disabled{background:var(--surface3);color:var(--text-dim);border:1px solid var(--border)}
+.gsb-builtin{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(59,130,246,0.2)}
+.genre-actions{display:flex;gap:5px;flex-shrink:0}
+.icon-btn:hover.edit-btn{border-color:rgba(59,130,246,0.4);background:var(--blue-dim);color:var(--blue)}
+.icon-btn:hover.delete-btn{border-color:rgba(239,68,68,0.4);background:var(--red-dim);color:var(--red)}
+.icon-btn:hover.toggle-btn{border-color:rgba(245,158,11,0.4);background:var(--amber-dim);color:var(--amber)}
+.icon-btn:hover.view-btn{border-color:rgba(34,197,94,0.4);background:var(--green-dim);color:var(--green)}
+.icon-btn[disabled]{opacity:0.35;cursor:not-allowed;pointer-events:none}
+
+/* emoji picker */
+.emoji-row{display:flex;gap:6px;flex-wrap:wrap;padding:8px;background:var(--surface2);border:1px solid var(--border);border-radius:8px}
+.emoji-opt{width:36px;height:36px;border-radius:7px;border:1px solid var(--border);background:transparent;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.emoji-opt:hover{background:var(--surface3);border-color:var(--border2)}
+.emoji-opt.selected{background:var(--accent-dim);border-color:rgba(229,9,20,0.4)}
+
+.status-toggle{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--surface2)}
+.status-opt{flex:1;text-align:center;padding:0.5rem;font-size:0.75rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;color:var(--text-muted)}
+.status-opt.active-enabled{background:var(--green-dim);color:var(--green)}
+.status-opt.active-disabled{background:var(--surface3);color:var(--text-muted)}
+
+.preview-card{display:flex;align-items:center;gap:12px;padding:0.85rem 1rem;background:var(--surface3);border:1px solid var(--border);border-radius:10px}
+.preview-icon{width:38px;height:38px;border-radius:9px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.preview-name{font-size:0.9rem;font-weight:600;color:var(--text)}
+.preview-hint{font-size:0.7rem;color:var(--text-dim);margin-top:2px}
+
+/* view modal */
+.view-modal-backdrop{position:fixed;inset:0;z-index:150;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity 0.25s}
+.view-modal-backdrop.open{opacity:1;pointer-events:auto}
+.view-modal{background:var(--surface);border:1px solid var(--border2);border-radius:16px;padding:2rem;width:420px;max-width:92vw;transform:scale(0.95);transition:transform 0.25s var(--ease);position:relative}
+.view-modal-backdrop.open .view-modal{transform:scale(1)}
+.vm-close{position:absolute;top:1rem;right:1rem;width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-size:0.95rem;display:flex;align-items:center;justify-content:center;transition:all 0.18s}
+.vm-close:hover{background:var(--red-dim);color:var(--red);border-color:rgba(239,68,68,0.4)}
+.vm-icon{font-size:2.5rem;margin-bottom:1rem;display:block}
+.vm-name{font-family:var(--font-display);font-size:1.8rem;letter-spacing:0.06em;margin-bottom:0.5rem}
+.vm-row{display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid var(--border)}
+.vm-row:last-child{border-bottom:none}
+.vm-key{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted)}
+.vm-val{font-size:0.82rem;font-weight:500;color:var(--text);font-family:var(--font-mono)}
+.vm-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:5px;font-size:0.7rem;font-weight:700;letter-spacing:0.06em}
+
+@media(max-width:800px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.stats-row{grid-template-columns:1fr 1fr}.content{padding:1rem}.topbar{padding:0 1rem}}
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <div id="sidebar-mount"></div>
+  <div class="main">
+    <div id="topbar-mount"></div>
+    <div class="content">
+
+      <div class="stats-row">
+        <div class="stat-card c-red"><div class="stat-label">Total Genres</div><div class="stat-value" id="statTotal">0</div><div class="stat-sub">in library</div></div>
+        <div class="stat-card c-green"><div class="stat-label">Active</div><div class="stat-value" id="statActive">0</div><div class="stat-sub">available to assign</div></div>
+        <div class="stat-card c-blue"><div class="stat-label">Built-in</div><div class="stat-value" id="statBuiltin">0</div><div class="stat-sub">default genres</div></div>
+        <div class="stat-card c-amber"><div class="stat-label">Custom</div><div class="stat-value" id="statCustom">0</div><div class="stat-sub">user-added</div></div>
+      </div>
+
+      <div class="filter-bar">
+        <span class="filter-label">Filter:</span>
+        <div class="filter-pills" id="filterPills">
+          <button class="fpill active" data-filter="all">All</button>
+          <button class="fpill" data-filter="active">Active</button>
+          <button class="fpill" data-filter="disabled">Disabled</button>
+          <button class="fpill" data-filter="builtin">Built-in</button>
+          <button class="fpill" data-filter="custom">Custom</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-header">
+          <span class="table-header-title">Genre Library</span>
+          <span class="table-count" id="tableCount">0 genres</span>
+        </div>
+        <div style="padding:1rem">
+          <div class="genre-grid" id="genreGrid"></div>
+          <div class="empty-state" id="emptyState" style="display:none">
+            <i class="ti ti-tag-off"></i>
+            <p>No genres found. Add your first one!</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE PANEL -->
+<div class="overlay" id="overlay"></div>
+<aside class="panel" id="panel" role="dialog" aria-modal="true">
+  <div class="panel-head">
+    <div>
+      <div class="panel-head-title" id="panelTitle">Add Genre</div>
+      <div class="panel-head-sub" id="panelSub">Define a new content genre</div>
+    </div>
+    <button class="icon-btn" id="panelClose" aria-label="Close"><i class="ti ti-x"></i></button>
+  </div>
+  <div class="panel-body">
+    <div class="form-grid">
+      <div class="field">
+        <label for="fName">Genre Name</label>
+        <input type="text" id="fName" placeholder="e.g. Cyberpunk" maxlength="40"/>
+        <span class="field-hint">This name appears in the title form and on the main site.</span>
+      </div>
+      <div class="field">
+        <label>Icon (Emoji)</label>
+        <div class="emoji-row" id="emojiRow">
+          <button class="emoji-opt selected" data-emoji="🎬">🎬</button>
+          <button class="emoji-opt" data-emoji="🎭">🎭</button>
+          <button class="emoji-opt" data-emoji="🔥">🔥</button>
+          <button class="emoji-opt" data-emoji="👻">👻</button>
+          <button class="emoji-opt" data-emoji="💥">💥</button>
+          <button class="emoji-opt" data-emoji="🚀">🚀</button>
+          <button class="emoji-opt" data-emoji="❤️">❤️</button>
+          <button class="emoji-opt" data-emoji="🌊">🌊</button>
+          <button class="emoji-opt" data-emoji="🌙">🌙</button>
+          <button class="emoji-opt" data-emoji="🗡️">🗡️</button>
+          <button class="emoji-opt" data-emoji="🕵️">🕵️</button>
+          <button class="emoji-opt" data-emoji="🌿">🌿</button>
+          <button class="emoji-opt" data-emoji="🎵">🎵</button>
+          <button class="emoji-opt" data-emoji="😂">😂</button>
+          <button class="emoji-opt" data-emoji="🐉">🐉</button>
+          <button class="emoji-opt" data-emoji="🤖">🤖</button>
+          <button class="emoji-opt" data-emoji="🏔️">🏔️</button>
+          <button class="emoji-opt" data-emoji="🌆">🌆</button>
+        </div>
+        <span class="field-hint">Click to select an icon for this genre.</span>
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <div class="status-toggle" id="statusToggle">
+          <div class="status-opt active-enabled" id="statusEnabled">✓ Active</div>
+          <div class="status-opt" id="statusDisabled">✕ Disabled</div>
+        </div>
+        <input type="hidden" id="fStatus" value="active"/>
+        <span class="field-hint">Disabled genres won't appear in the title form or filters.</span>
+      </div>
+      <div class="field">
+        <label>Preview</label>
+        <div class="preview-card" id="previewCard">
+          <div class="preview-icon" id="previewIcon">🎬</div>
+          <div>
+            <div class="preview-name" id="previewName">Genre Name</div>
+            <div class="preview-hint">Active · Custom</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-foot">
+    <button class="btn btn-ghost" id="panelCancel">Cancel</button>
+    <button class="btn btn-primary" id="panelSave"><i class="ti ti-device-floppy"></i> Save</button>
+  </div>
+</aside>
+
+<!-- VIEW MODAL -->
+<div class="view-modal-backdrop" id="viewBackdrop">
+  <div class="view-modal" id="viewModal">
+    <button class="vm-close" id="vmClose"><i class="ti ti-x"></i></button>
+    <span class="vm-icon" id="vmIcon"></span>
+    <div class="vm-name" id="vmName"></div>
+    <div id="vmRows"></div>
+  </div>
+</div>
+
+<div id="confirm-mount"></div>
+
+<script src="../js/modules/admin-shell.js"></script>
+<script>
+renderAdminShell('genres', 'Genres', `
+  <div class="search-wrap">
+    <i class="ti ti-search"></i>
+    <input class="search-input" id="searchInput" type="text" placeholder="Search genres…"/>
+  </div>
+  <button class="btn btn-primary" id="btnAdd">
+    <i class="ti ti-plus"></i> Add Genre
+  </button>
+`);
+renderConfirmDialog();
+</script>
+<script>
+const GENRES_KEY='cinemax_genres', TITLES_KEY='cinemax_titles';
+const BUILTIN_GENRES=[
+  {name:'Action',emoji:'💥',builtin:true,status:'active'},{name:'Adventure',emoji:'🌊',builtin:true,status:'active'},
+  {name:'Animation',emoji:'🎭',builtin:true,status:'active'},{name:'Comedy',emoji:'😂',builtin:true,status:'active'},
+  {name:'Crime',emoji:'🕵️',builtin:true,status:'active'},{name:'Documentary',emoji:'🎬',builtin:true,status:'active'},
+  {name:'Drama',emoji:'🎭',builtin:true,status:'active'},{name:'Fantasy',emoji:'🐉',builtin:true,status:'active'},
+  {name:'Horror',emoji:'👻',builtin:true,status:'active'},{name:'Mystery',emoji:'🕵️',builtin:true,status:'active'},
+  {name:'Noir',emoji:'🌆',builtin:true,status:'active'},{name:'Romance',emoji:'❤️',builtin:true,status:'active'},
+  {name:'Sci-Fi',emoji:'🤖',builtin:true,status:'active'},{name:'Survival',emoji:'🏔️',builtin:true,status:'active'},
+  {name:'Thriller',emoji:'🔥',builtin:true,status:'active'},{name:'Western',emoji:'🗡️',builtin:true,status:'active'},
+];
+
+let genres=[], filterMode='all', searchQ='', editId=null, deleteTarget=null, selectedEmoji='🎬', currentStatus='active';
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+
+function load(){
+  try{ const raw=localStorage.getItem(GENRES_KEY); if(raw){ genres=JSON.parse(raw); } else { genres=BUILTIN_GENRES.map(g=>({...g,id:uid()})); save(); } }
+  catch(e){ genres=BUILTIN_GENRES.map(g=>({...g,id:uid()})); }
+}
+function save(){ localStorage.setItem(GENRES_KEY,JSON.stringify(genres)); }
+function genreUsageCount(name){ try{ const raw=localStorage.getItem(TITLES_KEY); if(!raw) return 0; return JSON.parse(raw).filter(t=>(t.genres||[]).includes(name)).length; }catch(e){return 0;} }
+
+const genreGrid   = document.getElementById('genreGrid');
+const emptyState  = document.getElementById('emptyState');
+const tableCount  = document.getElementById('tableCount');
+const statTotal   = document.getElementById('statTotal');
+const statActive  = document.getElementById('statActive');
+const statBuiltin = document.getElementById('statBuiltin');
+const statCustom  = document.getElementById('statCustom');
+const overlay     = document.getElementById('overlay');
+const panel       = document.getElementById('panel');
+const panelTitle  = document.getElementById('panelTitle');
+const panelSub    = document.getElementById('panelSub');
+const fName       = document.getElementById('fName');
+const fStatus     = document.getElementById('fStatus');
+const confirmDialog = document.getElementById('confirmDialog');
+const confirmMsg  = document.getElementById('confirmMsg');
+const emojiRow    = document.getElementById('emojiRow');
+const previewIcon = document.getElementById('previewIcon');
+const previewName = document.getElementById('previewName');
+const viewBackdrop= document.getElementById('viewBackdrop');
+const vmIcon      = document.getElementById('vmIcon');
+const vmName      = document.getElementById('vmName');
+const vmRows      = document.getElementById('vmRows');
+
+function getFiltered(){
+  let list=[...genres];
+  if(filterMode==='active')   list=list.filter(g=>g.status==='active');
+  if(filterMode==='disabled') list=list.filter(g=>g.status==='disabled');
+  if(filterMode==='builtin')  list=list.filter(g=>g.builtin);
+  if(filterMode==='custom')   list=list.filter(g=>!g.builtin);
+  if(searchQ){ const q=searchQ.toLowerCase(); list=list.filter(g=>g.name.toLowerCase().includes(q)); }
+  return list;
+}
+
+function renderGrid(){
+  const list=getFiltered();
+  tableCount.textContent=`${list.length} genre${list.length!==1?'s':''}`;
+  genreGrid.innerHTML='';
+  if(!list.length){ emptyState.style.display=''; return; }
+  emptyState.style.display='none';
+  list.forEach(g=>{
+    const count=genreUsageCount(g.name), isActive=g.status==='active';
+    const card=document.createElement('div');
+    card.className='genre-card'+(!isActive?' disabled':'');
+    card.innerHTML=`
+      <div class="genre-icon">${g.emoji||'🎬'}</div>
+      <div class="genre-info">
+        <div class="genre-name">${g.name}</div>
+        <div class="genre-meta">
+          <span class="genre-count">${count} title${count!==1?'s':''}</span>
+          <span class="genre-status-badge ${isActive?'gsb-active':'gsb-disabled'}">${isActive?'Active':'Disabled'}</span>
+          ${g.builtin?'<span class="genre-status-badge gsb-builtin">Built-in</span>':''}
+        </div>
+      </div>
+      <div class="genre-actions">
+        <button class="icon-btn view-btn" data-id="${g.id}" title="View details"><i class="ti ti-eye"></i></button>
+        <button class="icon-btn edit-btn" data-id="${g.id}" title="Edit"><i class="ti ti-edit"></i></button>
+        <button class="icon-btn toggle-btn" data-id="${g.id}" title="${isActive?'Disable':'Enable'}"><i class="ti ti-${isActive?'eye-off':'eye'}"></i></button>
+        <button class="icon-btn delete-btn" data-id="${g.id}" title="Delete" ${g.builtin?'disabled':''}><i class="ti ti-trash"></i></button>
+      </div>`;
+    genreGrid.appendChild(card);
+  });
+}
+
+function renderStats(){ statTotal.textContent=genres.length; statActive.textContent=genres.filter(g=>g.status==='active').length; statBuiltin.textContent=genres.filter(g=>g.builtin).length; statCustom.textContent=genres.filter(g=>!g.builtin).length; }
+function refresh(){ renderStats(); renderGrid(); }
+
+function openPanel(genre=null){
+  editId=genre?genre.id:null; selectedEmoji=genre?(genre.emoji||'🎬'):'🎬'; currentStatus=genre?genre.status:'active';
+  panelTitle.textContent=genre?'Edit Genre':'Add Genre';
+  panelSub.textContent=genre?`Editing "${genre.name}"`:'Define a new content genre';
+  fName.value=genre?genre.name:''; fStatus.value=currentStatus;
+  document.querySelectorAll('.emoji-opt').forEach(b=>b.classList.toggle('selected',b.dataset.emoji===selectedEmoji));
+  const enBtn=document.getElementById('statusEnabled'), disBtn=document.getElementById('statusDisabled');
+  if(currentStatus==='active'){ enBtn.className='status-opt active-enabled'; disBtn.className='status-opt'; }
+  else { enBtn.className='status-opt'; disBtn.className='status-opt active-disabled'; }
+  updatePreview();
+  panel.classList.add('open'); overlay.classList.add('open');
+  setTimeout(()=>fName.focus(),350);
+}
+function closePanel(){ panel.classList.remove('open'); overlay.classList.remove('open'); editId=null; }
+function updatePreview(){ previewIcon.textContent=selectedEmoji; previewName.textContent=fName.value.trim()||'Genre Name'; }
+
+function saveGenre(){
+  const name=fName.value.trim();
+  if(!name){ showToast('Genre name is required','error'); fName.focus(); return; }
+  const dup=genres.find(g=>g.id!==editId&&g.name.toLowerCase()===name.toLowerCase());
+  if(dup){ showToast(`"${name}" already exists`,'error'); return; }
+  if(editId){ const idx=genres.findIndex(g=>g.id===editId); if(idx>-1){ genres[idx]={...genres[idx],name,emoji:selectedEmoji,status:currentStatus}; showToast(`"${name}" updated`,'success'); } }
+  else { genres.push({id:uid(),name,emoji:selectedEmoji,status:currentStatus,builtin:false}); showToast(`"${name}" added`,'success'); }
+  save(); closePanel(); refresh();
+}
+
+function openView(id){
+  const g=genres.find(g=>g.id===id); if(!g) return;
+  const count=genreUsageCount(g.name);
+  vmIcon.textContent=g.emoji||'🎬'; vmName.textContent=g.name;
+  vmRows.innerHTML=`
+    <div class="vm-row"><span class="vm-key">Status</span><span class="vm-val"><span class="vm-badge" style="${g.status==='active'?'background:var(--green-dim);color:var(--green)':'background:var(--surface3);color:var(--text-muted)'}">${g.status==='active'?'● Active':'○ Disabled'}</span></span></div>
+    <div class="vm-row"><span class="vm-key">Type</span><span class="vm-val"><span class="vm-badge" style="${g.builtin?'background:var(--blue-dim);color:var(--blue)':'background:var(--surface3);color:var(--text-muted)'}">${g.builtin?'Built-in':'Custom'}</span></span></div>
+    <div class="vm-row"><span class="vm-key">Used in Titles</span><span class="vm-val">${count} title${count!==1?'s':''}</span></div>
+    <div class="vm-row"><span class="vm-key">ID</span><span class="vm-val" style="font-size:0.68rem;color:var(--text-muted)">${g.id}</span></div>`;
+  viewBackdrop.classList.add('open');
+}
+function closeView(){ viewBackdrop.classList.remove('open'); }
+
+function toggleGenre(id){ const g=genres.find(g=>g.id===id); if(!g) return; g.status=g.status==='active'?'disabled':'active'; save(); refresh(); showToast(`"${g.name}" ${g.status==='active'?'enabled':'disabled'}`,'info'); }
+function openConfirm(id){ deleteTarget=id; const g=genres.find(g=>g.id===id); confirmMsg.textContent=g?`"${g.name}" will be permanently removed. Titles using this genre will keep their data.`:'This genre will be permanently removed.'; confirmDialog.classList.add('open'); }
+function closeConfirm(){ confirmDialog.classList.remove('open'); deleteTarget=null; }
+function confirmDelete(){ if(!deleteTarget) return; const g=genres.find(g=>g.id===deleteTarget); genres=genres.filter(g=>g.id!==deleteTarget); save(); refresh(); closeConfirm(); showToast(g?`"${g.name}" deleted`:'Genre deleted','info'); }
+
+document.getElementById('btnAdd').addEventListener('click',()=>openPanel());
+document.getElementById('panelClose').addEventListener('click',closePanel);
+document.getElementById('panelCancel').addEventListener('click',closePanel);
+overlay.addEventListener('click',closePanel);
+document.getElementById('panelSave').addEventListener('click',saveGenre);
+document.getElementById('vmClose').addEventListener('click',closeView);
+viewBackdrop.addEventListener('click',e=>{ if(e.target===viewBackdrop) closeView(); });
+document.getElementById('confirmOk').addEventListener('click',confirmDelete);
+document.getElementById('confirmCancel').addEventListener('click',closeConfirm);
+confirmDialog.addEventListener('click',e=>{ if(e.target===confirmDialog) closeConfirm(); });
+emojiRow.addEventListener('click',e=>{ const btn=e.target.closest('.emoji-opt'); if(!btn) return; document.querySelectorAll('.emoji-opt').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected'); selectedEmoji=btn.dataset.emoji; updatePreview(); });
+fName.addEventListener('input',updatePreview);
+document.getElementById('statusEnabled').addEventListener('click',()=>{ currentStatus='active'; fStatus.value='active'; document.getElementById('statusEnabled').className='status-opt active-enabled'; document.getElementById('statusDisabled').className='status-opt'; });
+document.getElementById('statusDisabled').addEventListener('click',()=>{ currentStatus='disabled'; fStatus.value='disabled'; document.getElementById('statusEnabled').className='status-opt'; document.getElementById('statusDisabled').className='status-opt active-disabled'; });
+genreGrid.addEventListener('click',e=>{ const v=e.target.closest('.view-btn'), ed=e.target.closest('.edit-btn'), tog=e.target.closest('.toggle-btn'), del=e.target.closest('.delete-btn'); if(v) openView(v.dataset.id); if(ed){ const g=genres.find(g=>g.id===ed.dataset.id); if(g) openPanel(g); } if(tog) toggleGenre(tog.dataset.id); if(del&&!del.disabled) openConfirm(del.dataset.id); });
+document.getElementById('searchInput').addEventListener('input',e=>{ searchQ=e.target.value.trim(); renderGrid(); });
+document.getElementById('filterPills').addEventListener('click',e=>{ const pill=e.target.closest('.fpill'); if(!pill) return; filterMode=pill.dataset.filter; document.querySelectorAll('.fpill').forEach(p=>p.classList.remove('active')); pill.classList.add('active'); renderGrid(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closePanel(); closeConfirm(); closeView(); } if(e.key==='Enter'&&panel.classList.contains('open')&&document.activeElement===fName) saveGenre(); });
+
+load(); refresh();
+</script>
+</body>
+</html>

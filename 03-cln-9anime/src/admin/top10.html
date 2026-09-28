@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CinemaX — Top 10</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Space+Mono&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link rel="stylesheet" href="../css/admin.css"/>
+
+<style>
+/* ── TOP10-PAGE ONLY ── */
+.page-intro{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;gap:1rem;flex-wrap:wrap}
+.page-intro-text h2{font-family:var(--font-display);font-size:1.6rem;letter-spacing:0.05em}
+.page-intro-text p{font-size:0.8rem;color:var(--text-muted);margin-top:3px}
+.slots-indicator{display:flex;align-items:center;gap:8px;font-size:0.78rem;color:var(--text-muted)}
+.slot-dot{width:8px;height:8px;border-radius:50%}
+.slot-dot.filled{background:var(--accent)}
+.slot-dot.empty{background:var(--surface3);border:1px solid var(--border)}
+
+.rank-list{display:flex;flex-direction:column;gap:0.6rem}
+.rank-row{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:0.85rem 1rem;transition:border-color 0.2s,background 0.2s;position:relative;overflow:hidden;cursor:grab}
+.rank-row:hover{border-color:var(--border2);background:var(--surface2)}
+.rank-row.dragging{opacity:0.5;cursor:grabbing}
+.rank-row.drag-over{border-color:var(--accent);background:var(--accent-dim)}
+.rank-row.empty-slot{border-style:dashed;cursor:default;background:transparent}
+.rank-row.empty-slot:hover{border-color:var(--border2);background:rgba(255,255,255,0.015)}
+
+.rank-num{font-family:var(--font-display);font-size:2rem;letter-spacing:0.02em;min-width:44px;text-align:center;line-height:1;flex-shrink:0}
+.rank-num.r1{color:var(--accent2)}.rank-num.r2{color:#c0c0c0}.rank-num.r3{color:#cd7f32}
+.rank-num.r4,.rank-num.r5,.rank-num.r6,.rank-num.r7,.rank-num.r8,.rank-num.r9,.rank-num.r10{color:var(--text-dim)}
+
+.rank-poster{width:42px;height:60px;border-radius:6px;background:var(--surface3);border:1px solid var(--border);background-size:cover;background-position:center;flex-shrink:0}
+.rank-info{flex:1;min-width:0}
+.rank-title{font-size:0.9rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rank-meta{display:flex;align-items:center;gap:8px;margin-top:4px;flex-wrap:wrap}
+.rmeta-item{font-size:0.7rem;color:var(--text-muted);font-family:var(--font-mono)}
+.rmeta-sep{color:var(--text-dim);font-size:0.65rem}
+.tag-sm{display:inline-flex;align-items:center;font-size:0.6rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:2px 6px;border-radius:4px}
+.tag-genre{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(59,130,246,0.2)}
+.rating-sm{color:var(--accent2);font-family:var(--font-mono);font-size:0.72rem}
+.drag-handle{color:var(--text-dim);font-size:1.1rem;cursor:grab;flex-shrink:0;padding:0 2px;transition:color 0.18s}
+.drag-handle:hover{color:var(--text-muted)}
+.rank-actions{display:flex;gap:5px;flex-shrink:0}
+.icon-btn:hover.remove-btn{border-color:rgba(239,68,68,0.4);background:var(--red-dim);color:var(--red)}
+.icon-btn:hover.up-btn,.icon-btn:hover.down-btn{border-color:rgba(59,130,246,0.4);background:var(--blue-dim);color:var(--blue)}
+.empty-slot-label{font-size:0.8rem;color:var(--text-dim);flex:1}
+.add-to-slot-btn{display:inline-flex;align-items:center;gap:5px;font-size:0.72rem;font-weight:500;padding:0.28rem 0.75rem;border-radius:6px;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text-muted);transition:all 0.18s}
+.add-to-slot-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
+
+/* assign modal */
+.modal-backdrop{position:fixed;inset:0;z-index:150;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity 0.25s}
+.modal-backdrop.open{opacity:1;pointer-events:auto}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:16px;width:480px;max-width:94vw;max-height:80vh;display:flex;flex-direction:column;transform:scale(0.95);transition:transform 0.25s var(--ease)}
+.modal-backdrop.open .modal{transform:scale(1)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.modal-head-title{font-family:var(--font-display);font-size:1.3rem;letter-spacing:0.05em}
+.modal-search{padding:1rem 1.5rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.modal-search input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:0.5rem 0.85rem;font-family:var(--font-body);font-size:0.84rem;color:var(--text);outline:none}
+.modal-search input:focus{border-color:rgba(229,9,20,0.5)}
+.modal-search input::placeholder{color:var(--text-dim)}
+.modal-list{overflow-y:auto;padding:0.75rem 1rem;display:flex;flex-direction:column;gap:6px}
+.modal-item{display:flex;align-items:center;gap:12px;padding:0.65rem 0.85rem;border-radius:9px;cursor:pointer;border:1px solid transparent;transition:all 0.15s}
+.modal-item:hover{background:var(--surface2);border-color:var(--border)}
+.modal-item.already-ranked{opacity:0.4;pointer-events:none}
+.modal-poster{width:32px;height:46px;border-radius:5px;background:var(--surface3);background-size:cover;background-position:center;border:1px solid var(--border);flex-shrink:0}
+.modal-item-title{font-size:0.84rem;font-weight:500}
+.modal-item-meta{font-size:0.7rem;color:var(--text-muted);margin-top:2px;font-family:var(--font-mono)}
+.modal-empty{padding:3rem;text-align:center;color:var(--text-dim);font-size:0.82rem}
+
+@media(max-width:800px){.content{padding:1rem}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <div id="sidebar-mount"></div>
+  <div class="main">
+    <div id="topbar-mount"></div>
+    <div class="content">
+      <div class="page-intro">
+        <div class="page-intro-text">
+          <h2>Top 10 Rankings</h2>
+          <p>Drag rows to reorder · click a slot to assign a title · changes save instantly</p>
+        </div>
+        <div class="slots-indicator" id="slotsIndicator"></div>
+      </div>
+      <div class="rank-list" id="rankList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- assign modal -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-head-title" id="modalTitle">Assign to Rank #1</span>
+      <button class="icon-btn" id="modalClose" style="width:30px;height:30px"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-search"><input type="text" id="modalSearch" placeholder="Search titles…"/></div>
+    <div class="modal-list" id="modalList"></div>
+  </div>
+</div>
+
+<script src="../js/modules/admin-shell.js"></script>
+<script>
+renderAdminShell('top10', 'Top 10', `
+  <button class="btn btn-ghost" id="btnClearAll"><i class="ti ti-trash"></i> Clear All</button>
+  <button class="btn btn-primary" id="btnAutoFill"><i class="ti ti-sparkles"></i> Auto-fill by Rating</button>
+`);
+</script>
+<script>
+const TITLES_KEY='cinemax_titles', MAX_RANK=10;
+
+function loadTitles(){ try{ const r=localStorage.getItem(TITLES_KEY); return r?JSON.parse(r):[]; }catch(e){return[];} }
+function saveTitles(t){ localStorage.setItem(TITLES_KEY,JSON.stringify(t)); }
+
+function buildRankMap(titles){
+  const map=Array(MAX_RANK).fill(null);
+  titles.forEach(t=>{ if(t.top10&&typeof t.top10==='number'&&t.top10>=1&&t.top10<=MAX_RANK) map[t.top10-1]=t; });
+  return map;
+}
+
+let assigningRank=null, dragSrcRank=null;
+
+function render(){
+  const titles=loadTitles(), rankMap=buildRankMap(titles);
+  const filled=rankMap.filter(Boolean).length;
+  const si=document.getElementById('slotsIndicator');
+  let dots='';
+  for(let i=0;i<MAX_RANK;i++) dots+=`<div class="slot-dot ${rankMap[i]?'filled':'empty'}"></div>`;
+  si.innerHTML=`${dots}<span style="margin-left:4px">${filled}/10 filled</span>`;
+  const list=document.getElementById('rankList');
+  list.innerHTML='';
+  for(let i=0;i<MAX_RANK;i++){
+    const rank=i+1, t=rankMap[i], row=document.createElement('div');
+    if(t){
+      row.className='rank-row'; row.draggable=true; row.dataset.rank=rank;
+      const numClass=rank<=3?`r${rank}`:'r4';
+      const genreTags=(t.genres||[]).slice(0,2).map(g=>`<span class="tag-sm tag-genre">${g}</span>`).join('');
+      row.innerHTML=`
+        <div class="drag-handle" title="Drag to reorder"><i class="ti ti-grip-vertical"></i></div>
+        <div class="rank-num ${numClass}">${String(rank).padStart(2,'0')}</div>
+        <div class="rank-poster" style="${t.img?`background-image:url('${t.img}')`:''}"></div>
+        <div class="rank-info">
+          <div class="rank-title">${t.name||t.title||'Untitled'}</div>
+          <div class="rank-meta">
+            <span class="rating-sm">★ ${parseFloat(t.rating||0).toFixed(1)}</span>
+            <span class="rmeta-sep">·</span><span class="rmeta-item">${t.year||'—'}</span>
+            <span class="rmeta-sep">·</span><span class="rmeta-item">${t.media||'Movie'}</span>
+            ${genreTags?`<span class="rmeta-sep">·</span>${genreTags}`:''}
+          </div>
+        </div>
+        <div class="rank-actions">
+          <button class="icon-btn up-btn" data-rank="${rank}" title="Move up" ${rank===1?'disabled':''}><i class="ti ti-arrow-up"></i></button>
+          <button class="icon-btn down-btn" data-rank="${rank}" title="Move down" ${rank===filled||!rankMap[rank]?'disabled':''}><i class="ti ti-arrow-down"></i></button>
+          <button class="icon-btn remove-btn" data-rank="${rank}" title="Remove from Top 10"><i class="ti ti-x"></i></button>
+        </div>`;
+      row.addEventListener('dragstart',e=>{ dragSrcRank=rank; row.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; });
+      row.addEventListener('dragend',()=>{ row.classList.remove('dragging'); document.querySelectorAll('.rank-row').forEach(r=>r.classList.remove('drag-over')); });
+      row.addEventListener('dragover',e=>{ e.preventDefault(); row.classList.add('drag-over'); });
+      row.addEventListener('dragleave',()=>row.classList.remove('drag-over'));
+      row.addEventListener('drop',e=>{ e.preventDefault(); row.classList.remove('drag-over'); if(dragSrcRank&&dragSrcRank!==rank) swapRanks(dragSrcRank,rank); });
+    } else {
+      row.className='rank-row empty-slot';
+      row.innerHTML=`
+        <div style="min-width:44px;text-align:center;font-family:var(--font-display);font-size:2rem;color:var(--text-dim)">${String(rank).padStart(2,'0')}</div>
+        <div style="width:42px;height:60px;border-radius:6px;background:var(--surface3);border:1px dashed var(--border);flex-shrink:0"></div>
+        <div class="empty-slot-label">Empty slot</div>
+        <button class="add-to-slot-btn" data-rank="${rank}"><i class="ti ti-plus"></i> Assign</button>`;
+    }
+    list.appendChild(row);
+  }
+  list.querySelectorAll('.remove-btn').forEach(b=>b.addEventListener('click',()=>removeRank(+b.dataset.rank)));
+  list.querySelectorAll('.up-btn').forEach(b=>b.addEventListener('click',()=>swapRanks(+b.dataset.rank,+b.dataset.rank-1)));
+  list.querySelectorAll('.down-btn').forEach(b=>b.addEventListener('click',()=>swapRanks(+b.dataset.rank,+b.dataset.rank+1)));
+  list.querySelectorAll('.add-to-slot-btn').forEach(b=>b.addEventListener('click',()=>openAssignModal(+b.dataset.rank)));
+}
+
+function swapRanks(a,b){ const t=loadTitles(), ta=t.find(x=>x.top10===a), tb=t.find(x=>x.top10===b); if(ta) ta.top10=b; if(tb) tb.top10=a; saveTitles(t); render(); showToast(`Swapped #${a} ↔ #${b}`,'info'); }
+function removeRank(rank){ const t=loadTitles(), item=t.find(x=>x.top10===rank); if(item){ item.top10=false; saveTitles(t); render(); showToast(`"${item.name||item.title}" removed from Top 10`,'info'); } }
+
+document.getElementById('btnAutoFill').addEventListener('click',()=>{
+  const t=loadTitles(); t.forEach(x=>x.top10=false);
+  [...t].sort((a,b)=>parseFloat(b.rating||0)-parseFloat(a.rating||0)).slice(0,MAX_RANK).forEach((x,i)=>{ const r=t.find(y=>y.id===x.id); if(r) r.top10=i+1; });
+  saveTitles(t); render(); showToast('Auto-filled by highest rating','success');
+});
+document.getElementById('btnClearAll').addEventListener('click',()=>{ const t=loadTitles(); t.forEach(x=>x.top10=false); saveTitles(t); render(); showToast('Top 10 cleared','info'); });
+
+function openAssignModal(rank){
+  assigningRank=rank;
+  document.getElementById('modalTitle').textContent=`Assign to Rank #${rank}`;
+  document.getElementById('modalSearch').value='';
+  renderModalList('');
+  document.getElementById('modalBackdrop').classList.add('open');
+  setTimeout(()=>document.getElementById('modalSearch').focus(),300);
+}
+function closeModal(){ document.getElementById('modalBackdrop').classList.remove('open'); assigningRank=null; }
+
+function renderModalList(q){
+  const titles=loadTitles(), rankMap=buildRankMap(titles);
+  const ranked=new Set(rankMap.filter(Boolean).map(t=>t.id));
+  let list=[...titles];
+  if(q){ const lq=q.toLowerCase(); list=list.filter(t=>(t.name||t.title||'').toLowerCase().includes(lq)); }
+  const ml=document.getElementById('modalList');
+  ml.innerHTML='';
+  if(!list.length){ ml.innerHTML='<div class="modal-empty">No titles found</div>'; return; }
+  list.forEach(t=>{
+    const alr=ranked.has(t.id)&&t.top10!==assigningRank;
+    const div=document.createElement('div');
+    div.className='modal-item'+(alr?' already-ranked':'');
+    div.innerHTML=`
+      <div class="modal-poster" style="${t.img?`background-image:url('${t.img}')`:''} "></div>
+      <div>
+        <div class="modal-item-title">${t.name||t.title||'Untitled'}${alr?` <span style="color:var(--text-dim);font-size:0.68rem">(#${t.top10})</span>`:''}</div>
+        <div class="modal-item-meta">★ ${parseFloat(t.rating||0).toFixed(1)} · ${t.year||'—'} · ${t.media||'Movie'}</div>
+      </div>`;
+    if(!alr) div.addEventListener('click',()=>assignToRank(t.id,assigningRank));
+    ml.appendChild(div);
+  });
+}
+
+function assignToRank(tid,rank){
+  const t=loadTitles(); t.forEach(x=>{ if(x.top10===rank) x.top10=false; });
+  const item=t.find(x=>x.id===tid); if(item){ item.top10=rank; saveTitles(t); closeModal(); render(); showToast(`"${item.name||item.title}" → Rank #${rank}`,'success'); }
+}
+
+document.getElementById('modalSearch').addEventListener('input',e=>renderModalList(e.target.value.trim()));
+document.getElementById('modalClose').addEventListener('click',closeModal);
+document.getElementById('modalBackdrop').addEventListener('click',e=>{ if(e.target===document.getElementById('modalBackdrop')) closeModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+render();
+</script>
+</body>
+</html>

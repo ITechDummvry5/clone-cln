@@ -1,0 +1,152 @@
+/* ═══════════════════════════════════════════════════════════
+   components.js — CinemaX shared UI components
+   Usage: add <script src="components.js"></script> to any
+   page, then call the render functions you need.
+═══════════════════════════════════════════════════════════ */
+
+/* ─── Active nav link helper ─── */
+function _setActiveNavLink() {
+  const page = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-link[data-page]').forEach(a => {
+    a.classList.toggle('active', a.dataset.page === page);
+  });
+}
+
+/* ═══════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════ */
+function renderNavbar(mountId = 'navbar-mount') {
+  const el = document.getElementById(mountId);
+  if (!el) return;
+  el.innerHTML = `
+    <nav class="topnav" id="topnav">
+      <a href="index.html" class="nav-logo">CINEMA<em>X</em></a>
+      <div class="nav-links">
+        <a href="index.html"       class="nav-link" data-page="index.html">Home</a>
+        <a href="#"                class="nav-link" data-page="movies.html">Movies</a>
+        <a href="#"                class="nav-link" data-page="series.html">Series</a>
+        <a href="mylist.html"      class="nav-link" data-page="mylist.html">My List</a>
+        <a href="plantowatch.html" class="nav-link" data-page="plantowatch.html">Plan to Watch</a>
+      </div>
+      <div class="nav-right">
+        <button class="nav-icon-btn" aria-label="Search">
+          <i class="ti ti-search" aria-hidden="true"></i>
+        </button>
+        <button class="nav-icon-btn" aria-label="Notifications">
+          <i class="ti ti-bell" aria-hidden="true"></i>
+        </button>
+        <div class="nav-avatar" aria-label="Profile">
+          <a href="admin/control.html">C</a>
+        </div>
+      </div>
+    </nav>`;
+  _setActiveNavLink();
+
+  /* Sticky scroll effect */
+  const nav = document.getElementById('topnav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+function renderFooter(mountId = 'footer-mount') {
+  const el = document.getElementById(mountId);
+  if (!el) return;
+  el.innerHTML = `
+    <footer class="site-footer">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="footer-logo">CINEMA<em>X</em></span>
+          <p class="footer-tagline">Watch. Experience. Feel.</p>
+          <div class="footer-socials">
+            <a href="#" aria-label="Twitter"><i class="ti ti-brand-x" aria-hidden="true"></i></a>
+            <a href="#" aria-label="Instagram"><i class="ti ti-brand-instagram" aria-hidden="true"></i></a>
+            <a href="#" aria-label="YouTube"><i class="ti ti-brand-youtube" aria-hidden="true"></i></a>
+            <a href="#" aria-label="TikTok"><i class="ti ti-brand-tiktok" aria-hidden="true"></i></a>
+          </div>
+        </div>
+        <div class="footer-cols">
+          <div class="footer-col">
+            <h4>Browse</h4>
+            <a href="#">Home</a>
+            <a href="#">Movies</a>
+            <a href="#">Series</a>
+            <a href="#">Documentaries</a>
+            <a href="#">New Releases</a>
+          </div>
+          <div class="footer-col">
+            <h4>Genres</h4>
+            <a href="#">Action</a>
+            <a href="#">Drama</a>
+            <a href="#">Thriller</a>
+            <a href="#">Sci-Fi</a>
+            <a href="#">Horror</a>
+          </div>
+          <div class="footer-col">
+            <h4>Account</h4>
+            <a href="#">My Profile</a>
+            <a href="#">Watchlist</a>
+            <a href="#">Downloads</a>
+            <a href="#">Settings</a>
+            <a href="#">Help Center</a>
+          </div>
+          <div class="footer-col">
+            <h4>Company</h4>
+            <a href="#">About Us</a>
+            <a href="#">Careers</a>
+            <a href="#">Press</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 CinemaX. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Cookie Preferences</a>
+          <a href="#">Accessibility</a>
+          <a href="#">Legal</a>
+        </div>
+      </div>
+    </footer>`;
+}
+
+/* ═══════════════════════════════════════
+   MOVIE DETAIL MODAL
+═══════════════════════════════════════ */
+function renderModal(mountId = 'modal-mount') {
+  const el = document.getElementById(mountId);
+  if (!el) return;
+  el.innerHTML = `
+    <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+      <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button class="modal-close" id="modalClose" aria-label="Close">
+          <i class="ti ti-x" aria-hidden="true"></i>
+        </button>
+        <div class="modal-hero" id="modalHero"></div>
+        <div class="modal-body">
+          <div class="modal-badges" id="modalBadges"></div>
+          <h2 class="modal-title" id="modalTitle"></h2>
+          <div class="modal-meta" id="modalMeta"></div>
+          <p class="modal-desc" id="modalDesc"></p>
+          <div class="modal-actions">
+            <button class="btn-play btn-play-lg" id="modalPlayBtn">
+              <i class="ti ti-player-play-filled" aria-hidden="true"></i> Play
+            </button>
+            <button class="btn-icon-round" id="modalBookmarkBtn" aria-label="Bookmark">
+              <i class="ti ti-bookmark" aria-hidden="true" id="modalBookmarkIcon"></i>
+            </button>
+            <button class="btn-icon-round" id="modalHeartBtn" aria-label="Like">
+              <i class="ti ti-heart" aria-hidden="true" id="modalHeartIcon"></i>
+            </button>
+            <button class="btn-icon-round" aria-label="Share">
+              <i class="ti ti-share" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CinemaX — Analytics Dashboard</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Space+Mono&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+<link rel="stylesheet" href="../css/admin.css"/>
+<style>
+/* ── ANALYTICS-PAGE ONLY ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}
+
+.charts-section{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:1.5rem;margin-bottom:2rem}
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+.chart-title{font-size:0.9rem;font-weight:600;letter-spacing:0.02em;margin-bottom:1.25rem;color:var(--text)}
+.chart-wrapper{position:relative;height:300px}
+
+.breakdown-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:2rem}
+.breakdown-title{font-size:0.9rem;font-weight:600;letter-spacing:0.02em;margin-bottom:1.5rem;color:var(--text)}
+.breakdown-row{display:flex;align-items:center;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid var(--border)}
+.breakdown-row:last-child{border-bottom:none}
+.breakdown-label{display:flex;align-items:center;gap:10px}
+.breakdown-bar{flex:1;height:6px;background:var(--surface2);border-radius:3px;margin:0 1rem;overflow:hidden;position:relative;min-width:100px}
+.breakdown-bar-fill{height:100%;border-radius:3px;transition:width 0.3s}
+.breakdown-value{font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);min-width:50px;text-align:right}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+@media(max-width:1200px){.charts-section{grid-template-columns:1fr}}
+@media(max-width:768px){.content{padding:1rem}.stats-grid{grid-template-columns:repeat(2,1fr)}.charts-section{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <div id="sidebar-mount"></div>
+  <div class="main">
+    <div id="topbar-mount"></div>
+    <div class="content">
+
+      <div class="stats-grid">
+        <div class="stat-card c-red"><div class="stat-label">Total Items</div><div class="stat-value" id="totalItems">0</div><div class="stat-sub">in library</div></div>
+        <div class="stat-card c-blue"><div class="stat-label">Avg Rating</div><div class="stat-value" id="avgRating">0.0</div><div class="stat-sub">across all</div></div>
+        <div class="stat-card c-green"><div class="stat-label">Ongoing</div><div class="stat-value" id="ongoingCount">0</div><div class="stat-sub">in progress</div></div>
+        <div class="stat-card c-amber"><div class="stat-label">Top 10</div><div class="stat-value" id="top10Count">0</div><div class="stat-sub">ranked</div></div>
+        <div class="stat-card c-purple"><div class="stat-label">Trending</div><div class="stat-value" id="trendingCount">0</div><div class="stat-sub">highlighted</div></div>
+        <div class="stat-card c-blue"><div class="stat-label">4K Content</div><div class="stat-value" id="content4k">0</div><div class="stat-sub">ultra HD</div></div>
+      </div>
+
+      <div class="charts-section">
+        <div class="chart-card"><div class="chart-title"><i class="ti ti-tag" style="margin-right:6px;vertical-align:-.1em"></i>Genre Distribution</div><div class="chart-wrapper"><canvas id="genreChart"></canvas></div></div>
+        <div class="chart-card"><div class="chart-title"><i class="ti ti-circle-check" style="margin-right:6px;vertical-align:-.1em"></i>Status Overview</div><div class="chart-wrapper"><canvas id="statusChart"></canvas></div></div>
+        <div class="chart-card"><div class="chart-title"><i class="ti ti-video" style="margin-right:6px;vertical-align:-.1em"></i>Media Quality</div><div class="chart-wrapper"><canvas id="mediaChart"></canvas></div></div>
+        <div class="chart-card"><div class="chart-title"><i class="ti ti-star" style="margin-right:6px;vertical-align:-.1em"></i>Rating Distribution</div><div class="chart-wrapper"><canvas id="ratingChart"></canvas></div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:1.5rem">
+        <div class="breakdown-section"><div class="breakdown-title"><i class="ti ti-category" style="margin-right:6px;vertical-align:-.1em"></i>Type Breakdown</div><div id="typeBreakdown"></div></div>
+        <div class="breakdown-section"><div class="breakdown-title"><i class="ti ti-calendar" style="margin-right:6px;vertical-align:-.1em"></i>Year Distribution</div><div id="yearBreakdown"></div></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../js/modules/admin-shell.js"></script>
+<script>
+renderAdminShell('analytics', 'Analytics Dashboard', `
+  <span style="font-size:0.82rem;color:var(--text-muted)">Last updated: <span id="updateTime">now</span></span>
+`);
+</script>
+<script>
+let items=[];
+
+function loadData(){ const s=localStorage.getItem('cinemax_titles'); items=s?JSON.parse(s):[]; }
+
+function updateStats(){
+  const total=items.length;
+  document.getElementById('totalItems').textContent=total;
+  document.getElementById('avgRating').textContent=total?(items.reduce((s,i)=>s+(i.rating||0),0)/total).toFixed(1):'0.0';
+  document.getElementById('ongoingCount').textContent=items.filter(i=>i.status==='Ongoing').length;
+  document.getElementById('top10Count').textContent=items.filter(i=>i.top10).length;
+  document.getElementById('trendingCount').textContent=items.filter(i=>i.trending).length;
+  document.getElementById('content4k').textContent=items.filter(i=>i.media==='4K').length;
+  const el=document.getElementById('updateTime'); if(el) el.textContent=new Date().toLocaleTimeString();
+}
+
+let genreChartInstance=null, statusChartInstance=null, mediaChartInstance=null, ratingChartInstance=null;
+const CHART_COLORS=['#e50914','#f5c518','#3b82f6','#22c55e','#a78bfa','#f59e0b','#ef4444'];
+
+function chartDefaults(){ return { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ color:'#f0f0f5', font:{size:12,family:"'DM Sans',sans-serif"}, padding:15 } } } }; }
+
+function createGenreChart(){
+  if(!items.length) return;
+  const count={}; items.forEach(i=>i.genres.forEach(g=>{ count[g]=(count[g]||0)+1; }));
+  const ctx=document.getElementById('genreChart').getContext('2d');
+  if(genreChartInstance) genreChartInstance.destroy();
+  genreChartInstance=new Chart(ctx,{ type:'doughnut', data:{ labels:Object.keys(count), datasets:[{ data:Object.values(count), backgroundColor:CHART_COLORS.map(c=>c+'40'), borderColor:CHART_COLORS, borderWidth:2, borderRadius:8 }] }, options:chartDefaults() });
+}
+
+function createStatusChart(){
+  if(!items.length) return;
+  const count={Ongoing:0,Finished:0}; items.forEach(i=>{ count[i.status]=(count[i.status]||0)+1; });
+  const ctx=document.getElementById('statusChart').getContext('2d');
+  if(statusChartInstance) statusChartInstance.destroy();
+  statusChartInstance=new Chart(ctx,{ type:'pie', data:{ labels:Object.keys(count), datasets:[{ data:Object.values(count), backgroundColor:['#22c55e4d','#ef44444d'], borderColor:['#22c55e','#ef4444'], borderWidth:2 }] }, options:chartDefaults() });
+}
+
+function createMediaChart(){
+  if(!items.length) return;
+  const count={'4K':0,'HD':0,'SD':0}; items.forEach(i=>{ count[i.media]=(count[i.media]||0)+1; });
+  const ctx=document.getElementById('mediaChart').getContext('2d');
+  if(mediaChartInstance) mediaChartInstance.destroy();
+  mediaChartInstance=new Chart(ctx,{ type:'bar', data:{ labels:Object.keys(count), datasets:[{ label:'Count', data:Object.values(count), backgroundColor:['#f5c5184d','#3b82f64d','#7777a04d'], borderColor:['#f5c518','#3b82f6','#7777a0'], borderWidth:2, borderRadius:8 }] }, options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ x:{ticks:{color:'#7777a0'},grid:{color:'rgba(255,255,255,0.05)'}}, y:{ticks:{color:'#7777a0'}} } } });
+}
+
+function createRatingChart(){
+  if(!items.length) return;
+  const b={'6-7':0,'7-8':0,'8-9':0,'9-10':0};
+  items.forEach(i=>{ if(i.rating<7) b['6-7']++; else if(i.rating<8) b['7-8']++; else if(i.rating<9) b['8-9']++; else b['9-10']++; });
+  const ctx=document.getElementById('ratingChart').getContext('2d');
+  if(ratingChartInstance) ratingChartInstance.destroy();
+  ratingChartInstance=new Chart(ctx,{ type:'bar', data:{ labels:Object.keys(b), datasets:[{ label:'Items', data:Object.values(b), backgroundColor:'#3b82f64d', borderColor:'#3b82f6', borderWidth:2, borderRadius:8 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true,ticks:{color:'#7777a0'},grid:{color:'rgba(255,255,255,0.05)'}}, x:{ticks:{color:'#7777a0'}} } } });
+}
+
+function updateTypeBreakdown(){
+  const el=document.getElementById('typeBreakdown');
+  if(!items.length){ el.innerHTML='<div style="color:#7777a0;padding:1rem;text-align:center">No data yet</div>'; return; }
+  const count={}; items.forEach(i=>{ count[i.type]=(count[i.type]||0)+1; });
+  const colors=['#e50914','#3b82f6','#22c55e'];
+  const types=['Movie','Series','Special'];
+  el.innerHTML=types.map((t,idx)=>{ const c=count[t]||0, pct=items.length>0?((c/items.length)*100).toFixed(0):0; return `<div class="breakdown-row"><div class="breakdown-label"><div class="dot" style="background:${colors[idx]}"></div><span>${t}</span></div><div class="breakdown-bar"><div class="breakdown-bar-fill" style="background:${colors[idx]};width:${pct}%"></div></div><div class="breakdown-value">${c} (${pct}%)</div></div>`; }).join('');
+}
+
+function updateYearBreakdown(){
+  const el=document.getElementById('yearBreakdown');
+  if(!items.length){ el.innerHTML='<div style="color:#7777a0;padding:1rem;text-align:center">No data yet</div>'; return; }
+  const count={}; items.forEach(i=>{ const y=i.year||'Unknown'; count[y]=(count[y]||0)+1; });
+  const sorted=Object.entries(count).sort((a,b)=>b[1]-a[1]);
+  const colors=['#a78bfa','#3b82f6','#22c55e','#f5c518','#e50914','#ef4444'];
+  el.innerHTML=sorted.map(([year,c],idx)=>{ const pct=((c/items.length)*100).toFixed(0), color=colors[idx%colors.length]; return `<div class="breakdown-row"><div class="breakdown-label"><div class="dot" style="background:${color}"></div><span>${year}</span></div><div class="breakdown-bar"><div class="breakdown-bar-fill" style="background:${color};width:${pct}%"></div></div><div class="breakdown-value">${c}</div></div>`; }).join('');
+}
+
+function refreshAll(){ loadData(); updateStats(); createGenreChart(); createStatusChart(); createMediaChart(); createRatingChart(); updateTypeBreakdown(); updateYearBreakdown(); }
+
+refreshAll();
+window.addEventListener('storage',e=>{ if(e.key==='cinemax_titles') refreshAll(); });
+setInterval(refreshAll,5000);
+</script>
+</body>
+</html>

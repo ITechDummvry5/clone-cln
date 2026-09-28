@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CinemaX — Control Panel</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Space+Mono&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link rel="stylesheet" href="../css/admin.css"/>
+
+<style>
+/* ── CONTROL-PAGE ONLY ── */
+.genre-chips{display:flex;gap:6px;flex-wrap:wrap;padding:8px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;min-height:44px;transition:border-color 0.2s}
+.genre-chips.focused{border-color:rgba(229,9,20,0.5);box-shadow:0 0 0 3px var(--accent-dim)}
+.gchip{display:inline-flex;align-items:center;gap:5px;font-size:0.72rem;font-weight:600;letter-spacing:0.06em;padding:4px 8px;border-radius:5px;cursor:pointer;border:1px solid var(--border);background:var(--surface3);color:var(--text-muted);transition:all 0.15s;user-select:none}
+.gchip.selected{background:var(--blue-dim);color:var(--blue);border-color:rgba(59,130,246,0.35)}
+.gchip:hover:not(.selected){border-color:var(--border2);color:var(--text)}
+
+.star-rating{display:flex;gap:4px;align-items:center}
+.star-rating input[type=range]{flex:1;height:4px;border:none;border-radius:2px;background:var(--surface3);box-shadow:none;padding:0;accent-color:var(--accent2);cursor:pointer}
+.star-display{font-family:var(--font-mono);font-size:0.95rem;min-width:44px;color:var(--accent2);text-align:right}
+
+.type-boxes{display:flex;gap:6px;flex-wrap:wrap}
+.type-box{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:7px;cursor:pointer;border:1px solid var(--border);background:var(--surface2);color:var(--text-muted);font-size:0.75rem;font-weight:600;letter-spacing:0.06em;transition:all 0.18s;user-select:none}
+.type-box input{display:none}
+.type-box.selected{background:var(--amber-dim);color:var(--accent2);border-color:rgba(245,197,24,0.35)}
+
+.status-toggle{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--surface2)}
+.status-opt{flex:1;text-align:center;padding:0.5rem;font-size:0.75rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;color:var(--text-muted)}
+.status-opt.active-ongoing{background:var(--green-dim);color:var(--green)}
+.status-opt.active-finished{background:var(--surface3);color:var(--text-muted)}
+
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:0.65rem 0.85rem;background:var(--surface2);border:1px solid var(--border);border-radius:8px}
+.toggle-label{font-size:0.82rem;color:var(--text)}
+.toggle-label small{display:block;font-size:0.7rem;color:var(--text-muted);margin-top:1px}
+.toggle-switch{position:relative;width:42px;height:24px;flex-shrink:0}
+.toggle-switch input{opacity:0;width:0;height:0}
+.toggle-knob{position:absolute;inset:0;border-radius:12px;background:var(--surface3);border:1px solid var(--border);cursor:pointer;transition:background 0.25s,border-color 0.25s}
+.toggle-knob::after{content:'';position:absolute;left:3px;top:3px;width:16px;height:16px;border-radius:50%;background:var(--text-dim);transition:transform 0.25s,background 0.25s}
+.toggle-switch input:checked+.toggle-knob{background:var(--accent);border-color:var(--accent)}
+.toggle-switch input:checked+.toggle-knob::after{transform:translateX(18px);background:#fff}
+
+.rank-badge-preview{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:34px;border-radius:7px;padding:0 8px;font-family:var(--font-mono);font-size:0.82rem;font-weight:700;background:var(--surface3);color:var(--text-dim);border:1px solid var(--border);transition:all 0.2s;flex-shrink:0}
+.rank-badge-preview.ranked{background:var(--accent-dim);color:var(--accent);border-color:rgba(229,9,20,0.3)}
+.rank-hint{font-size:0.67rem;color:var(--text-dim)}
+
+.img-preview{width:100%;height:120px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:border-color 0.2s}
+.img-preview-placeholder{color:var(--text-dim);font-size:0.78rem;text-align:center;pointer-events:none}
+.img-preview-placeholder i{font-size:1.6rem;display:block;margin-bottom:5px;opacity:0.4}
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <div id="sidebar-mount"></div>
+
+  <div class="main">
+    <div id="topbar-mount"></div>
+
+    <div class="content">
+      <div class="stats-row" id="statsRow">
+        <div class="stat-card c-red">
+          <div class="stat-label">Total Titles</div>
+          <div class="stat-value" id="statTotal">0</div>
+          <div class="stat-sub">in library</div>
+        </div>
+        <div class="stat-card c-green">
+          <div class="stat-label">Ongoing</div>
+          <div class="stat-value" id="statOngoing">0</div>
+          <div class="stat-sub">airing now</div>
+        </div>
+        <div class="stat-card c-blue">
+          <div class="stat-label">Top Ranked</div>
+          <div class="stat-value" id="statTop10">0</div>
+          <div class="stat-sub">featured</div>
+        </div>
+        <div class="stat-card c-amber">
+          <div class="stat-label">Avg Rating</div>
+          <div class="stat-value" id="statAvgRating">—</div>
+          <div class="stat-sub">out of 10</div>
+        </div>
+      </div>
+
+      <div class="filter-bar">
+        <span class="filter-label">Filter:</span>
+        <div class="filter-pills" id="filterPills">
+          <button class="fpill active" data-filter="all">All</button>
+          <button class="fpill" data-filter="ongoing">Ongoing</button>
+          <button class="fpill" data-filter="finished">Finished</button>
+          <button class="fpill" data-filter="top10">Top Ranked</button>
+          <button class="fpill" data-filter="trending">Trending</button>
+          <button class="fpill" data-filter="movies">Movies</button>
+          <button class="fpill" data-filter="tvseries">TV Series</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-header">
+          <span class="table-header-title">Library</span>
+          <span class="table-count" id="tableCount">0 titles</span>
+        </div>
+        <div style="overflow-x:auto">
+          <table id="titlesTable">
+            <thead>
+              <tr>
+                <th style="width:48px"></th>
+                <th>Title / Author</th>
+                <th>Genres</th>
+                <th>Year</th>
+                <th>Media</th>
+                <th>Type</th>
+                <th>Rating</th>
+                <th>Status</th>
+                <th>Top Rank</th>
+                <th>Trending</th>
+                <th style="text-align:right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+        <div class="empty-state" id="emptyState" style="display:none">
+          <i class="ti ti-movie-off"></i>
+          <p>No titles found. Add your first one!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE PANEL -->
+<div class="overlay" id="overlay"></div>
+<aside class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle">
+  <div class="panel-head">
+    <div>
+      <div class="panel-head-title" id="panelTitle">Add Title</div>
+      <div class="panel-head-sub" id="panelSub">Fill in the details below</div>
+    </div>
+    <button class="icon-btn" id="panelClose" aria-label="Close panel"><i class="ti ti-x"></i></button>
+  </div>
+  <div class="panel-body">
+    <form class="form-grid" id="titleForm" autocomplete="off">
+      <input type="hidden" id="fId"/>
+      <div class="field">
+        <label for="fName">Name / Title</label>
+        <input type="text" id="fName" placeholder="e.g. Ocean Horizon" required/>
+      </div>
+      <div class="field">
+        <label for="fAuthor">Author / Director</label>
+        <input type="text" id="fAuthor" placeholder="e.g. James Cameron"/>
+      </div>
+      <div class="field">
+        <label for="fDesc">Description</label>
+        <textarea id="fDesc" placeholder="Short synopsis…" rows="3"></textarea>
+      </div>
+      <div class="field">
+        <label>Category / Genre <span style="color:var(--text-dim);font-weight:400;text-transform:none;letter-spacing:0">(select multiple)</span></label>
+        <div class="genre-chips" id="genreChips"></div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="fYear">Year</label>
+          <input type="number" id="fYear" placeholder="2024" min="1900" max="2099"/>
+        </div>
+        <div class="field">
+          <label>Rating <span style="font-weight:400;letter-spacing:0;text-transform:none;font-size:0.68rem;color:var(--text-dim)">(1–10)</span></label>
+          <div class="star-rating">
+            <input type="range" id="fRating" min="1" max="10" step="0.1" value="7.5"/>
+            <div class="star-display" id="ratingDisplay">7.5</div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Type / Quality</label>
+        <div class="type-boxes" id="typeBoxes">
+          <label class="type-box" data-val="HD"><input type="radio" name="fType" value="HD"/> HD</label>
+          <label class="type-box" data-val="4K"><input type="radio" name="fType" value="4K"/> 4K</label>
+          <label class="type-box" data-val="4K HDR"><input type="radio" name="fType" value="4K HDR"/> 4K HDR</label>
+          <label class="type-box" data-val="CAM"><input type="radio" name="fType" value="CAM"/> CAM</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Media Type</label>
+        <div class="type-boxes" id="mediaBoxes">
+          <label class="type-box" data-val="Movie"><input type="radio" name="fMedia" value="Movie"/> 🎬 Movie</label>
+          <label class="type-box" data-val="TV Series"><input type="radio" name="fMedia" value="TV Series"/> 📺 TV Series</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <div class="status-toggle" id="statusToggle">
+          <div class="status-opt active-ongoing" data-val="Ongoing" id="statusOngoing">▶ Ongoing</div>
+          <div class="status-opt" data-val="Finished" id="statusFinished">✓ Finished</div>
+        </div>
+        <input type="hidden" id="fStatus" value="Ongoing"/>
+      </div>
+      <div class="field">
+        <label for="fTop10">Top Rank</label>
+        <div style="display:flex;align-items:center;gap:10px">
+          <select id="fTop10" style="flex:1"></select>
+          <div class="rank-badge-preview" id="rankBadgePreview">—</div>
+        </div>
+        <span class="rank-hint" id="rankHint">Select 0 to remove from rankings</span>
+      </div>
+      <div class="field">
+        <div class="toggle-row">
+          <label class="toggle-label" for="fTrending">
+            Trending
+            <small>Show in the Trending This Week row</small>
+          </label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="fTrending"/>
+            <span class="toggle-knob"></span>
+          </label>
+        </div>
+      </div>
+      <div class="field">
+        <label for="fLink">Play Link</label>
+        <input type="text" id="fLink" placeholder="https://… or video.mp4"/>
+        <span class="field-hint">URL that opens when Play / Play Now is clicked</span>
+      </div>
+      <div class="field">
+        <label for="fImg">Image URL or Path</label>
+        <input type="text" id="fImg" placeholder="1.jpg or https://…"/>
+        <span class="field-hint">Type a filename (e.g. 1.jpg) — stored in assets/ — or paste a full URL</span>
+        <div class="img-preview" id="imgPreview" style="margin-top:8px">
+          <div class="img-preview-placeholder" id="imgPlaceholder">
+            <i class="ti ti-photo"></i>
+            Preview appears here
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="panel-foot">
+    <button class="btn btn-ghost" id="panelCancel">Cancel</button>
+    <button class="btn btn-primary" id="panelSave"><i class="ti ti-device-floppy"></i> Save</button>
+  </div>
+</aside>
+
+<div id="confirm-mount"></div>
+
+<script src="../js/modules/admin-shell.js"></script>
+<script>
+renderAdminShell('titles', 'Titles', `
+  <div class="search-wrap">
+    <i class="ti ti-search"></i>
+    <input class="search-input" id="searchInput" type="text" placeholder="Search titles…"/>
+  </div>
+  <button class="btn btn-primary" id="btnAdd">
+    <i class="ti ti-plus"></i> Add Title
+  </button>
+`);
+renderConfirmDialog();
+</script>
+<script>
+const STORAGE_KEY = 'cinemax_titles';
+const GENRES_KEY  = 'cinemax_genres';
+const GENRES_FALLBACK = ['Action','Adventure','Animation','Comedy','Crime','Documentary','Drama','Fantasy','Horror','Mystery','Noir','Romance','Sci-Fi','Survival','Thriller','Western'];
+
+function loadAllGenres(){
+  try{
+    const raw = localStorage.getItem(GENRES_KEY);
+    if(!raw) return GENRES_FALLBACK;
+    return JSON.parse(raw).filter(g=>g.status==='active').map(g=>g.name).sort((a,b)=>a.localeCompare(b));
+  }catch(e){ return GENRES_FALLBACK; }
+}
+
+const ALL_GENRES = loadAllGenres();
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+
+let items=[], filterMode='all', searchQ='', deleteTarget=null, editId=null, selectedGenres=[], currentStatus='Ongoing';
+
+function load(){
+  try{ const raw=localStorage.getItem(STORAGE_KEY); items=raw?JSON.parse(raw):[]; }catch(e){ items=[]; }
+}
+function save(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(items)); }
+
+const tbody         = document.getElementById('tbody');
+const emptyState    = document.getElementById('emptyState');
+const tableCount    = document.getElementById('tableCount');
+const statTotal     = document.getElementById('statTotal');
+const statOngoing   = document.getElementById('statOngoing');
+const statTop10     = document.getElementById('statTop10');
+const statAvgRating = document.getElementById('statAvgRating');
+const filterPills   = document.getElementById('filterPills');
+const panel         = document.getElementById('panel');
+const overlay       = document.getElementById('overlay');
+const panelTitle    = document.getElementById('panelTitle');
+const panelSub      = document.getElementById('panelSub');
+const genreChips    = document.getElementById('genreChips');
+const fId           = document.getElementById('fId');
+const fName         = document.getElementById('fName');
+const fAuthor       = document.getElementById('fAuthor');
+const fDesc         = document.getElementById('fDesc');
+const fYear         = document.getElementById('fYear');
+const fRating       = document.getElementById('fRating');
+const ratingDisplay = document.getElementById('ratingDisplay');
+const fStatus       = document.getElementById('fStatus');
+const fTop10        = document.getElementById('fTop10');
+const fTrending     = document.getElementById('fTrending');
+const fLink         = document.getElementById('fLink');
+  const fImg          = document.getElementById('fImg');
+const imgPreview    = document.getElementById('imgPreview');
+const imgPlaceholder= document.getElementById('imgPlaceholder');
+const typeBoxes     = document.querySelectorAll('#typeBoxes .type-box');
+const mediaBoxes    = document.querySelectorAll('#mediaBoxes .type-box');
+const statusOngoing = document.getElementById('statusOngoing');
+const statusFinished= document.getElementById('statusFinished');
+const confirmDialog = document.getElementById('confirmDialog');
+const confirmMsg    = document.getElementById('confirmMsg');
+
+function getFiltered(){
+  let list=[...items];
+  if(filterMode==='ongoing')  list=list.filter(i=>i.status==='Ongoing');
+  if(filterMode==='finished') list=list.filter(i=>i.status==='Finished');
+  if(filterMode==='top10')    list=list.filter(i=>i.top10);
+  if(filterMode==='trending') list=list.filter(i=>i.trending);
+  if(filterMode==='movies')   list=list.filter(i=>(i.media||'Movie')==='Movie');
+  if(filterMode==='tvseries') list=list.filter(i=>i.media==='TV Series');
+  if(searchQ){
+    const q=searchQ.toLowerCase();
+    list=list.filter(i=>i.name.toLowerCase().includes(q)||(i.author||'').toLowerCase().includes(q)||(i.genres||[]).some(g=>g.toLowerCase().includes(q)));
+  }
+  return list;
+}
+
+function renderTable(){
+  const list=getFiltered();
+  tableCount.textContent=`${list.length} title${list.length!==1?'s':''}`;
+  tbody.innerHTML='';
+  if(!list.length){ emptyState.style.display=''; return; }
+  emptyState.style.display='none';
+  list.forEach(item=>{
+    const tr=document.createElement('tr');
+    const stars=starsHtml(item.rating);
+    const typeClass=item.type==='4K'?'tag-4k':item.type==='4K HDR'?'tag-hdr':'tag-type';
+    const statusClass=item.status==='Ongoing'?'badge-ongoing':'badge-finished';
+    const genreTags=(item.genres||[]).map(g=>`<span class="tag tag-genre">${g}</span>`).join('');
+    tr.innerHTML=`
+      <td><div class="cell-poster" style="${item.img?`background-image:url('${item.img}')`:''}" title="${item.name}"></div></td>
+      <td><div class="cell-title-wrap"><div><div class="cell-title">${item.name}</div>${item.author?`<div class="cell-author">${item.author}</div>`:''}</div></div></td>
+      <td><div class="genres-cell">${genreTags||'<span style="color:var(--text-dim);font-size:0.72rem">—</span>'}</div></td>
+      <td style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted)">${item.year||'—'}</td>
+      <td><span class="tag ${item.media==='TV Series'?'tag-genre':'tag-type'}">${item.media==='TV Series'?'📺 TV':'🎬 Movie'}</span></td>
+      <td><span class="tag ${typeClass}">${item.type||'—'}</span></td>
+      <td>${stars}</td>
+      <td><span class="badge-status ${statusClass}">${item.status}</span></td>
+      <td><span class="top10-badge ${item.top10?'top10-yes':'top10-no'}">${item.top10?(typeof item.top10==='number'?'#'+item.top10:'#?'):'—'}</span></td>
+      <td><span class="top10-badge ${item.trending?'top10-yes':'top10-no'}">${item.trending?'🔥':'—'}</span></td>
+      <td><div class="cell-actions">
+        <button class="icon-btn edit" data-id="${item.id}" title="Edit"><i class="ti ti-edit"></i></button>
+        <button class="icon-btn delete" data-id="${item.id}" title="Delete"><i class="ti ti-trash"></i></button>
+      </div></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function starsHtml(r){
+  const n=parseFloat(r)||0, full=Math.floor(n/2), half=(n%2)>=0.75?1:0;
+  let s='<span class="stars">';
+  for(let i=0;i<full;i++) s+='★';
+  if(half) s+='½';
+  return s+`</span><span class="stars-val">${n.toFixed(1)}</span>`;
+}
+
+function renderStats(){
+  statTotal.textContent   =items.length;
+  statOngoing.textContent =items.filter(i=>i.status==='Ongoing').length;
+  statTop10.textContent   =items.filter(i=>i.top10&&typeof i.top10==='number').length;
+  const ratings=items.map(i=>parseFloat(i.rating)||0).filter(Boolean);
+  statAvgRating.textContent=ratings.length?(ratings.reduce((a,b)=>a+b,0)/ratings.length).toFixed(1):'—';
+}
+
+function refresh(){ renderStats(); renderTable(); }
+
+function buildGenreChips(){
+  genreChips.innerHTML='';
+  ALL_GENRES.forEach(g=>{
+    const chip=document.createElement('div');
+    chip.className='gchip'+(selectedGenres.includes(g)?' selected':'');
+    chip.textContent=g; chip.dataset.genre=g;
+    chip.addEventListener('click',()=>{
+      if(selectedGenres.includes(g)){ selectedGenres=selectedGenres.filter(x=>x!==g); chip.classList.remove('selected'); }
+      else { selectedGenres.push(g); chip.classList.add('selected'); }
+    });
+    genreChips.appendChild(chip);
+  });
+}
+
+function buildRankDropdown(currentVal,currentEditId){
+  const sel=document.getElementById('fTop10');
+  const rankedItems=items.filter(i=>i.id!==currentEditId&&i.top10&&typeof i.top10==='number');
+  const maxRank=rankedItems.length>0?Math.max(...rankedItems.map(i=>i.top10)):0;
+  const totalSlots=maxRank+1;
+  sel.innerHTML='';
+  const opt0=document.createElement('option'); opt0.value=0; opt0.textContent='0 — No Rank'; sel.appendChild(opt0);
+  for(let n=1;n<=totalSlots;n++){
+    const opt=document.createElement('option'); opt.value=n;
+    const holder=items.find(i=>i.id!==currentEditId&&i.top10===n);
+    opt.textContent=holder?`#${n} — (replaces "${holder.name}")`:`#${n}`;
+    sel.appendChild(opt);
+  }
+  sel.value=(currentVal&&typeof currentVal==='number')?currentVal:0;
+  updateRankBadge(sel.value);
+}
+
+function updateRankBadge(val){
+  const badge=document.getElementById('rankBadgePreview');
+  const hint=document.getElementById('rankHint');
+  const n=parseInt(val,10);
+  if(n&&n>0){ badge.textContent='#'+n; badge.className='rank-badge-preview ranked'; hint.textContent='This title will appear at rank #'+n; }
+  else { badge.textContent='—'; badge.className='rank-badge-preview'; hint.textContent='Select 0 to remove from rankings'; }
+}
+
+function openPanel(item=null){
+  editId=item?item.id:null;
+  panelTitle.textContent=item?'Edit Title':'Add Title';
+  panelSub.textContent=item?`Editing: ${item.name}`:'Fill in the details below';
+  fId.value=item?item.id:''; fName.value=item?item.name:''; fAuthor.value=item?(item.author||''):'';
+  fDesc.value=item?(item.desc||''):''; fYear.value=item?(item.year||''):new Date().getFullYear();
+  fRating.value=item?(item.rating||7.5):7.5;
+  ratingDisplay.textContent=parseFloat(fRating.value).toFixed(1);
+  buildRankDropdown(item?item.top10:false,item?item.id:null);
+  fTrending.checked=item?!!item.trending:false; fLink.value=item?(item.link||''):'';
+  const rawImg=item?(item.img||''):'';
+  fImg.value=rawImg.replace(/^\.\.\/assets\//,'');
+  selectedGenres=item?[...(item.genres||[])]:[];
+  const defaultType=item?(item.type||'HD'):'HD';
+  typeBoxes.forEach(b=>{ const inp=b.querySelector('input'); const sel=inp.value===defaultType; inp.checked=sel; b.classList.toggle('selected',sel); });
+  const med=item?(item.media||'Movie'):'Movie';
+  mediaBoxes.forEach(b=>{ const inp=b.querySelector('input'); const sel=inp.value===med; inp.checked=sel; b.classList.toggle('selected',sel); });
+  const st=item?(item.status||'Ongoing'):'Ongoing';
+  fStatus.value=st; currentStatus=st;
+  statusOngoing.className='status-opt'+(st==='Ongoing'?' active-ongoing':'');
+  statusFinished.className='status-opt'+(st==='Finished'?' active-finished':'');
+  updateImgPreview(fImg.value);
+  buildGenreChips();
+  panel.classList.add('open'); overlay.classList.add('open');
+  setTimeout(()=>fName.focus(),350);
+}
+
+function closePanel(){ panel.classList.remove('open'); overlay.classList.remove('open'); editId=null; }
+
+function getSelectedType(){ for(const b of typeBoxes){ if(b.querySelector('input').checked) return b.dataset.val; } return 'HD'; }
+function getSelectedMedia(){ for(const b of mediaBoxes){ if(b.querySelector('input').checked) return b.dataset.val; } return 'Movie'; }
+
+function saveItem(){
+  const name=fName.value.trim();
+  if(!name){ showToast('Title name is required','error'); fName.focus(); return; }
+  const wasTop10=editId?(items.find(i=>i.id===editId)||{}).top10:false;
+  const selectedRank=parseInt(document.getElementById('fTop10').value,10);
+  const top10Val=(selectedRank&&selectedRank>0)?selectedRank:false;
+  if(top10Val) items.forEach(i=>{ if(i.id!==editId&&i.top10===top10Val) i.top10=false; });
+  const item={ id:editId||uid(), name, author:fAuthor.value.trim(), desc:fDesc.value.trim(), genres:[...selectedGenres], year:fYear.value||'', rating:parseFloat(fRating.value)||7.5, type:getSelectedType(), media:getSelectedMedia(), status:fStatus.value, top10:top10Val, trending:fTrending.checked, link:fLink.value.trim(), img:resolveImg(fImg.value.trim()) };
+  if(editId){ const idx=items.findIndex(i=>i.id===editId); if(idx>-1) items[idx]=item; showToast(`"${name}" updated`,'success'); }
+  else { items.unshift(item); showToast(`"${name}" added`,'success'); }
+  if(wasTop10&&typeof wasTop10==='number'&&wasTop10!==top10Val) recompactRanks(wasTop10);
+  save(); closePanel(); refresh();
+}
+
+function recompactRanks(removedRank){ items.forEach(i=>{ if(i.top10&&typeof i.top10==='number'&&i.top10>removedRank) i.top10--; }); }
+
+function openConfirm(id){
+  deleteTarget=id;
+  const item=items.find(i=>i.id===id);
+  confirmMsg.textContent=item?`"${item.name}" will be permanently removed from your library.`:'This title will be permanently removed.';
+  confirmDialog.classList.add('open');
+}
+function closeConfirm(){ confirmDialog.classList.remove('open'); deleteTarget=null; }
+function confirmDelete(){
+  if(!deleteTarget) return;
+  const item=items.find(i=>i.id===deleteTarget);
+  const deletedRank=item&&typeof item.top10==='number'?item.top10:null;
+  items=items.filter(i=>i.id!==deleteTarget);
+  if(deletedRank) recompactRanks(deletedRank);
+  save(); refresh(); closeConfirm();
+  showToast(item?`"${item.name}" deleted`:'Title deleted','info');
+}
+
+/* Resolve bare filenames to ../assets/ path; URLs and explicit paths pass through */
+function resolveImg(val){
+  if(!val) return '';
+  if(/^https?:\/\//.test(val)) return val;   // full URL
+  if(val.includes('/')) return val;            // already has a path
+  return '../assets/'+val;                     // bare filename → assets folder
+}
+
+function updateImgPreview(url){
+  const resolved = resolveImg(url);
+  if(resolved){ imgPreview.style.backgroundImage=`url('${resolved}')`; imgPlaceholder.style.display='none'; }
+  else { imgPreview.style.backgroundImage=''; imgPlaceholder.style.display=''; }
+}
+
+document.getElementById('btnAdd').addEventListener('click',()=>openPanel());
+document.getElementById('panelClose').addEventListener('click',closePanel);
+document.getElementById('panelCancel').addEventListener('click',closePanel);
+overlay.addEventListener('click',closePanel);
+document.getElementById('panelSave').addEventListener('click',saveItem);
+fRating.addEventListener('input',()=>{ ratingDisplay.textContent=parseFloat(fRating.value).toFixed(1); });
+typeBoxes.forEach(b=>b.addEventListener('click',()=>{ typeBoxes.forEach(x=>x.classList.remove('selected')); b.classList.add('selected'); }));
+mediaBoxes.forEach(b=>b.addEventListener('click',()=>{ mediaBoxes.forEach(x=>x.classList.remove('selected')); b.classList.add('selected'); }));
+statusOngoing.addEventListener('click',()=>{ fStatus.value=currentStatus='Ongoing'; statusOngoing.className='status-opt active-ongoing'; statusFinished.className='status-opt'; });
+statusFinished.addEventListener('click',()=>{ fStatus.value=currentStatus='Finished'; statusOngoing.className='status-opt'; statusFinished.className='status-opt active-finished'; });
+fImg.addEventListener('input',()=>updateImgPreview(fImg.value.trim()));
+document.getElementById('fTop10').addEventListener('change',function(){ updateRankBadge(this.value); });
+tbody.addEventListener('click',e=>{
+  const editBtn=e.target.closest('.edit'), delBtn=e.target.closest('.delete');
+  if(editBtn){ const item=items.find(i=>i.id===editBtn.dataset.id); if(item) openPanel(item); }
+  if(delBtn) openConfirm(delBtn.dataset.id);
+});
+document.getElementById('searchInput').addEventListener('input',e=>{ searchQ=e.target.value.trim(); renderTable(); });
+filterPills.addEventListener('click',e=>{
+  const pill=e.target.closest('.fpill'); if(!pill) return;
+  filterMode=pill.dataset.filter;
+  document.querySelectorAll('.fpill').forEach(p=>p.classList.remove('active'));
+  pill.classList.add('active'); renderTable();
+});
+document.getElementById('confirmOk').addEventListener('click',confirmDelete);
+document.getElementById('confirmCancel').addEventListener('click',closeConfirm);
+confirmDialog.addEventListener('click',e=>{ if(e.target===confirmDialog) closeConfirm(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closePanel(); closeConfirm(); } });
+
+load(); refresh();
+</script>
+</body>
+</html>

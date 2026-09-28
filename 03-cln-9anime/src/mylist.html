@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>CinemaX — My List</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .list-page { padding: calc(var(--nav-h) + 2.5rem) 3rem 4rem; min-height: 100vh; }
+    .list-page-header { margin-bottom: 2.5rem; }
+    .list-page-title { font-family: var(--font-display); font-size: 3rem; letter-spacing: 0.04em; line-height: 1; }
+    .list-page-title em { color: var(--accent); font-style: normal; }
+    .list-page-sub { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.4rem; }
+    .list-count { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim);
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      padding: 3px 10px; border-radius: 4px; margin-left: 10px; vertical-align: middle; }
+
+    .list-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 1.25rem; }
+
+    .list-card { position: relative; cursor: pointer; transition: transform 0.3s var(--ease-spring); }
+    .list-card:hover { transform: translateY(-6px); }
+    .list-card:hover .lc-overlay { opacity: 1; }
+    .list-card:hover .lc-img { filter: brightness(0.5); }
+    .lc-thumb { position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 2/3;
+      background: var(--surface); border: 1px solid var(--border); margin-bottom: 0.6rem; }
+    .lc-img { width: 100%; height: 100%; background-size: cover; background-position: center; transition: filter 0.3s; }
+    .lc-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      gap: 8px; opacity: 0; transition: opacity 0.25s; }
+    .lc-play { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.9);
+      display: flex; align-items: center; justify-content: center; color: #000; font-size: 1rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5); transition: transform 0.2s var(--ease-spring); }
+    .list-card:hover .lc-play { transform: scale(1.08); }
+    .lc-remove { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 50%;
+      background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.85rem;
+      cursor: pointer; transition: background 0.2s, color 0.2s; z-index: 2; }
+    .lc-remove:hover { background: var(--accent); border-color: var(--accent); }
+    .lc-title { font-family: var(--font-display); font-size: 0.95rem; letter-spacing: 0.02em;
+      color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 0.2rem; }
+    .lc-meta { font-size: 0.7rem; color: var(--text-muted); display: flex; gap: 0.4rem; align-items: center; }
+    .lc-meta .rating { color: var(--accent2); font-weight: 700; font-family: var(--font-mono); }
+
+    .empty-list { text-align: center; padding: 6rem 2rem; color: var(--text-dim); }
+    .empty-list i { font-size: 3rem; display: block; margin-bottom: 1rem; opacity: 0.3; }
+    .empty-list h3 { font-family: var(--font-display); font-size: 1.6rem; letter-spacing: 0.04em; margin-bottom: 0.5rem; color: var(--text-muted); }
+    .empty-list p { font-size: 0.83rem; line-height: 1.6; }
+
+    /* Toast */
+    .cx-toast { position: fixed; bottom: 1.75rem; right: 1.75rem; z-index: 999;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      padding: 0.85rem 1.25rem; display: flex; align-items: center; gap: 10px;
+      font-size: 0.84rem; box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      transform: translateY(120%); opacity: 0; transition: transform 0.35s var(--ease), opacity 0.35s; }
+    .cx-toast.show { transform: translateY(0); opacity: 1; }
+    .cx-toast i { font-size: 1.1rem; }
+    .cx-toast.success i { color: #22c55e; }
+    .cx-toast.error   i { color: var(--accent); }
+    .cx-toast.info    i { color: #3b82f6; }
+
+    @media(max-width: 900px) { .list-page { padding: calc(var(--nav-h) + 1.5rem) 1.5rem 3rem; } }
+    @media(max-width: 600px) { .list-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); } }
+  </style>
+</head>
+<body>
+  <div class="site-wrap">
+    <div id="navbar-mount"></div>
+    <main class="list-page">
+      <div class="list-page-header">
+        <div class="list-page-title">MY <em>LIST</em> <span class="list-count" id="listCount">0</span></div>
+        <div class="list-page-sub">Titles you've bookmarked — click <i class="ti ti-bookmark" style="font-size:0.8rem;color:var(--accent)"></i> on any title to save it here</div>
+      </div>
+      <div class="list-grid" id="listGrid"></div>
+      <div class="empty-list" id="emptyList" style="display:none">
+        <i class="ti ti-bookmark-off"></i>
+        <h3>Nothing saved yet</h3>
+        <p>Hit the bookmark icon on any title<br/>and it'll show up here.</p>
+      </div>
+    </main>
+    <div id="footer-mount"></div>
+  </div>
+  <div id="modal-mount"></div>
+
+  <div class="cx-toast" id="cxToast">
+    <i class="ti ti-check" id="cxToastIcon"></i>
+    <span id="cxToastMsg"></span>
+  </div>
+
+  <script src="js/modules/components.js"></script>
+  <script>
+    renderNavbar();
+    renderFooter();
+    renderModal();
+  </script>
+  <script>
+    const MY_LIST_KEY = 'cinemax_mylist';
+    const TITLES_KEY  = 'cinemax_titles';
+
+    function getMyList() { try { return JSON.parse(localStorage.getItem(MY_LIST_KEY) || '[]'); } catch(e) { return []; } }
+    function getTitles() { try { return JSON.parse(localStorage.getItem(TITLES_KEY) || '[]'); } catch(e) { return []; } }
+
+    let _toastT;
+    function showToast(msg, type = 'success') {
+      clearTimeout(_toastT);
+      const t = document.getElementById('cxToast');
+      const icons = { success: 'ti-check', error: 'ti-alert-circle', info: 'ti-info-circle' };
+      document.getElementById('cxToastIcon').className = `ti ${icons[type] || 'ti-check'}`;
+      document.getElementById('cxToastMsg').textContent = msg;
+      t.className = `cx-toast ${type} show`;
+      _toastT = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function removeFromList(id) {
+      const list = getMyList().filter(x => x !== id);
+      localStorage.setItem(MY_LIST_KEY, JSON.stringify(list));
+      render();
+      showToast('Removed from My List', 'info');
+    }
+
+    function normImg(p) { return p ? p.replace(/^\.\.\/assets\//, 'assets/') : p; }
+
+    function render() {
+      const ids    = getMyList();
+      const titles = getTitles();
+      const grid   = document.getElementById('listGrid');
+      const empty  = document.getElementById('emptyList');
+      const count  = document.getElementById('listCount');
+
+      // match saved ids to title objects
+      const items = ids.map(id => titles.find(t => t.id === id)).filter(Boolean);
+
+      count.textContent = items.length;
+
+      if (!items.length) { grid.innerHTML = ''; empty.style.display = ''; return; }
+      empty.style.display = 'none';
+      grid.innerHTML = '';
+
+      items.forEach(t => {
+        const img = normImg(t.img || '');
+        const rating = parseFloat(t.rating || 0).toFixed(1);
+        const card = document.createElement('div');
+        card.className = 'list-card';
+        card.innerHTML = `
+          <div class="lc-thumb">
+            <div class="lc-img" style="${img ? `background-image:url('${img}')` : ''}"></div>
+            <div class="lc-overlay">
+              <div class="lc-play"><i class="ti ti-player-play-filled"></i></div>
+            </div>
+            <button class="lc-remove" title="Remove from My List" data-id="${t.id}">
+              <i class="ti ti-x"></i>
+            </button>
+          </div>
+          <div class="lc-title">${t.name || 'Untitled'}</div>
+          <div class="lc-meta">
+            <span class="rating">★ ${rating}</span>
+            <span>·</span>
+            <span>${t.year || '—'}</span>
+          </div>`;
+
+        // play click
+        card.querySelector('.lc-play').addEventListener('click', e => {
+          e.stopPropagation();
+          if (t.link) window.open(t.link, '_blank');
+        });
+        // remove click
+        card.querySelector('.lc-remove').addEventListener('click', e => {
+          e.stopPropagation();
+          removeFromList(t.id);
+        });
+        // open modal on card click
+        card.addEventListener('click', () => openDetailModal(t));
+        grid.appendChild(card);
+      });
+    }
+
+    function openDetailModal(t) {
+      const img = normImg(t.img || '');
+      document.getElementById('modalHero').style.backgroundImage = img ? `url('${img}')` : '';
+      document.getElementById('modalTitle').textContent = t.name || 'Untitled';
+      document.getElementById('modalDesc').textContent  = t.desc || '';
+      document.getElementById('modalMeta').innerHTML = `
+        <span class="rating">★ ${parseFloat(t.rating||0).toFixed(1)}</span>
+        <span class="dot-sep">·</span><span>${t.year||'—'}</span>
+        ${t.runtime ? `<span class="dot-sep">·</span><span>${t.runtime}</span>` : ''}`;
+      document.getElementById('modalBadges').innerHTML = (t.genres||[])
+        .map((g,i) => `<span class="badge${i===0?' accent':''}">${g}</span>`).join('');
+      const playBtn = document.getElementById('modalPlayBtn');
+      if (playBtn) {
+        playBtn.onclick = () => { if (t.link) window.open(t.link, '_blank'); };
+        playBtn.style.opacity = t.link ? '1' : '0.4';
+        playBtn.style.cursor  = t.link ? 'pointer' : 'not-allowed';
+      }
+      document.getElementById('modalBackdrop').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    document.getElementById('modalClose')?.addEventListener('click', () => {
+      document.getElementById('modalBackdrop').classList.remove('open');
+      document.body.style.overflow = '';
+    });
+    document.getElementById('modalBackdrop')?.addEventListener('click', e => {
+      if (e.target === document.getElementById('modalBackdrop')) {
+        document.getElementById('modalBackdrop').classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+
+    window.addEventListener('storage', e => {
+      if (e.key === MY_LIST_KEY || e.key === TITLES_KEY) render();
+    });
+
+    render();
+    renderFooterTop10();  // ← add this line
+  </script>
+</body>
+</html>
