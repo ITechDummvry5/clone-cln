@@ -57,6 +57,7 @@ nav ul>li>a [data-lucide]{width:12px;height:12px;transition:.25s}
 .mega-intro{align-self:start;grid-row:1/3}
 .mega-top{grid-column:2/5;align-self:start;display:flex;justify-content:space-between;align-items:flex-start;gap:30px}
 .mega-top h4{font-size:30px;font-weight:800;line-height:1.2;color:var(--ink);margin-bottom:6px}
+.mega-top b{font-size:35px;font-weight:800;line-height:1.2;color:var(--accent);}
 .mega-top p{font-size:14px;color:#777;max-width:420px}
 .mega-top a{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--ink);text-transform:none;letter-spacing:0;white-space:nowrap;padding-top:8px;transition:.2s}
 .mega-top a:hover{color:var(--accent)}
@@ -80,7 +81,7 @@ nav ul>li>a [data-lucide]{width:12px;height:12px;transition:.25s}
 .mcol h5{font-size:13px;font-weight:600;color:#999;margin-bottom:10px}
 .cmega .mlink{padding:14px 0}
 .cmega .mlink b{font-size:18px}
-.cpromo{align-self:stretch;display:flex;flex-direction:column;justify-content:flex-end;min-height:290px;border-radius:6px;padding:30px;color:#fff;text-transform:none;letter-spacing:0;background:linear-gradient(#0c060255,#0c0602e6),url('section_img/megamenu/bg.jpg') center/cover #0c0602}
+.cpromo{align-self:stretch;display:flex;flex-direction:column;justify-content:flex-end;min-height:290px;border-radius:6px;padding:30px;color:#fff;text-transform:none;letter-spacing:0;background:linear-gradient(#0c060255,#0c0602e6),url('../section_img/megamenu/bg.jpg') center/cover #0c0602}
 .cpromo b{display:block;font-size:84px;font-weight:800;line-height:1;color:#fff}
 .cpromo b small{font-size:.5em;font-weight:600}
 .cpromo p{font-size:14px;color:#e4e4e6;margin-top:6px}
@@ -107,8 +108,8 @@ nav ul>li>a [data-lucide]{width:12px;height:12px;transition:.25s}
 /* hero */
 .hero{
  background:
-  url('section_img/hero/person.png') center bottom/cover no-repeat,
-  url('section_img/hero/bg.jpg') center/cover,
+  url('../section_img/hero/person.png') center bottom/cover no-repeat,
+  url('../section_img/hero/bg.jpg') center/cover,
   #e4e5e7;
  padding:90px 0 170px}
 .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
