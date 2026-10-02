@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact | Landscape</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/contact-modern.css">
+</head>
+<body data-page="contact">
+
+<div id="site-header"></div>
+
+<!-- HERO -->
+<section class="ct-hero">
+  <div class="container ct-hero-in">
+    <h1><span class="ln"><span>Tell us about</span></span><span class="ln"><span>your land.</span></span></h1>
+    <p>Whether it’s one field or a thousand acres, we’ll help you read the soil, plan the season, and grow with less waste.</p>
+  </div>
+  <div class="ct-strip">
+    <div class="container">
+      <a href="tel:+74951234567"><small>Call us</small>+7 (495) 123-45-67</a>
+      <a href="mailto:info@landscape.com"><small>Write to us</small>info@landscape.com</a>
+      <a href="#"><small>Visit the office</small>Street Name, NY 38954</a>
+      <span><small>Open</small>Every day, 9AM – 5PM</span>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="ct-form-sec" id="start">
+  <div class="container ct-form-grid">
+    <div class="ct-side">
+      <h2>Start with a conversation.</h2>
+      <p>Fill in the sentence, add a few details, and an agronomist will reply with a plan that fits your farm.</p>
+      <figure class="ct-arch">
+        <img src="images/contact-page/woman.jpg" alt="Landscape agronomist on a call in the field">
+        <figcaption><i class="fa-solid fa-headset"></i><span><b>Support around the clock</b>Questions can’t wait for harvest, so we answer day or night.</span></figcaption>
+      </figure>
+    </div>
+
+    <form class="ct-form" id="contactForm" novalidate>
+      <p class="sentence">
+        Hi, I’m <input type="text" id="cName" name="name" placeholder="your name" aria-label="Your name" autocomplete="name" size="10" required>
+        from <input type="text" name="company" placeholder="farm or company" aria-label="Farm or company" autocomplete="organization" size="14">.
+        I need help with
+      </p>
+      <div class="chips" role="group" aria-label="What you need help with">
+        <label><input type="checkbox" name="topic" value="Soil testing"><span>Soil testing</span></label>
+        <label><input type="checkbox" name="topic" value="Precision farming"><span>Precision farming</span></label>
+        <label><input type="checkbox" name="topic" value="Crop consulting"><span>Crop consulting</span></label>
+        <label><input type="checkbox" name="topic" value="Something else"><span>Something else</span></label>
+      </div>
+      <p class="sentence">
+        You can reach me at <input type="email" id="cEmail" name="email" placeholder="email address" aria-label="Email address" autocomplete="email" size="18" required>
+        or <input type="tel" name="phone" placeholder="phone (optional)" aria-label="Phone number" autocomplete="tel" size="14">.
+      </p>
+      <label class="msg">Anything else we should know?
+        <textarea id="cMsg" name="message" placeholder="Crops, acreage, timing, or what’s not working…"></textarea>
+      </label>
+      <div class="ct-send">
+        <button type="submit" class="btn btn-lg">Send message <span class="btn-ic"><i class="fa-solid fa-arrow-right"></i></span></button>
+        <p class="form-msg" id="contactMsg" role="status"></p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="ct-faq" id="faq">
+  <div class="container ct-faq-grid">
+    <h2>Questions we hear most</h2>
+    <div class="faq-list">
+      <div class="faq open"><button aria-expanded="true">What services do you provide to farmers and agribusinesses?<i class="fa-solid fa-plus"></i></button><div class="ans"><p>Soil testing, precision farming, and crop consulting, each tailored to your land, crops, and goals.</p></div></div>
+      <div class="faq"><button aria-expanded="false">How do you help improve productivity and efficiency?<i class="fa-solid fa-plus"></i></button><div class="ans"><p>We combine sensor data, drone mapping, and agronomy advice to cut waste and raise yields.</p></div></div>
+      <div class="faq"><button aria-expanded="false">Do you work with small farms or only large operations?<i class="fa-solid fa-plus"></i></button><div class="ans"><p>Both. Our plans scale from a single field to large multi-site operations.</p></div></div>
+      <div class="faq"><button aria-expanded="false">Can you help us adopt modern farming technology?<i class="fa-solid fa-plus"></i></button><div class="ans"><p>Yes. We help you choose, set up, and get real value from the tools.</p></div></div>
+      <div class="faq"><button aria-expanded="false">Do you provide training for farmers and communities?<i class="fa-solid fa-plus"></i></button><div class="ans"><p>Yes, through workshops, written guides, and on-site support.</p></div></div>
+      <div class="faq"><button aria-expanded="false">How do I get started in my country?<i class="fa-solid fa-plus"></i></button><div class="ans"><p>Send us a message above. We’ll reply with next steps and set up an intro call.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="ct-cta">
+  <div class="container">
+    <h2>Ready to take the first step?</h2>
+    <p>We’re excited to partner with farmers, businesses, and communities to grow a sustainable future.</p>
+    <div class="btns">
+      <a href="#start" class="btn btn-lg">Get started <span class="btn-ic"><i class="fa-solid fa-arrow-right"></i></span></a>
+      <a href="about.html" class="btn btn-lg dark">Learn more <span class="btn-ic"><i class="fa-solid fa-arrow-right"></i></span></a>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+<script src="js/components.js"></script>
+<script src="js/script.js"></script>
+<script>
+document.querySelectorAll('.faq button').forEach(btn => btn.addEventListener('click', () => {
+  const item = btn.parentElement, open = !item.classList.contains('open');
+  item.classList.toggle('open', open);
+  btn.setAttribute('aria-expanded', open);
+}));
+document.getElementById('contactForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const m = document.getElementById('contactMsg');
+  const fail = t => { m.textContent = t; m.className = 'form-msg err'; };
+  if (!document.getElementById('cName').value.trim()) return fail('Add your name so we know who to reply to.');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById('cEmail').value.trim())) return fail('Enter a valid email address, like name@example.com.');
+  m.textContent = 'Message sent. We’ll reply within 24 hours.'; m.className = 'form-msg ok'; e.target.reset();
+});
+</script>
+</body>
+</html>
