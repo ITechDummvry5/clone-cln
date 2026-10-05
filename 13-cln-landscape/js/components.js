@@ -65,7 +65,7 @@
   <div class="container">
     <div class="f-top">
       <a href="${p}#home" class="logo"><span class="logo-mark"><i class="fa-solid fa-seedling"></i></span>Landscape</a>
-      <ul class="f-nav"><li><a href="${p}#home" data-nav="home">Home</a></li><li><a href="services.html" data-nav="services">Services</a></li><li><a href="about.html" data-nav="about">About</a></li><li><a href="news.html" data-nav="news">News</a></li><li><a href="#contact">Contact</a></li></ul>
+      <ul class="f-nav"><li><a href="${p}#home" data-nav="home">Home</a></li><li><a href="services.html" data-nav="services">Services</a></li><li><a href="about.html" data-nav="about">About</a></li><li><a href="news.html" data-nav="news">News</a></li><li><a href="contact.html">Contact</a></li></ul>
     </div>
     <div class="f-mid">
       <div class="f-info">
