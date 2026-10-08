@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mr.BLACK Franchise</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800..900&family=Inter:wght@400;500&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+:root{--bk:#0a0a0a;--bk2:#141414;--wh:#efeeea;--or:#ff4d00;--mut:#8b8a86;--wide:"Archivo","Arial Black",Impact,sans-serif;--mono:"Courier Prime","Courier New",monospace;--sans:"Inter",system-ui,sans-serif;--pad:clamp(18px,2.6vw,40px)}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{background:var(--bk);color:var(--wh);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.d,h1,h2,h3,.big{font-family:var(--wide);font-stretch:125%;font-weight:900;text-transform:uppercase;letter-spacing:-.025em;line-height:.92}
+.m{font-family:var(--mono);text-transform:uppercase;font-size:13px;letter-spacing:.02em}
+a{color:inherit}
+a.cta{font-family:var(--mono);text-transform:uppercase;font-size:14px;text-decoration:none;display:inline-flex;gap:10px;align-items:center;border-bottom:1px solid currentColor;padding-bottom:3px;transition:gap .3s,color .3s}
+a.cta:before{content:"▸";color:var(--or)}
+a.cta:hover{gap:18px;color:var(--or)}
+section{position:relative;padding:var(--pad)}
+[data-r]{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+[data-r].in{opacity:1;transform:none}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;padding:calc(var(--pad) * .7 + env(safe-area-inset-top,0px)) var(--pad);mix-blend-mode:difference;color:#fff}
+nav a{text-decoration:none}nav .links{display:flex;gap:26px}nav a:hover{text-decoration:underline;text-underline-offset:4px}
+#bar{position:fixed;left:0;top:0;height:3px;width:0;background:var(--or);z-index:60}
+.img{position:relative;overflow:hidden;background:var(--bk2)}
+.img img,.img .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.1);transform:scale(1.1);transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.img .ph{display:flex;align-items:flex-end;padding:12px;font:900 clamp(30px,5vw,80px)/.8 var(--wide);font-stretch:125%;color:#fff2}
+.img:after{content:"";position:absolute;inset:0;background:var(--or);mix-blend-mode:multiply;opacity:0;transition:opacity .5s}
+.img:hover:after{opacity:.55}.img:hover img,.img:hover .ph{transform:scale(1)}
+
+/* hero */
+#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto;overflow:hidden;padding-top:90px;padding-bottom:0}
+#hero h2{font-size:clamp(22px,2.6vw,36px);margin-bottom:14px}
+#hero .left p{line-height:1.4;margin-bottom:30px;color:var(--mut)}
+#hero .right{justify-self:end;margin-top:6vh}
+.stat b{display:block;font:900 clamp(34px,5vw,64px)/1 var(--wide);font-stretch:125%;margin-bottom:8px}
+#hero .stat{margin-bottom:34px}.stat p{max-width:240px;line-height:1.3;color:var(--mut)}
+#hero .giant{grid-column:1/-1;align-self:end;display:flex;font-size:clamp(90px,21vw,340px);margin:0 -1vw -.06em;white-space:nowrap;overflow:hidden;padding-top:.05em}
+#hero .giant span{display:inline-block;transform:translateY(105%);animation:up 1.1s cubic-bezier(.2,.8,.1,1) forwards;animation-delay:calc(var(--i) * .07s + .2s)}
+@keyframes up{to{transform:none}}
+.dot{display:inline-block;width:.14em;height:.14em;border-radius:50%;background:var(--or);align-self:flex-end;margin:0 0 .1em .03em;animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.5)}}
+.marq{background:var(--or);color:var(--bk);overflow:hidden;white-space:nowrap;padding:14px 0;transform:rotate(-1.2deg);margin:0 -2vw;position:relative;z-index:2}
+.marq div{display:inline-block;animation:mq 26s linear infinite;font:900 clamp(20px,2.6vw,34px) var(--wide);font-stretch:125%;text-transform:uppercase}
+.marq span{margin:0 28px}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* figures */
+#figs{padding-top:18vh;padding-bottom:14vh}
+#figs h2{font-size:clamp(34px,6vw,100px);max-width:900px;margin-bottom:12vh}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #fff3}
+.grid4 .stat{padding:20px 20px 30px 0;border-right:1px solid #fff2;margin-right:20px}
+.grid4 .stat:last-child{border:0}
+.grid4 .stat b{font-size:clamp(34px,5.4vw,84px);margin:36px 0 12px}
+.grid4 .stat b em{font-style:normal;color:var(--or)}
+.lbl:before{content:"● ";color:var(--or)}
+
+/* formats wipe */
+#formats{height:calc(100vh * 3);padding:0}
+#formats .pin{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:1.1fr 1fr;overflow:hidden}
+.fc{position:relative;overflow:hidden}
+.fp{position:absolute;inset:0;visibility:hidden}
+.fp.im2 .img{position:absolute;inset:0}
+.fp.im2 .img img,.fp.im2 .img .ph{transform:scale(1.12)}
+.fp.im2.act .img img,.fp.im2.act .img .ph{transform:scale(1)}
+.fp.im2 .img .ph{font-size:clamp(80px,16vw,260px)}
+.fp.tx{padding:calc(var(--pad) + 40px) var(--pad) var(--pad);display:flex;flex-direction:column}
+.fp.tx.lt{background:var(--wh);color:var(--bk)}.fp.tx.dk{background:var(--bk2)}
+.fp .cnt{position:absolute;right:var(--pad);top:calc(var(--pad) + 40px)}.fp .cnt b{color:var(--or)}
+.fp h2{font-size:clamp(38px,5.2vw,86px);margin:12vh 0 22px}
+.fp .sub{font-family:var(--mono);text-transform:uppercase;font-size:clamp(15px,1.5vw,21px);max-width:440px;line-height:1.2}
+.fp .cta{margin-top:28px;align-self:flex-start}
+.fp dl{display:grid;grid-template-columns:auto auto;gap:22px 40px;justify-content:start;margin-top:auto;padding-top:20px;border-top:1px solid currentColor}
+.fp dt{font:13px var(--mono);text-transform:uppercase;opacity:.55}
+.fp dd{font:900 clamp(14px,1.4vw,19px) var(--wide);font-stretch:125%;text-transform:uppercase;margin-top:2px}
+#prog{position:absolute;left:0;bottom:0;height:4px;background:var(--or);width:0;z-index:5}
+
+/* set up */
+#set{padding-top:16vh}
+#set h2{font-size:clamp(34px,6vw,100px);max-width:800px}
+#set>p{font:clamp(14px,1.3vw,18px) var(--mono);text-transform:uppercase;max-width:400px;margin:40px 0 10vh auto;color:var(--mut)}
+.row{display:grid;grid-template-columns:90px 1.2fr 1fr;gap:24px;align-items:center;padding:26px 0;border-top:1px solid #fff3;position:relative}
+.row:last-child{border-bottom:1px solid #fff3}
+.row h3{font-size:clamp(20px,2.6vw,38px);margin-bottom:12px;transition:color .3s,transform .5s}
+.row:hover h3{color:var(--or);transform:translateX(12px)}
+.row p{max-width:380px;line-height:1.5;color:var(--mut)}
+.row .img{height:170px;width:min(100%,320px);justify-self:end}
+
+/* partnership */
+#part{padding:0;display:grid;grid-template-columns:1fr 1fr;background:var(--bk)}
+#part .L{position:sticky;top:0;height:100vh;display:grid;place-content:center;text-align:center;overflow:hidden}
+#part .L .img{position:absolute;inset:0}
+#part .L .img:after{opacity:.0}
+#part .L:before{content:"";position:absolute;inset:0;background:#000a;z-index:1}
+#part .L div.t{position:relative;z-index:2}
+#part .L p{margin-bottom:14px}
+#part .L h2{font-size:clamp(40px,6vw,96px)}
+#part .L h2 em{font-style:normal;color:var(--or)}
+#part .R{background:var(--wh);color:var(--bk);padding:var(--pad)}
+#part .R>p{font:clamp(15px,1.6vw,23px) var(--mono);text-transform:uppercase;line-height:1.25;margin:70px 0 80px}
+.term{border-top:1px solid #0003;padding:16px 0 80px}
+.term .l{display:flex;justify-content:space-between;font:13px var(--mono);text-transform:uppercase}
+.term .l span:last-child{color:var(--or)}
+.term b{display:block;font:900 clamp(30px,4.2vw,62px)/1 var(--wide);font-stretch:125%;text-transform:uppercase;margin:16px 0 36px}
+.term p{max-width:360px;line-height:1.4}
+
+/* app */
+#app{display:grid;grid-template-columns:1.1fr 1fr 1fr;align-items:center;min-height:100vh;gap:30px}
+#app h2{font-size:clamp(30px,4.4vw,70px);margin-bottom:20px}
+#app p{color:var(--mut);line-height:1.5;max-width:380px}
+.phone{width:240px;height:440px;margin:auto;border:10px solid var(--wh);border-radius:38px;background:var(--bk2);overflow:hidden;transform:rotate(8deg);animation:float 6s ease-in-out infinite}
+@keyframes float{50%{transform:rotate(5deg) translateY(-14px)}}
+.phone .t{background:var(--or);color:var(--bk);height:120px;padding:20px 14px;font:900 16px var(--wide)}
+.phone .mm{padding:14px;font:900 28px var(--wide)}
+.phone .mm small{display:block;font:11px var(--mono);color:var(--mut);text-transform:uppercase}
+.phone .mm i{display:block;height:2px;background:linear-gradient(90deg,var(--or) 60%,transparent);margin:6px 0 18px}
+#app .feat h3{font-size:20px;margin:16px 0 10px}
+#app .feat span{display:block;width:46px;height:46px;border-radius:50%;background:var(--or);box-shadow:24px 0 0 -8px var(--wh)}
+.three{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #fff3;margin:12vh var(--pad) 0}
+.three div{padding:34px 24px 40px 0;border-right:1px solid #fff2;margin-right:24px}
+.three div:last-child{border:0}
+.three h3{font-size:clamp(20px,2.4vw,34px);margin-bottom:14px}
+.three p{margin-bottom:20px;line-height:1.45;color:var(--mut)}
+.three .img{height:300px;margin-top:30px}
+
+/* apply */
+#apply{background:var(--or);color:var(--bk);margin-top:14vh;padding:12vh var(--pad) 40px}
+#apply h2{font-size:clamp(50px,13vw,230px);margin-bottom:6vh}
+#apply form{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px}
+#apply input,#apply select{background:transparent;border:0;border-bottom:2px solid var(--bk);color:inherit;font:16px var(--mono);padding:14px 0;outline:0;text-transform:uppercase}
+#apply input::placeholder{color:#0a0a0a99}
+#apply button{grid-column:1/-1;justify-self:start;margin-top:16px;background:var(--bk);color:var(--wh);border:0;padding:18px 40px;font:700 14px var(--mono);text-transform:uppercase;cursor:pointer;transition:transform .3s}
+#apply button:hover{transform:translateX(10px)}
+#apply .ok{margin-top:20px;font-family:var(--mono)}
+#apply .ft{display:flex;justify-content:space-between;margin-top:10vh}
+
+@media(max-width:800px){
+ #hero,#app,#part{grid-template-columns:1fr}#hero .right{justify-self:start}
+ #formats .pin{grid-template-columns:1fr;grid-template-rows:42% 58%}.fp h2{margin-top:5vh}.fp.tx{padding-top:var(--pad)}.fp .cnt{top:var(--pad)}
+ .grid4,.three{grid-template-columns:1fr 1fr}.three{grid-template-columns:1fr}
+ .row{grid-template-columns:44px 1fr}.row .img{grid-column:1/-1;justify-self:stretch}
+ #part .L{position:relative;height:60vh}#apply form{grid-template-columns:1fr}nav .links{gap:14px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}[data-r]{opacity:1;transform:none}#hero .giant span{transform:none}}
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;opacity:0}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<canvas id="gl"></canvas>
+<nav class="m"><a href="#hero">Mr.BLACK</a><div class="links"><a href="#formats">Formats</a><a href="#part">Partnership</a><a href="#apply">Apply</a></div></nav>
+
+<section id="hero">
+  <div class="left" data-r>
+    <h2>Mr.BLACK Franchise</h2>
+    <p>Open a Mr.BLACK coffee shop in your city.<br>$12,000 a year and up, at a 31% margin.</p>
+    <a class="cta" href="#apply">Apply now</a>
+  </div>
+  <div class="right" data-r style="--d:.2s">
+    <div class="stat"><b>$ 12–36K</b><p>Net profit a year</p></div>
+    <div class="stat"><b>$ 683K</b><p>The network's revenue last year</p></div>
+  </div>
+  <h1 class="giant" id="giant"></h1>
+</section>
+<div class="marq"><div id="mq"></div></div>
+
+<section id="figs">
+  <h2 data-r>Business in exact figures</h2>
+  <div class="grid4">
+    <div class="stat" data-r><div class="lbl m">Revenue</div><b>$ 683K</b><p>The network's revenue last year.</p></div>
+    <div class="stat" data-r><div class="lbl m">Geography</div><b>12<em>+</em></b><p>Locations open, with a steady stream of regulars.</p></div>
+    <div class="stat" data-r><div class="lbl m">Payback</div><b>6 Months</b><p>How long it takes the average partner to make their money back.</p></div>
+    <div class="stat" data-r><div class="lbl m">Profit</div><b>31<em>%</em></b><p>Net margin — 7 points above the market average.</p></div>
+  </div>
+</section>
+
+<section id="formats"><div class="pin"><div class="fc" id="fL"></div><div class="fc" id="fR"></div><div id="prog"></div></div></section>
+
+<section id="set">
+  <h2 data-r>We set the whole thing up</h2>
+  <p data-r>We provide proven tools, standards and years of team experience for a confident launch.</p>
+  <div class="row" data-r><span class="m">01</span><div><h3>Our menu, and the recipes behind it</h3><p>A ready-to-use process base with regular seasonal drink updates.</p></div><div class="img" data-slot="steps" data-i="0"></div></div>
+  <div class="row" data-r><span class="m">02</span><div><h3>Site search and store design</h3><p>We help select a profitable location and develop the coffee shop layout.</p></div><div class="img" data-slot="steps" data-i="1"></div></div>
+  <div class="row" data-r><span class="m">03</span><div><h3>Training for your team</h3><p>A step-by-step program that trains baristas and managers from scratch.</p></div><div class="img" data-slot="steps" data-i="2"></div></div>
+  <div class="row" data-r><span class="m">04</span><div><h3>Equipment and opening stock</h3><p>We fully equip your coffee shop with reliable hardware, without markups or unnecessary middlemen.</p></div><div class="img" data-slot="steps" data-i="3"></div></div>
+  <div class="row" data-r><span class="m">05</span><div><h3>Network-wide purchasing</h3><p>Low prices on coffee beans, milk and branded supplies through network-wide volumes and contracts.</p></div><div class="img" data-slot="steps" data-i="4"></div></div>
+</section>
+
+<section id="part">
+  <div class="L"><div class="img" data-slot="partner"></div><div class="t"><p class="m">We don't just brew coffee. We set trends.</p><h2>Partnership<em>.</em></h2></div></div>
+  <div class="R">
+    <div class="m" style="color:#0009">Terms &amp; figures</div>
+    <p data-r>Our financial model is fully transparent, contains no hidden fees and is designed to help you recoup your investment as quickly as possible.</p>
+    <div class="term" data-r><div class="l"><span>Investment</span><span>01.</span></div><b>$21,600 and up</b><p>Covers equipment, opening stock, design and renovation.</p></div>
+    <div class="term" data-r><div class="l"><span>Upfront fee</span><span>02.</span></div><b>$4,700</b><p>The one-time entry fee that gives you access to the brand, systems and launch support.</p></div>
+    <div class="term" data-r><div class="l"><span>Royalty</span><span>03.</span></div><b>4% a month</b><p>A monthly fee charged only from the sixth month after opening, giving you time to become profitable.</p></div>
+    <div class="term" data-r><div class="l"><span>Payback</span><span>04.</span></div><b>10 months and up</b><p>A partner's real net income from one location after all expenses.</p></div>
+  </div>
+</section>
+
+<section id="app">
+  <div data-r><h2>Your business, in your pocket</h2><p>Automation takes most of the guesswork out. You don't have to live at the shop to know how it's doing.</p></div>
+  <div class="phone"><div class="t">Mr. BLACK</div><div class="mm"><small>Total sales</small>$2,347<i></i><small>Avg. check</small>$15.65<i></i><small>Checks · Guests</small>150 · 151</div></div>
+  <div class="feat" data-r><span></span><h3>Inventory that counts itself</h3><p>The system tracks cups, beans and syrups, then automatically sends accurate orders to suppliers.</p></div>
+</section>
+<div class="three">
+  <div data-r><h3>Margin growth</h3><p>Gain an extra 20% in profit through the recognition and strong reputation of the Mr.BLACK brand.</p><a class="cta" href="#apply">Learn more</a><div class="img" data-slot="benefits" data-i="0"></div></div>
+  <div data-r style="--d:.1s"><h3>Loyal audience</h3><p>Regular customers trust our quality and return every day.</p><a class="cta" href="#apply">Learn more</a><div class="img" data-slot="benefits" data-i="1"></div></div>
+  <div data-r style="--d:.2s"><h3>Marketing reach</h3><p>More than 3,000,000 annual ad views driven by distinctive creative marketing.</p><a class="cta" href="#apply">Learn more</a><div class="img" data-slot="benefits" data-i="2"></div></div>
+</div>
+
+<section id="apply">
+  <h2 data-r>Apply now</h2>
+  <form id="f"><input required placeholder="Name"><input required type="email" placeholder="Email"><select><option>To Go</option><option>Lounge</option><option>Coffee Shop</option></select><button>Send application</button></form>
+  <div class="ok" id="ok"></div>
+  <div class="ft m"><span>Mr.BLACK © <span id="yy"></span></span><a href="#hero">Back to top ↑</a></div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* =====================================================================
+   EDIT HERE — put your own photos in an  images/  folder next to this
+   file and set the file names below. A missing file shows a numbered
+   placeholder, so the page works before you add anything.
+   ===================================================================== */
+const IMAGE_PATH = "images/";
+const IMAGES = {
+  formats:  ["togo.jpg", "lounge.jpg", "coffee-shop.jpg"],                       // big wipe images
+  steps:    ["menu.jpg", "design.jpg", "training.jpg", "equipment.jpg", "purchasing.jpg"], // "set the whole thing up" rows
+  partner:  "partnership.jpg",                                                   // partnership background
+  benefits: ["margin.jpg", "audience.jpg", "reach.jpg"]                          // three columns
+};
+const FORMATS = [
+  { t:"To Go",       s:"The fastest way in, and it barely takes up any space.", p:"$1,200/mo and up*", f:"2 m² and up",  i:"$16,800 and up*" },
+  { t:"Lounge",      s:"A coffee shop with a few seats and a pastry case.",     p:"$1,800/mo and up*", f:"30 m² and up", i:"$22,800 and up*" },
+  { t:"Coffee Shop", s:"A full venue with a seating area and a larger menu.",   p:"$3,200/mo and up*", f:"From 60 m²",   i:"$36,000 and up*" }
+];
+/* The travelling 3D cup. label = text on the sleeve, logo = optional image
+   file in your images/ folder (leave "" to use the text). */
+const CUP = { label:"YOUR LOGO", logo:"", body:"#efeeea", band:"#ff4d00", ink:"#0a0a0a" };
+/* ===================================================================== */
+const $=id=>document.getElementById(id), p2=n=>String(n).padStart(2,'0');
+
+function fillImg(box,file,label){
+  const im=new Image();im.alt='';im.src=IMAGE_PATH+file;
+  im.onerror=()=>{const ph=document.createElement('div');ph.className='ph';ph.textContent=label;ph.style.background=`hsl(0 0% ${9+(parseInt(label)||1)%5*4}%)`;im.replaceWith(ph)};
+  box.appendChild(im);
+}
+document.querySelectorAll('[data-slot]').forEach(b=>{
+  const s=b.dataset.slot,i=+(b.dataset.i||0),f=Array.isArray(IMAGES[s])?IMAGES[s][i]:IMAGES[s];
+  fillImg(b,f||'',p2(i+1));
+});
+[..."Mr. BLACK"].forEach((c,i)=>{const s=document.createElement('span');s.innerHTML=c===' '?'&nbsp;':c;s.style.setProperty('--i',i);$('giant').appendChild(s)});
+$('giant').insertAdjacentHTML('beforeend','<i class="dot"></i>');
+$('mq').innerHTML=[0,1].map(()=>['To Go','Lounge','Coffee Shop','Apply now'].map(t=>`<span>${t}</span><span>✱</span>`).join('')).join('');
+$('yy').textContent=new Date().getFullYear();
+$('f').onsubmit=e=>{e.preventDefault();$('ok').textContent='Thanks — we will be in touch shortly.'};
+
+/* reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('[data-r]').forEach(el=>io.observe(el));
+
+/* formats: vertical split wipe */
+const N=FORMATS.length,sec=$('formats');
+sec.style.height=`calc(100vh * ${N})`;
+const L=FORMATS.map((m,i)=>{const d=document.createElement('div');d.className='fp im2';const b=document.createElement('div');b.className='img';d.appendChild(b);fillImg(b,IMAGES.formats[i]||'',p2(i+1));$('fL').appendChild(d);return d});
+const R=FORMATS.map((m,i)=>{const d=document.createElement('div');d.className='fp tx '+(i%2?'dk':'lt');
+  d.innerHTML=`<div class="cnt m"><b>${p2(i+1)}</b>/${p2(N)}</div><h2>${m.t}</h2><p class="sub">${m.s}</p><a class="cta" href="#apply">Apply now</a><dl><div><dt>Average profit</dt><dd>${m.p}</dd></div><div></div><div><dt>Footprint</dt><dd>${m.f}</dd></div><div><dt>Investment</dt><dd>${m.i}</dd></div></dl>`;
+  $('fR').appendChild(d);return d});
+let pos=0,snap;
+const tgt=()=>{const r=sec.getBoundingClientRect(),max=sec.offsetHeight-innerHeight;return Math.min(1,Math.max(0,-r.top/max))*(N-1)};
+function render(){
+  const base=Math.min(N-1,Math.floor(pos)),f=pos-base;
+  [L,R].forEach(arr=>{
+    arr.forEach(el=>{el.style.visibility='hidden';el.style.clipPath='none';el.style.zIndex=0;el.classList.remove('act')});
+    arr[base].style.visibility='visible';arr[base].style.zIndex=1;arr[base].classList.add('act');
+    if(f>.0005&&base+1<N){const b=arr[base+1];b.style.visibility='visible';b.style.zIndex=2;b.style.clipPath=`inset(${((1-f)*100).toFixed(3)}% 0 0 0)`;if(f>.5)b.classList.add('act')}
+  });
+  $('prog').style.width=(pos/(N-1||1))*100+'%';
+}
+(function loop(){const d=tgt()-pos;if(Math.abs(d)>.0005){pos+=d*.1;render()}requestAnimationFrame(loop)})();
+addEventListener('scroll',()=>{
+  $('bar').style.width=(scrollY/(document.documentElement.scrollHeight-innerHeight))*100+'%';
+  clearTimeout(snap);snap=setTimeout(()=>{const r=sec.getBoundingClientRect(),max=sec.offsetHeight-innerHeight;
+    if(r.top>0||-r.top>max)return;const y=scrollY+r.top+(Math.round(tgt())/(N-1||1))*max;
+    if(Math.abs(y-scrollY)>2)scrollTo({top:y,behavior:'smooth'})},180)
+},{passive:true});
+render();
+
+/* ================= travelling 3D cup ================= */
+(function(){
+  if(!window.THREE)return;
+  const cv=$('gl');let renderer;
+  try{renderer=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true})}catch(e){return}
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(30,1,.1,100);cam.position.z=9;
+  scene.add(new THREE.AmbientLight(0xffffff,.75));
+  const key=new THREE.DirectionalLight(0xffffff,1.1);key.position.set(3,4,5);scene.add(key);
+  const rim=new THREE.PointLight(0xff4d00,1.6,20);rim.position.set(-4,1,-2);scene.add(rim);
+
+  // sleeve texture (drawn on a canvas so you can change label / logo)
+  const tc=document.createElement('canvas');tc.width=2048;tc.height=1024;const g=tc.getContext('2d');
+  const tex=new THREE.CanvasTexture(tc);tex.anisotropy=8;
+  function paint(logoImg){
+    g.fillStyle=CUP.body;g.fillRect(0,0,2048,1024);
+    g.fillStyle=CUP.band;g.fillRect(0,360,2048,330);
+    [512,1536].forEach(x=>{
+      if(logoImg){const r=Math.min(260/logoImg.height,420/logoImg.width);g.drawImage(logoImg,x-logoImg.width*r/2,525-logoImg.height*r/2,logoImg.width*r,logoImg.height*r)}
+      else{g.fillStyle=CUP.ink;g.beginPath();g.arc(x,455,22,0,7);g.fill();
+        g.font='900 92px Archivo, Arial Black, sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText(CUP.label.toUpperCase(),x,565)}
+    });
+    tex.needsUpdate=true;
+  }
+  paint();document.fonts&&document.fonts.ready.then(()=>paint());
+  if(CUP.logo){const im=new Image();im.onload=()=>paint(im);im.src=IMAGE_PATH+CUP.logo}
+
+  const cup=new THREE.Group();
+  const pts=[];for(let i=0;i<=24;i++){const t=i/24;pts.push(new THREE.Vector2(.52+.22*t,-1+2*t))}
+  cup.add(new THREE.Mesh(new THREE.LatheGeometry(pts,64),new THREE.MeshStandardMaterial({map:tex,roughness:.65,metalness:0,side:THREE.DoubleSide})));
+  const rimM=new THREE.Mesh(new THREE.TorusGeometry(.765,.04,14,64),new THREE.MeshStandardMaterial({color:CUP.body,roughness:.5}));rimM.rotation.x=Math.PI/2;rimM.position.y=1;cup.add(rimM);
+  const inner=new THREE.Mesh(new THREE.CylinderGeometry(.73,.51,1.96,48,1,true),new THREE.MeshStandardMaterial({color:0x151515,side:THREE.BackSide,roughness:.9}));cup.add(inner);
+  const drink=new THREE.Mesh(new THREE.CircleGeometry(.7,48),new THREE.MeshStandardMaterial({color:0xff6a1f,roughness:.4}));drink.rotation.x=-Math.PI/2;drink.position.y=.82;cup.add(drink);
+  scene.add(cup);
+
+  function size(){const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
+  addEventListener('resize',size);size();
+
+  // where the cup sits in each section (x,y: -1..1 of the visible area)
+  const ids=['hero','figs','formats','set','part','app','apply'];
+  const K=[
+    {x:0,   y:.1,  s:1.3, r:-.2, o:1},   // hero
+    {x:.55, y:.2,  s:.95,r:.3,  o:1},   // figures
+    {x:0,   y:0,   s:1,   r:0,   o:0},   // formats (hidden — wipe is the star)
+    {x:-.62,y:0,   s:.8, r:-.25,o:1},   // set up
+    {x:0,   y:0,   s:1,   r:0,   o:0},   // partnership (hidden)
+    {x:-.85,y:.55, s:.55,r:.2,  o:1},   // app
+    {x:.5,  y:-.05,s:1.5,r:-.3, o:1}    // apply
+  ];
+  const secs=ids.map($),sm=t=>t*t*(3-2*t),mix=(a,b,t)=>a+(b-a)*t;
+  const S={x:0,y:.1,s:1.3,r:-.2,o:0};
+  const calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function target(){
+    const c=scrollY+innerHeight*.5,tops=secs.map(e=>e.getBoundingClientRect().top+scrollY);
+    let i=0;tops.forEach((t,k)=>{if(t<=c)i=k});
+    const j=Math.min(i+1,K.length-1),end=tops[j]??tops[i]+innerHeight;
+    const f=i===j?0:sm(Math.min(1,Math.max(0,(c-(end-innerHeight))/innerHeight)));
+    const a=K[i],b=K[j];return{x:mix(a.x,b.x,f),y:mix(a.y,b.y,f),s:mix(a.s,b.s,f),r:mix(a.r,b.r,f),o:mix(a.o,b.o,f)}
+  }
+  function frame(){
+    const T=target();for(const k in S)S[k]+=(T[k]-S[k])*.08;
+    const hH=2*Math.tan(cam.fov*Math.PI/360)*cam.position.z,hW=hH*cam.aspect,m=innerWidth<800?.7:1;
+    cup.position.set(S.x*hW/2,S.y*hH/2,0);cup.scale.setScalar(S.s*m);
+    cup.rotation.set(.22,calm?0:scrollY*.0042,S.r);
+    cup.position.y+=calm?0:Math.sin(performance.now()/900)*.06;
+    cv.style.opacity=S.o.toFixed(3);
+    renderer.render(scene,cam);requestAnimationFrame(frame)
+  }
+  frame();
+})();
+</script>
+</body>
+</html>
