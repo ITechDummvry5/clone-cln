@@ -1,0 +1,37 @@
+/* FAQ page — scoped with .fq- prefix so it never fights style.css */
+.fq-black{position:relative;background:#000;color:#fff;overflow:hidden}
+.fq-hero{position:relative;height:min(92vh,780px);min-height:520px;background:transparent;color:#fff}
+.fq-defs{position:absolute;width:0;height:0}
+.fq-l{position:absolute;font-weight:800;line-height:.8;color:transparent;user-select:none;pointer-events:none;
+  background:linear-gradient(var(--a,160deg),#fff 15%,rgba(255,255,255,0) 85%);
+  -webkit-background-clip:text;background-clip:text;filter:url(#fqGrain)}
+.fq-l.f{font-size:clamp(260px,46vw,500px);left:12%;top:-8%;--a:170deg;transform:rotate(-8deg)}
+.fq-l.a{font-size:clamp(260px,46vw,500px);right:8%;top:4%;--a:15deg;transform:rotate(12deg)}
+.fq-l.q{font-size:clamp(280px,50vw,540px);left:24%;top:46%;--a:200deg;transform:rotate(-14deg)}
+.fq-hero p{position:absolute;margin:0;font-size:12px;line-height:1.4;color:#fff}
+.fq-p1{left:2%;top:44%;max-width:19ch}
+.fq-p2{left:56%;top:73%;max-width:34ch}
+
+.fq-list{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:32px 4vw;padding-top:12vh;padding-bottom:12vh}
+.fq-tag{max-width:20ch;font-size:13px;font-weight:500}
+.fq{list-style:none;margin:0;padding:0;max-width:720px;width:100%}
+.fq li{border-top:1px solid currentColor;border-color:rgba(128,128,128,.4)}
+.fq li:first-child{border-top:0}
+.fq button{all:unset;box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;gap:24px;width:100%;padding:15px 0;cursor:pointer;font-size:16px}
+.fq button:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+.fq-dot{flex:none;width:8px;height:8px;border-radius:50%;background:currentColor;transition:transform .3s,opacity .3s}
+.fq li.open .fq-dot{opacity:.45;transform:scale(.6)}
+.fq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.fq-a>div{overflow:hidden}
+.fq-a p{margin:0;padding:2px 24px 20px 0;font-size:13px;line-height:1.7;opacity:.85;max-width:70ch}
+.fq-a a{text-decoration:underline;text-underline-offset:3px}
+.fq li.open .fq-a{grid-template-rows:1fr}
+
+@media(max-width:720px){
+  .fq-hero{height:130vh;min-height:0}
+  .fq-l.f{left:-4%;top:-3%}.fq-l.a{right:-8%;top:10%}.fq-l.q{left:14%;top:48%}
+  .fq-p1{left:5vw;top:46%;max-width:24ch}
+  .fq-p2{left:30%;right:5vw;top:84%;max-width:none}
+  .fq-list{grid-template-columns:1fr;padding-top:6vh;padding-bottom:8vh}
+}
+@media(prefers-reduced-motion:reduce){.fq-a,.fq-dot{transition:none}}

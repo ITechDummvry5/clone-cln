@@ -1,0 +1,273 @@
+/* ===== Developer Quotes — logistics-style layout (no card box) ===== */
+#developer-quotes.dev-quotes-sec {
+  position: relative;
+  background: var(--bg);
+  padding: var(--space-2xl) 0 0;
+  overflow: hidden;
+  isolation: isolate;
+  --dq-h: clamp(340px, 58vh, 720px);
+  --dq-text-h: clamp(170px, 26vh, 280px);
+  /* quote font: change this one line to try other fonts */
+  --dq-quote-font: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+#developer-quotes > .wrap,
+#developer-quotes > .wrap-wide {
+  width: 100%;
+}
+
+#developer-quotes > .wrap-wide {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* orange band behind the truck */
+#developer-quotes .dq-band {
+  position: absolute;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  bottom: 0;
+  height: calc(var(--dq-h) * 0.5);
+  background: var(--acc);
+  z-index: 0;
+}
+
+/* strip every box style from the card */
+#developer-quotes .dev-quotes-card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  overflow: visible;
+}
+#developer-quotes .dev-quotes-card::before,
+#developer-quotes .dev-quotes-card::after { content: none; display: none; }
+
+#developer-quotes .dq-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: var(--space-xl);
+  align-items: start;
+  transition: opacity .25s ease, transform .25s ease;
+}
+
+/* ===== THE QUOTE TEXT (font changed here) ===== */
+#developer-quotes .quote-text {
+  margin: 0;
+  padding: 0;
+  max-width: none;
+  font-family: var(--dq-quote-font);
+  font-weight: 500;
+  font-style: italic;
+  font-size: clamp(24px, 3.4vw, 46px);
+  height: var(--dq-text-h);
+  overflow: hidden;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--acc);
+}
+
+#developer-quotes .dq-meta {
+  justify-self: end;
+  width: 100%;
+  max-width: 340px;
+  padding-top: 14px;
+}
+
+#developer-quotes .dq-by {
+  margin: 0 0 var(--space-md);
+  display: block;
+}
+
+#developer-quotes .quote-author-name,
+#developer-quotes .quote-author-role {
+  display: block;
+  margin: 0;
+  font-family: var(--hf);
+  font-weight: var(--fw-medium);
+  font-size: 11px;
+  line-height: 1.6;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--acc);
+}
+
+#developer-quotes .quote-nav {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+#developer-quotes.dev-quotes-sec {
+  --dq-h: clamp(380px, 68vh, 800px);      /* was clamp(340px, 58vh, 720px) */
+  --dq-text-h: clamp(130px, 20vh, 220px); /* was clamp(170px, 26vh, 280px) */
+}
+
+#developer-quotes .quote-btn {
+  width: auto;
+  height: auto;
+  border: 0;
+  cursor: pointer;
+  white-space: nowrap;
+  background: var(--acc);
+  color: #fff;
+  font: var(--fw-medium) 15px/1 var(--hf);
+  padding: 16px 34px;
+  border-radius: 2px;
+  box-shadow: none;
+  transition: background var(--tr-fast), transform var(--tr-fast);
+}
+#developer-quotes .quote-btn:hover { background: var(--acc-hover); }
+#developer-quotes .quote-btn:active { transform: translateY(1px); }
+
+#developer-quotes .quote-btn.prev {
+  display: grid;
+  place-items: center;
+  padding: 0 16px;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--acc);
+  color: var(--acc);
+}
+#developer-quotes .quote-btn.prev:hover { background: var(--acc); color: #fff; }
+
+/* truck stage */
+#developer-quotes .dq-stage {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: 0;
+  min-height: var(--dq-h);
+}
+
+#developer-quotes .dq-photo {
+  display: block;
+  height: var(--dq-h);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  transition: opacity .25s ease, transform .25s ease;
+}
+#developer-quotes .dev-quotes-card.is-changing .dq-photo {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* change animation (JS toggles .is-changing on #quotesSlider) */
+#developer-quotes .dev-quotes-card.is-changing .dq-top {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+@media (max-width: 860px) {
+  #developer-quotes .dq-top { grid-template-columns: 1fr; gap: var(--space-md); }
+  #developer-quotes .dq-meta { justify-self: start; }
+  #developer-quotes.dev-quotes-sec { --dq-h: 340px; --dq-text-h: 210px; }
+}
+
+/* ===== Corner details (counter + scroll badge) ===== */
+#developer-quotes .dq-corner {
+  position: absolute;
+  bottom: 28px;
+  z-index: 3;
+  color: var(--ink);
+}
+#developer-quotes .dq-left { left: 0; }
+#developer-quotes .dq-right { right: 0; }
+
+/* rotating scroll badge */
+#developer-quotes .dq-badge {
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 112px;
+  text-decoration: none;
+}
+#developer-quotes .dq-badge > svg {
+  position: absolute;
+  inset: 0;
+  animation: dqSpin 16s linear infinite;
+}
+#developer-quotes .dq-ring-text {
+  font: var(--fw-bold) 9.5px var(--hf);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  fill: var(--ink);
+}
+#developer-quotes .dq-arrow {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fff;
+  transition: transform var(--tr-normal);
+}
+#developer-quotes .dq-badge:hover .dq-arrow { transform: translateY(4px); }
+@keyframes dqSpin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  #developer-quotes .dq-badge > svg { animation: none; }
+}
+@media (max-width: 600px) {
+  #developer-quotes .dq-right { display: none; }
+}
+
+/* ===== Author signature (bottom-left) ===== */
+#developer-quotes .dq-sign {
+  max-width: 34%;
+  transform: rotate(-5deg);
+  transform-origin: left bottom;
+  transition: opacity .25s ease, transform .25s ease;
+}
+#developer-quotes .dq-sign span {
+  display: block;
+  font-family: 'Mrs Saint Delafield', 'Segoe Script', cursive;
+  font-size: clamp(52px, 6vw, 96px);
+  line-height: .9;
+  letter-spacing: 0;
+  white-space: nowrap;
+  color: var(--ink);
+}
+#developer-quotes .dq-sign img {
+  display: block;
+  height: clamp(60px, 8vw, 110px);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+#developer-quotes .dev-quotes-card.is-changing .dq-sign {
+  opacity: 0;
+  transform: rotate(-5deg) translateY(8px);
+}
+@media (max-width: 860px) {
+  #developer-quotes .dq-sign span { font-size: 48px; }
+}
+@media (max-width: 600px) {
+  #developer-quotes .dq-sign { max-width: 46%; }
+  #developer-quotes .dq-sign span { font-size: 36px; }
+}
+#developer-quotes .dq-sign [hidden] { display: none; }

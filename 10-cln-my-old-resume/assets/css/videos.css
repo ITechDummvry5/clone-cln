@@ -1,0 +1,323 @@
+/* ===== videos: stacked cards that slide up over each other (scroll-driven) ===== */
+.vsec {
+  position: relative;
+  padding: 0;
+}
+
+/* ---- default / no-JS / reduced motion / short screens ---- */
+.vsec .vview { padding: 0; max-width: none; margin: 0; }
+.vsec .vg { display: flex; flex-direction: column; grid-template-columns: none; gap: 0; width: auto; }
+
+.vsec .vi {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  overflow: hidden;
+  padding: 20px clamp(20px, 5vw, 80px) 24px;
+  background: var(--pc, var(--card));
+}
+
+.vsec .vi h3 {
+  order: 1;
+  margin: 0 0 -.3em;
+  padding: 0;
+  position: relative;
+  z-index: 2;
+  font: var(--fw-extrabold) clamp(34px, 8vw, 92px)/1 var(--hf);
+  letter-spacing: -.01em;
+}
+
+.vsec .vi .v { order: 2; aspect-ratio: 16 / 10; border-radius: 6px; }
+.vsec .vi > span { order: 0; padding: 0; margin-bottom: 10px; color: var(--acc); }
+
+/* background colors repeat every 6 cards */
+.vsec .vi:nth-child(6n+1) { --pc: #2a1650; }
+.vsec .vi:nth-child(6n+2) { --pc: #17140f; }
+.vsec .vi:nth-child(6n+3) { --pc: #3a1230; }
+.vsec .vi:nth-child(6n+4) { --pc: #1b2733; }
+.vsec .vi:nth-child(6n+5) { --pc: #3a2a12; }
+.vsec .vi:nth-child(6n+6) { --pc: #062c30; }
+
+/* vertical parallax inside the image box */
+.vsec .v {
+  background-size: 100% 128% !important;
+  background-position: 50% calc(50% + var(--py, 0) * 50%) !important;
+  overflow: hidden;
+}
+
+.vsec .v img {
+  transform: translate3d(0, calc(var(--py, 0) * 7%), 0) scale(1.16);
+}
+
+/* ---- pinned mode ---- */
+.vsec.is-pinned { margin-top: -104px; }
+.vsec.is-pinned .vstage { pointer-events: none; position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; box-sizing: border-box; padding-top: 104px; padding-bottom: 0; display: flex; flex-direction: column; }
+.vsec.is-pinned .vview { position: relative; flex: 1; min-height: 0; width: 100%; overflow: hidden; border-radius: 0; }
+.vsec.is-pinned .vg { position: absolute; inset: 0; display: block; }
+.vsec.is-pinned .vi { position: absolute; inset: 0; border-radius: 0; padding: clamp(14px, 2.4vw, 28px) clamp(20px, 5vw, 80px); will-change: transform, filter; transform-origin: 50% 0; }
+.vsec.is-pinned .vi .v { flex: 1; min-height: 0; aspect-ratio: auto; width: 100%; max-width: none; align-self: center; }
+.vsec.is-pinned .vi > span { position: absolute; right: clamp(20px, 5vw, 80px); top: clamp(14px, 2.4vw, 28px); margin: 0; z-index: 3; }
+
+/* ===== Developer Philosophy & Quotes Section ===== */
+.dev-quotes-sec {
+  position: relative;
+  z-index: 5;
+  padding: 85px 0;
+  background: linear-gradient(180deg, var(--deep) 0%, #151515 50%, var(--bg) 100%);
+  border-top: 1px solid rgba(var(--acc-rgb), 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.dev-quotes-head {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.dev-quotes-head small {
+  display: inline-block;
+  font: var(--fw-extrabold) 12px var(--hf);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--acc);
+  margin-bottom: 8px;
+}
+
+.dev-quotes-head h2 {
+  position: relative;
+  font: var(--fw-extrabold) clamp(30px, 5vw, 46px)/1.1 var(--hf);
+  color: var(--text);
+  margin: 0 0 10px;
+}
+
+.dev-quotes-head h2::before {
+  content: attr(data-g);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -55%);
+  font-size: 1.6em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.06);
+  z-index: -1;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.dev-quotes-sub {
+  color: var(--text-dim);
+  font-size: var(--fs-md);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.dev-quotes-card {
+  position: relative;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 44px 52px;
+  background: rgba(30, 30, 30, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.dev-quotes-card.is-changing .quote-content-wrap {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.quote-content-wrap {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.quote-bg-glow {
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(var(--acc-rgb), 0.2) 0%, transparent 70%);
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.quote-watermark {
+  position: absolute;
+  top: 10px;
+  right: 36px;
+  font-family: Georgia, serif;
+  font-size: 130px;
+  line-height: 1;
+  color: rgba(var(--acc-rgb), 0.12);
+  user-select: none;
+  pointer-events: none;
+}
+
+.quote-tag {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 12px;
+  background: rgba(var(--acc-rgb), 0.15);
+  border: 1px solid rgba(var(--acc-rgb), 0.3);
+  color: var(--acc);
+  font: var(--fw-extrabold) 10px var(--hf);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.quote-text {
+  margin: 0 0 24px;
+  padding: 0;
+  font: var(--fw-bold) clamp(20px, 3.2vw, 27px)/1.4 var(--hf);
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.quote-author-block {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.quote-author-name {
+  font: var(--fw-extrabold) 16px var(--hf);
+  color: var(--text);
+  margin: 0 0 2px;
+}
+
+.quote-author-role {
+  font-size: var(--fs-xs);
+  color: var(--mute);
+  display: block;
+}
+
+.quote-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 28px;
+}
+
+.quote-dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quote-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all var(--tr-normal);
+}
+
+.quote-dot.active {
+  width: 26px;
+  border-radius: 5px;
+  background: var(--acc);
+  box-shadow: 0 0 12px rgba(var(--acc-rgb), 0.5);
+}
+
+.quote-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quote-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--tr-fast);
+}
+
+.quote-btn:hover {
+  background: var(--acc);
+  border-color: var(--acc);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(var(--acc-rgb), 0.4);
+}
+
+@media(max-width: 768px) {
+  .dev-quotes-card {
+    padding: 30px 22px;
+    margin: 0 12px;
+  }
+  .quote-watermark {
+    font-size: 80px;
+    right: 18px;
+  }
+}
+
+/* ---- real video inside card ---- */
+.vsec .v[data-video], .vsec .v[data-embed] { cursor: pointer; }
+/* FIX 1: every card takes clicks in pinned mode, so a click can never fall through to a hidden card */
+.vsec.is-pinned .v { pointer-events: auto; }
+.vsec .v video, .vsec .v iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover; background: #000; z-index: 3; }
+.vsec .v.playing::after { display: none; }
+
+/* ---- play button ---- */
+.vsec .v::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 88px;
+  height: 88px;
+  border: 1.5px solid rgba(var(--paper-rgb), .85);
+  border-radius: 50%;
+  background: rgba(var(--ink-rgb), .45) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23f1ede4' d='M8 5.2v13.6a1 1 0 0 0 1.5.86l11-6.8a1 1 0 0 0 0-1.72l-11-6.8A1 1 0 0 0 8 5.2z'/%3E%3C/svg%3E") 54% 50%/34% no-repeat;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transform: none;
+  transition: transform var(--tr-normal), background-color var(--tr-normal), border-color var(--tr-normal);
+  pointer-events: none;
+}
+
+.vsec .v:hover::after {
+  transform: scale(1.1);
+  background-color: var(--acc);
+  border-color: var(--acc);
+}
+
+/* FIX 2: no play button on cards that have no video */
+.vsec .v:not([data-video]):not([data-embed])::after { display: none; }
+
+@media(max-width: 860px) { .vsec .v::after { width: 64px; height: 64px; } }
+
+/* dim the project thumbnails a little (brighten slightly on hover) */
+.vsec .v img { filter: brightness(.8); transition: filter var(--tr-normal); }
+.vsec .v:hover img { filter: brightness(.95); }
+
+/* project links in the label span: the pinned stage has pointer-events:none, so turn it back on for the link */
+.vsec .vi > span,
+.vsec .vi > span a { pointer-events: auto; }
+.vsec .vi > span a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+  transition: color var(--tr-fast);
+}
+.vsec .vi > span a:hover,
+.vsec .vi > span a:focus-visible { color: #fff; }

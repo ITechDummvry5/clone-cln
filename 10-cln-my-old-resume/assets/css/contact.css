@@ -1,0 +1,135 @@
+/* ===== contact.css — floating info badges around the circle photo ===== */
+
+/* wrapper holds the circle + badges */
+.cf .pic-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.cf .pic-wrap .pic {
+  width: 100%;
+  box-shadow: var(--shadow-float);
+}
+
+.cf .pic-wrap::before {
+  /* soft orange ring behind the circle */
+  content: "";
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  border: 1px dashed rgba(var(--acc-rgb), .45);
+  pointer-events: none;
+}
+
+/* badge base */
+.badge {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: max-content;
+  max-width: none;
+  padding: 14px 20px 14px 14px;
+  background: rgba(var(--card-rgb), .82);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--line-light);
+  border-radius: 14px;
+  box-shadow: var(--shadow-float);
+  animation: badge-float 6s ease-in-out infinite;
+  transition: border-color var(--tr-fast), box-shadow var(--tr-fast);
+}
+
+.badge:hover {
+  border-color: var(--acc);
+  box-shadow: 0 18px 40px -12px rgba(var(--acc-rgb), .35);
+}
+
+.badge .bi {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--acc);
+}
+
+.badge .bi svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.badge small {
+  display: block;
+  font: var(--fw-extrabold) 10px var(--bf);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--acc);
+  margin-bottom: 3px;
+}
+
+.badge p {
+  margin: 0;
+  font: var(--fw-bold) 12.5px/1.55 var(--bf);
+  color: #fff;
+  white-space: nowrap;
+}
+
+.badge a {
+  display: block;
+  transition: color var(--tr-fast);
+}
+
+.badge a:hover {
+  color: var(--acc);
+}
+
+/* positions (desktop) */
+.badge.b-addr { top: 6%; left: -10%; animation-delay: 0s; }
+.badge.b-tel { top: 44%; right: -10%; animation-delay: -2s; }
+.badge.b-mail { bottom: 5%; left: -8%; animation-delay: -4s; }
+
+@keyframes badge-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* tablet: pull badges in */
+@media(max-width: 1100px) {
+  .badge.b-tel { right: -4%; }
+  .badge.b-mail { left: -4%; }
+  .badge.b-addr { left: -5%; }
+  .badge p { font-size: 11.5px; }
+  .badge .bi { width: 38px; height: 38px; }
+}
+
+/* mobile: circle on top, badges stacked beneath it */
+@media(max-width: 860px) {
+  .cf .pic-wrap { max-width: 360px; }
+  .cf .pic-wrap::before { display: none; }
+  .cf .pic-wrap { display: flex; flex-direction: column; gap: 14px; }
+  .badge, .badge.b-addr, .badge.b-mail, .badge.b-tel {
+    position: static;
+    width: 100%;
+    animation: none;
+  }
+  .badge p { white-space: normal; word-break: break-word; }
+  .cf .pic-wrap .pic { margin-bottom: 6px; }
+}
+
+@media(prefers-reduced-motion: reduce) {
+  .badge { animation: none; }
+}
+
+.dv + section {
+  padding-top: 50px;
+}

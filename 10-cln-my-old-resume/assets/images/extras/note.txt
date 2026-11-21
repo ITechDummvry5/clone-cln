@@ -1,0 +1,2 @@
+    data-video="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+       data-embed="https://www.youtube.com/embed/jNQXAC9IVRw"
