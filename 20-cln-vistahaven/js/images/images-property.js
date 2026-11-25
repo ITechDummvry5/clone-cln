@@ -1,0 +1,25 @@
+// Property detail page: main + 2 side photos per property, plus agent avatars
+const IMAGES_PROPERTY = {
+  "billionaire-mansion":   "assets/properties/billionaire-mansion.jpg",
+  "billionaire-mansion-2": "assets/properties/billionaire-mansion-2.jpg",
+  "billionaire-mansion-3": "assets/properties/billionaire-mansion-3.jpg",
+  "palazzo-di-amore":      "assets/properties/palazzo-di-amore.jpg",
+  "palazzo-di-amore-2":    "assets/properties/palazzo-di-amore-2.jpg",
+  "palazzo-di-amore-3":    "assets/properties/palazzo-di-amore-3.jpg",
+  "the-one":               "assets/properties/the-one.jpg",
+  "the-one-2":             "assets/properties/the-one-2.jpg",
+  "the-one-3":             "assets/properties/the-one-3.jpg",
+  "the-beverly-house":     "assets/properties/the-beverly-house.jpg",
+  "the-beverly-house-2":   "assets/properties/the-beverly-house-2.jpg",
+  "the-beverly-house-3":   "assets/properties/the-beverly-house-3.jpg",
+  "the-manor":             "assets/properties/the-manor.jpg",
+  "the-manor-2":           "assets/properties/the-manor-2.jpg",
+  "the-manor-3":           "assets/properties/the-manor-3.jpg",
+  "penthouse-century-city":   "assets/properties/penthouse-century-city.jpg",
+  "penthouse-century-city-2": "assets/properties/penthouse-century-city-2.jpg",
+  "penthouse-century-city-3": "assets/properties/penthouse-century-city-3.jpg",
+  isabella: "assets/agents/isabella.jpg", noah: "assets/agents/noah.jpg",
+  benjamin: "assets/agents/benjamin.jpg", emily: "assets/agents/emily.jpg",
+  michael: "assets/agents/michael.jpg", charlotte: "assets/agents/charlotte.jpg",
+  sophia: "assets/agents/sophia.jpg", liam: "assets/agents/liam.jpg"
+};
