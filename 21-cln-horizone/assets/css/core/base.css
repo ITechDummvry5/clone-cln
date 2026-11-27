@@ -1,0 +1,6 @@
+/* Base typography and page defaults */
+body{font:15px/1.5 Inter,system-ui,sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+main{flex:1 0 auto}
+h1,h2,h3{letter-spacing:-.02em;line-height:1.1}
+h2{font-size:clamp(26px,3.4vw,38px);font-weight:600}
+.sub{color:var(--mute);margin-top:8px}

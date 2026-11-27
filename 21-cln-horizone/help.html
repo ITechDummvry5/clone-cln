@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Help centre – Horizone</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/pages/help.css">
+</head>
+<body data-page="help" data-nav="dark">
+<div id="site-header"></div>
+<main class="wrap">
+<div class="hhead"><div class="crumbs" style="margin:0"><a href="index.html">Home</a> › Help centre</div>
+  <h1>How can we help?</h1><p>Search the answers, manage a booking, or talk to a person any hour, in eleven languages.</p>
+  <label class="find"><input id="q" placeholder="Try “deposit”, “one-way” or “cancel”" aria-label="Search help"></label>
+  <div class="chips" id="quick"></div></div>
+<section style="padding:0 0 56px"><h2>Browse by topic</h2><p class="sub">Pick a topic, or search above.</p>
+  <div class="topics"><nav id="topics" aria-label="Topics"></nav><div id="faqs"></div></div></section>
+<section style="padding:0 0 72px" id="contact"><div class="hand"><div><h2>Still need a hand?</h2><p class="sub" id="cSub">Check the answers above, or reach us using the details below.</p>
+  <div class="ct"><div><b>Roadside &amp; urgent</b><small>+44 20 3000 0100 · 24/7</small></div><div><b>Bookings &amp; changes</b><small id="cBook">Manage them from your account.</small></div><div id="cEmail" hidden><b>Email</b><small id="cEmailVal"></small></div><div><small>Indonesian, Arabic, Afrikaans, Italian and more</small></div></div></div>
+  <form class="form" id="form" hidden novalidate><div><label>Your name<input name="name" autocomplete="name" required></label></div><div><label>Email<input name="email" type="email" autocomplete="email" required></label></div>
+  <div><label>Topic<select id="ftopic" name="topic" data-pick required></select></label></div><div><label>Booking reference (optional)<input name="ref" placeholder="HZ-…"></label></div>
+  <div class="full"><label>Message<textarea name="message" required placeholder="Tell us what happened and what you’d like us to do."></textarea></label></div>
+  <div class="full"><button class="btn">Send message</button> <span class="ok" id="ok" role="status"></span></div></form>
+  <div class="form-off" id="formOff" hidden><h3>Messaging isn’t available yet</h3>
+    <p>We haven’t finished setting up email support, so we can’t take messages through this page right now. Please check back soon.</p>
+    <p>Need help straight away? For roadside and urgent problems, call <b>+44 20 3000 0100</b> (24/7). You can also browse the answers above or manage your booking from <a href="account.html">your account</a>.</p>
+    <p class="adm" id="formOffAdmin" hidden>You’re signed in as an admin. Add a support email under <a href="admin.html#settings">Admin → Settings</a> to turn this form on.</p></div></div></section>
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/core/config.js"></script>
+<script src="assets/js/core/storage.js"></script>
+<script src="assets/js/core/utils.js"></script>
+<script src="assets/js/core/icons.js"></script>
+<script src="assets/js/data/images.js"></script>
+<script src="assets/js/core/media.js"></script>
+<script src="assets/js/core/currency.js"></script>
+<script src="assets/js/components/toast.js"></script>
+<script src="assets/js/services/auth.js"></script>
+<script src="assets/js/services/locations.js"></script>
+<script src="assets/js/layout/header.js"></script>
+<script src="assets/js/layout/footer.js"></script>
+<script src="assets/js/components/dropdown.js"></script>
+<script src="assets/js/components/currency-menu.js"></script>
+<script src="assets/js/components/newsletter.js"></script>
+<script src="assets/js/pages/help.js"></script>
+<script src="assets/js/components/picker.js"></script>
+</body>
+</html>

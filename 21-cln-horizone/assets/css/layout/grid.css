@@ -1,0 +1,7 @@
+/* Shared column grids */
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.grid6{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.grid4t{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:1000px){.grid4,.grid4t{grid-template-columns:repeat(2,1fr)}.grid6{grid-template-columns:repeat(3,1fr)}.grid3{grid-template-columns:1fr}}
+@media(max-width:560px){.grid4,.grid4t,.grid6{grid-template-columns:1fr 1fr}}

@@ -1,0 +1,48 @@
+<!doctype html>
+<!-- Copy this file to add a page. Then create assets/css/pages/<name>.css and assets/js/pages/<name>.js.
+     Keep the <script> order: it matters (see README.md > Script order). -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Page name – Horizone</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/pages/NAME.css">
+</head>
+<body data-page="NAME" data-nav="dark">   <!-- data-page: highlights the nav item (home|cars|locations|deals|about|help). data-nav: overlay (over a hero) or dark (plain page) -->
+<div id="site-header"></div>
+<main>
+  <section><div class="wrap">
+    <h2>Page name</h2>
+  </div></section>
+</main>
+<div id="site-footer"></div>
+
+<!-- 1. core: config, storage, utils, icons -->
+<script src="assets/js/core/config.js"></script>
+<script src="assets/js/core/storage.js"></script>
+<script src="assets/js/core/utils.js"></script>
+<script src="assets/js/core/icons.js"></script>
+<!-- 2. data + media + currency -->
+<script src="assets/js/data/images.js"></script>
+<script src="assets/js/core/media.js"></script>
+<script src="assets/js/core/currency.js"></script>
+<!-- 3. services + shared layout and components (same on every page) -->
+<script src="assets/js/components/toast.js"></script>
+<script src="assets/js/services/auth.js"></script>
+<script src="assets/js/services/locations.js"></script>
+<script src="assets/js/layout/header.js"></script>
+<script src="assets/js/layout/footer.js"></script>
+<script src="assets/js/components/dropdown.js"></script>
+<script src="assets/js/components/currency-menu.js"></script>
+<script src="assets/js/components/newsletter.js"></script>
+<!-- 4. only what this page needs -->
+<!-- <script src="assets/js/components/date-picker.js"></script> -->  <!-- only pages with a calendar, before the page script -->
+<!-- <script src="assets/js/data/fleet.js"></script>
+<!-- <script src="assets/js/services/fleet.js"></script> -->
+<script src="assets/js/pages/NAME.js"></script>
+<!-- components/picker.js: put it AFTER the page script if the page only uses <select data-pick> (it enhances them when it loads),
+     or BEFORE the page script if the page calls enhanceSelect() itself (admin). -->
+</body>
+</html>

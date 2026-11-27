@@ -1,0 +1,4 @@
+/* Stat grid */
+.stats{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:var(--r);align-self:start}
+.stats div{padding:26px;border:1px solid var(--line);border-width:0 1px 1px 0}.stats div:nth-child(2n){border-right:0}.stats div:nth-child(n+3){border-bottom:0}
+.stats b{font-size:38px;font-weight:600;letter-spacing:-.03em;display:block}.stats span{color:var(--mute);font-size:13px}

@@ -1,0 +1,4 @@
+/* Segmented control (Self-drive / With driver) */
+.segc{display:flex;background:var(--soft);border-radius:var(--r-md);padding:4px}.segc label{position:relative}.segc input{position:absolute;opacity:0}
+.segc span{display:block;padding:7px 14px;border-radius:7px;color:var(--mute);cursor:pointer}
+.segc input:checked+span{background:var(--white);color:var(--ink);font-weight:500;box-shadow:0 0 0 1px var(--line)}.segc input:focus-visible+span{outline:2px solid var(--ink)}

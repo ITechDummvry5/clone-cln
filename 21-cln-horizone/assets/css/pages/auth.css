@@ -1,0 +1,28 @@
+/* Login / sign up: one centred white card. Hero picture on the left, Sign in / Sign up tabs on the right. */
+.au2-main{padding:28px 20px 80px}
+.au2{position:relative;max-width:960px;margin:0 auto;background:var(--white);border:1px solid var(--line);border-radius:var(--r-xl);box-shadow:0 24px 70px rgba(0,0,0,.08);overflow:hidden}
+.au2-x{position:absolute;top:18px;right:18px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--mute);z-index:3}.au2-x:hover{background:var(--soft);color:var(--ink)}.au2-x svg{width:20px;height:20px}
+.au2-head{text-align:center;padding:36px 56px 24px}.au2-head h1{font-size:clamp(26px,4vw,34px);font-weight:700;letter-spacing:-.02em;line-height:1.15}.au2-head p{color:var(--mute);margin-top:8px;font-size:15px}
+.au2-cols{display:grid;grid-template-columns:minmax(0,1fr) 1px minmax(0,1fr);gap:0 36px;padding:4px 44px 36px;align-items:stretch}
+.au2-div{background:var(--line)}
+.au2-pic{position:relative;border-radius:20px;overflow:hidden;min-height:420px;color:var(--white);display:flex;align-items:flex-end;background:var(--soft)}
+.au2-pic img{position:absolute;inset:0}.au2-pic::before{content:"";position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(0,0,0,var(--dim,.72)));z-index:1}
+.au2-pic div{position:relative;z-index:2;padding:24px}.au2-pic b{display:block;font-size:20px;letter-spacing:-.01em;line-height:1.2;margin-bottom:6px}.au2-pic span{opacity:.88;font-size:13.5px;line-height:1.4;display:block}
+.au2-form{display:flex;flex-direction:column;justify-content:center;min-width:0}
+.au2-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:5px;background:var(--soft);border-radius:var(--r-pill);margin-bottom:20px}
+.au2-tabs button{padding:11px 12px;border-radius:var(--r-pill);font-size:14.5px;font-weight:500;color:var(--mute);transition:background .15s,color .15s}
+.au2-tabs button[aria-selected=true]{background:var(--white);color:var(--ink);box-shadow:0 0 0 1px var(--line),0 1px 3px rgba(0,0,0,.06)}
+.au2-form form{display:grid;gap:12px}.au2-form form[hidden]{display:none}.au2-form .ac-msg{margin:0}.au2-form #note{margin-bottom:14px}
+.au2-in{position:relative}
+.au2-in input{width:100%;height:52px;border:1px solid var(--line);border-radius:14px;background:var(--soft);padding:0 48px 0 48px;font:inherit;color:var(--ink);transition:border-color .15s,background .15s}
+.au2-in input::placeholder{color:var(--mute)}.au2-in input:hover{border-color:#cfcfcf}.au2-in input:focus{outline:none;border-color:var(--ink);background:var(--white)}
+.au2-ico{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--mute);display:grid;pointer-events:none}.au2-ico svg{width:18px;height:18px}
+.au2-eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--mute)}.au2-eye:hover{color:var(--ink);background:var(--white)}.au2-eye svg{width:18px;height:18px}.au2-eye.on{color:var(--ink)}
+.au2-go{height:52px;border-radius:14px;background:var(--ink);color:var(--white);font:inherit;font-weight:600;font-size:15px;margin-top:4px;transition:opacity .15s}.au2-go:hover{opacity:.88}.au2-go:disabled{opacity:.5;cursor:default}
+.au2-go:focus-visible,.au2-tabs button:focus-visible,.au2-eye:focus-visible,.au2-sw button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.au2-sw{text-align:center;color:var(--mute);font-size:14px;margin-top:6px}.au2-sw button{color:var(--ink);font-weight:600;font-size:14px}.au2-sw button:hover{text-decoration:underline}
+.au2-foot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:16px 28px;background:#fafafa;border-top:1px solid var(--line);font-size:13px;color:var(--mute)}
+.au2-foot a{color:var(--mute);text-decoration:underline;text-underline-offset:2px}.au2-foot a:hover{color:var(--ink)}
+.au2-foot .au2-help{display:inline-flex;align-items:center;gap:6px;color:var(--ink);font-weight:600;text-decoration:none}.au2-help svg{width:16px;height:16px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media(max-width:820px){.au2-head{padding:30px 24px 18px}.au2-cols{grid-template-columns:1fr;gap:20px;padding:0 20px 28px}.au2-div{display:none}.au2-pic{min-height:170px}.au2-pic div{padding:18px}.au2-pic b{font-size:17px}.au2-foot{padding:14px 20px}}

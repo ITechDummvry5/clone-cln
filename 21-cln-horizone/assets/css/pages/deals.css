@@ -1,0 +1,32 @@
+/* Deals page */
+.big{border-radius:var(--r);color:var(--white);background:linear-gradient(120deg,#1b1410,#8a4a1c) center/cover;padding:44px;display:grid;grid-template-columns:2fr 1fr;gap:32px;align-items:center}
+.big .tag{display:inline-block;background:rgba(255,255,255,.15);padding:4px 12px;border-radius:var(--r-pill);font-size:12px}.big h2{font-size:clamp(48px,8vw,84px);margin:14px 0 6px}.big h3{font-size:26px;max-width:520px;margin-bottom:12px}.big p{opacity:.85}
+.codebox{border:1px solid rgba(255,255,255,.2);border-radius:var(--r-lg);padding:18px;background:rgba(0,0,0,.2)}.codebox .code{display:block;width:100%;text-align:center;margin:8px 0 12px;padding:12px;font-size:16px}.codebox .btn{width:100%;justify-content:center}.codebox small{display:block;margin-top:10px;opacity:.75}
+.promo{border:1px solid var(--line);border-radius:var(--r);overflow:hidden}.promo .pic{aspect-ratio:3/2;position:relative}.promo .badge{position:absolute;top:10px;left:10px;background:var(--white);border-radius:var(--r-pill);padding:3px 10px;font-size:12px}
+.promo .body{padding:16px;display:flex;flex-direction:column;gap:8px;min-height:190px}.promo small{color:var(--ok);font-size:12px}.promo h3{font-size:17px}.promo p{font-size:13px;color:var(--mute)}
+.promo .act{display:flex;gap:8px;margin-top:auto}.promo .code{border-color:var(--line);color:var(--ink);padding:8px 12px;flex:1;text-align:left}.promo .btn{padding:8px 14px;font-size:13px}
+/* Automatic savings: black cards, a huge number with an outlined symbol; they flip to white when you point at them */
+.auto{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.sv{--sc:var(--white);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;gap:22px;min-height:290px;background:var(--ink);color:var(--white);border:1px solid var(--ink);border-radius:var(--r-lg);padding:26px 26px 24px;}
+.sv-n{display:flex;align-items:flex-start;gap:4px;font-weight:700;line-height:.82;letter-spacing:-.07em}
+.sv-n span{font-size:116px}
+.sv-n sup{font-size:46px;font-weight:700;letter-spacing:0;line-height:1;margin-top:4px;color:transparent;-webkit-text-stroke:2px var(--sc)}
+.sv-t{padding-top:16px;border-top:1px solid rgba(255,255,255,.25)}
+.sv-t b{display:block;font-size:17px;font-weight:600;margin-bottom:6px}
+.sv-t p{font-size:13px;line-height:1.6;margin:0;color:rgba(255,255,255,.66)}
+.alerts{background:var(--soft);border-radius:var(--r);padding:36px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}.alerts form{display:flex;gap:10px}.alerts input{padding:12px 14px;border:1px solid var(--line);border-radius:var(--r-md);font:inherit;min-width:260px}
+.acc{max-width:760px;margin:0 auto}
+/* free one-way routes: one "See list" button opens the full list in a dialog */
+.sv-see{align-self:flex-start;margin-top:14px;font:inherit;font-size:13px;font-weight:600;line-height:1;padding:9px 16px;border:0;border-radius:var(--r-pill);background:var(--white);color:var(--ink);cursor:pointer}
+.sv-see:focus-visible{outline:2px solid var(--white);outline-offset:2px}
+.sv-dlg{margin:auto;border:1px solid var(--line);border-radius:var(--r-lg);padding:0;width:min(440px,calc(100vw - 32px));max-height:min(560px,calc(100vh - 48px));background:var(--white);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.sv-dlg[open]{display:flex;flex-direction:column}.sv-dlg::backdrop{background:rgba(0,0,0,.55)}
+.sv-dh{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:20px 20px 14px;border-bottom:1px solid var(--line)}
+.sv-dh h3{font-size:18px;font-weight:600;margin:0}.sv-dh p{font-size:13px;color:var(--mute);margin:4px 0 0}
+.sv-x{flex:none;width:32px;height:32px;border:1px solid var(--line);border-radius:50%;background:var(--white);color:var(--ink);font-size:20px;line-height:1;cursor:pointer}
+.sv-dlg ul{list-style:none;margin:0;padding:0 20px;overflow:auto}
+.sv-dlg li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;font-size:14px;font-weight:500}.sv-dlg li+li{border-top:1px solid var(--line)}
+.sv-dlg li a{flex:none;font-size:12px;font-weight:500;padding:6px 12px;border:1px solid var(--line);border-radius:var(--r-sm)}
+.sv-x:focus-visible,.sv-dlg li a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+@media(max-width:1000px){.auto{grid-template-columns:1fr 1fr}.big{grid-template-columns:1fr}}
+@media(max-width:560px){.auto{grid-template-columns:1fr}.sv-n span{font-size:92px}.sv{min-height:0}.big{padding:24px}}

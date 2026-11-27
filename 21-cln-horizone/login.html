@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign in – Horizone</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/pages/account.css">
+<link rel="stylesheet" href="assets/css/pages/auth.css">
+</head>
+<body data-page="login" data-nav="dark">
+<div id="site-header"></div>
+
+<main class="au2-main">
+  <div class="au2" role="dialog" aria-labelledby="auTitle">
+    <a class="au2-x" href="index.html" aria-label="Close and go back to the home page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></a>
+    <header class="au2-head"><h1 id="auTitle">Welcome back to Horizone</h1><p id="auSub">Sign in to manage your bookings.</p></header>
+    <div class="au2-cols">
+      <aside class="au2-pic"><img data-img="hero" alt=""><div><b>Cancel free up to 48 hours before pick-up.</b><span>Your bookings, receipts and driver details in one account.</span></div></aside>
+      <div class="au2-div" aria-hidden="true"></div>
+      <section class="au2-form">
+        <div class="au2-tabs" role="tablist" aria-label="Account">
+          <button type="button" role="tab" id="tIn" aria-selected="true" aria-controls="fIn">Sign in</button>
+          <button type="button" role="tab" id="tUp" aria-selected="false" aria-controls="fUp">Sign up</button>
+        </div>
+        <div class="ac-msg info" id="note" hidden></div>
+        <form id="fIn" novalidate>
+          <div class="ac-msg" id="eIn" role="alert"></div>
+          <div class="au2-in"><label class="sr" for="iEmail">Email</label><span class="au2-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 8 8 6 8-6"/></svg></span><input id="iEmail" type="email" placeholder="Email" autocomplete="email" required></div>
+          <div class="au2-in"><label class="sr" for="iPw">Password</label><span class="au2-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><input id="iPw" type="password" placeholder="Password" autocomplete="current-password" required><button type="button" class="au2-eye" data-show="iPw" aria-label="Show password"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+          <button class="au2-go" id="bIn">Sign in</button>
+          <p class="au2-sw">New to Horizone? <button type="button" data-go="up">Create an account</button></p>
+        </form>
+        <form id="fUp" novalidate hidden>
+          <div class="ac-msg" id="eUp" role="alert"></div>
+          <div class="au2-in"><label class="sr" for="uName">Full name</label><span class="au2-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><input id="uName" type="text" placeholder="Full name" autocomplete="name" required></div>
+          <div class="au2-in"><label class="sr" for="uEmail">Email</label><span class="au2-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 8 8 6 8-6"/></svg></span><input id="uEmail" type="email" placeholder="Email" autocomplete="email" required></div>
+          <div class="au2-in"><label class="sr" for="uPhone">Phone (optional)</label><span class="au2-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg></span><input id="uPhone" type="tel" placeholder="Phone (optional)" autocomplete="tel"></div>
+          <div class="au2-in"><label class="sr" for="uPw">Password (8+ characters)</label><span class="au2-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><input id="uPw" type="password" placeholder="Password (8+ characters)" autocomplete="new-password" required><button type="button" class="au2-eye" data-show="uPw" aria-label="Show password"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+          <div class="au2-in"><label class="sr" for="uPw2">Confirm password</label><span class="au2-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><input id="uPw2" type="password" placeholder="Confirm password" autocomplete="new-password" required></div>
+          <button class="au2-go" id="bUp">Create account</button>
+          <p class="au2-sw">Already have an account? <button type="button" data-go="in">Sign in</button></p>
+        </form>
+      </section>
+    </div>
+    <footer class="au2-foot"><span>By continuing you agree to our <a href="help.html">Terms</a> and <a href="help.html">Privacy policy</a>.</span><a class="au2-help" href="help.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 1-1 1.7M12 17h.01"/></svg> Get help</a></footer>
+  </div>
+</main>
+
+<div id="site-footer"></div>
+<script src="assets/js/core/config.js"></script>
+<script src="assets/js/core/storage.js"></script>
+<script src="assets/js/core/utils.js"></script>
+<script src="assets/js/core/icons.js"></script>
+<script src="assets/js/data/images.js"></script>
+<script src="assets/js/core/media.js"></script>
+<script src="assets/js/core/currency.js"></script>
+<script src="assets/js/components/toast.js"></script>
+<script src="assets/js/services/auth.js"></script>
+<script src="assets/js/services/locations.js"></script>
+<script src="assets/js/layout/header.js"></script>
+<script src="assets/js/layout/footer.js"></script>
+<script src="assets/js/components/dropdown.js"></script>
+<script src="assets/js/components/currency-menu.js"></script>
+<script src="assets/js/components/newsletter.js"></script>
+<script src="assets/js/data/fleet.js"></script>
+<script src="assets/js/services/fleet.js"></script>
+<script src="assets/js/services/deals.js"></script>
+<script src="assets/js/services/booking-form.js"></script>
+<script src="assets/js/pages/login.js"></script>
+</body>
+</html>

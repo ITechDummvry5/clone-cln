@@ -1,0 +1,6 @@
+/* Form card and fields */
+.form{border:1px solid var(--line);border-radius:var(--r);padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:16px}.form label{font-size:12px;color:var(--mute);display:block}.form .full{grid-column:1/-1}
+.form input,.form select,.form textarea{width:100%;margin-top:4px;padding:11px 12px;border:1px solid var(--line);border-radius:var(--r-sm);font:inherit}.form textarea{min-height:110px;resize:vertical}.form .ok{color:var(--ok);align-self:center}
+.form .cd-host .cd-pick{margin-top:4px}
+.form[hidden]{display:none}
+@media(max-width:560px){.form{grid-template-columns:1fr}}

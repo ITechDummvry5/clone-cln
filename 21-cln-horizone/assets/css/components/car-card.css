@@ -1,0 +1,21 @@
+/* Car cards: grid card and list card */
+.car{background:var(--soft);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;min-height:330px}
+.car small{color:var(--mute);font-size:12px}.car h3{font-size:17px;font-weight:600;margin:2px 0}
+.car .pic{flex:1;margin:10px -6px;min-height:130px}.car .pic img{object-fit:contain;mix-blend-mode:multiply}
+.car .row{display:flex;justify-content:space-between;align-items:flex-end}
+.car .row span{font-size:12px;color:var(--mute)}.car .row b{display:block;font-size:22px;color:var(--ink)}
+.car>div:first-child>small:first-child{text-transform:uppercase;letter-spacing:.06em;font-size:12px}
+.car>div:first-child h3{font-size:22px;font-weight:500;margin:6px 0 4px}
+.car.lcar{display:grid;grid-template-columns:300px 1fr auto;gap:28px;align-items:center;padding:8px;min-height:0}
+.lcar .pic{position:relative;height:210px;margin:0;border-radius:var(--r-lg);overflow:hidden;background:#efefef}.lcar .pic img{object-fit:contain}
+.lcar .tag{position:absolute;top:10px;left:10px;z-index:1;background:var(--white);border-radius:var(--r-pill);padding:5px 14px;font-size:12px;font-weight:500}
+.lcar h3{font-size:19px;font-weight:600;margin-bottom:8px}
+.lcar p{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-size:13px;color:var(--mute)}
+.lcar .meta{gap:16px}.lcar .meta span{display:inline-flex;align-items:center;gap:6px;color:var(--ink)}
+.lcar .feat{display:flex;flex-wrap:wrap;gap:6px 18px;padding:0;margin:0 0 10px;list-style:none;font-size:13px;max-width:440px}.lcar .feat li{display:inline-flex;align-items:center;gap:6px}
+.lcar .free{color:var(--ok);margin:0}
+.lcar .end{text-align:right;padding-right:24px;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.lcar .end small{color:var(--mute);font-size:13px}.lcar .end b{font-size:26px;font-weight:600;color:var(--ink)}.lcar .end .tot{margin-top:6px}
+@media(max-width:760px){.car.lcar{grid-template-columns:1fr;gap:14px}.lcar .end{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:6px;text-align:left;padding:0 10px 10px}.lcar .mid{padding:0 10px}}
+.car[data-href]{cursor:pointer;transition:transform .2s}.car[data-href]:hover{transform:translateY(-3px)}
+.lcar h3 a:hover{text-decoration:underline}

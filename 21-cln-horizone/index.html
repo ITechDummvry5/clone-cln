@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Horizone – Rent a car for every journey</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/pages/home.css">
+</head>
+<body data-page="home" data-nav="overlay">
+<div id="site-header"></div>
+
+<main>
+<div class="hero"><img data-img="hero" alt="">
+  <div class="wrap">
+    <span class="rating">4.9 · 48,912 verified trips across 14 cities</span>
+    <h1>Rent a car for every journey</h1>
+    <form class="search" id="search">
+      <div class="srow">
+        <div class="f"><span>Pick-up location</span><div class="in"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><button type="button" class="pick grow" id="bLoc" aria-haspopup="listbox"></button></div></div>
+        <div class="f"><span>Pick-up</span><div class="in"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><button type="button" class="pick" id="bFrom" aria-haspopup="dialog"></button><button type="button" class="pick time" id="bFromT" aria-haspopup="listbox"></button></div></div>
+        <div class="f"><span>Return</span><div class="in"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><button type="button" class="pick" id="bTo" aria-haspopup="dialog"></button><button type="button" class="pick time" id="bToT" aria-haspopup="listbox"></button></div></div>
+        <button class="sbtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search</button>
+      </div>
+      <div class="opts">
+        <label class="sw"><input type="checkbox" id="sDiff"><i></i>Return to a different location</label>
+        <div class="rwrap"><button type="button" class="pick out" id="bRet" hidden></button></div>
+        <div class="segc"><label><input type="radio" name="mode" value="Self-drive" checked><span>Self-drive</span></label><label><input type="radio" name="mode" value="With driver"><span>With driver · <span data-usd="45">$45</span>/day</span></label></div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<section id="cars"><div class="wrap">
+  <div class="head"><div><h2>Top picks this month</h2><p class="sub">Our most booked cars, ready when you land.</p></div><div class="chips" id="carChips"></div></div>
+  <div class="grid4" id="carGrid"></div>
+  <div class="more"><a class="btn ghost" href="cars.html">See more</a></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="head"><div><h2>Find the right car</h2><p class="sub">From a city runabout to a seven-seater for the whole family.</p></div><a class="btn ghost" href="cars.html">Browse all cars</a></div>
+  <div class="grid6" id="catGrid"></div>
+</div></section>
+
+<section><div class="wrap">
+  <h2 style="margin-bottom:32px">Three steps to the road</h2>
+  <div class="steps" id="steps"></div>
+</div></section>
+
+<section id="locations"><div class="wrap">
+  <div class="head"><div><h2>Car rental worldwide</h2><p class="sub" id="locSub">One simple booking, in every city we serve.</p></div><a class="btn ghost" href="locations.html">All locations</a></div>
+  <div class="grid4t" id="cityGrid"></div>
+  <div class="links" id="cityLinks"></div>
+</div></section>
+
+<section id="deals"><div class="wrap">
+  <div class="head"><div><h2>Deals worth the detour</h2><p class="sub">Codes that work at checkout. Tap one to copy it.</p></div><a class="btn ghost" href="deals.html">See all</a></div>
+  <div class="grid3" id="dealGrid"></div>
+</div></section>
+
+<section id="about"><div class="wrap feat">
+  <div><h2>The boring parts, handled</h2><p class="sub" style="margin-bottom:24px">Horizone works with local suppliers, so the small print reads the same in every city you land in.</p>
+    <div class="rows" id="rows"></div></div>
+  <div class="stats" id="stats"></div>
+</div></section>
+
+<div class="banner"><img data-img="banner" alt="">
+  <div><h2>Beyond the destination, the road between</h2><p>The best part of a trip is often the miles between the places you planned.</p>
+    <div class="chips"><a class="btn light" href="cars.html">Explore the fleet</a><a class="btn light" href="locations.html#routes">One-way routes</a></div></div>
+</div>
+
+<section><div class="wrap">
+  <div class="head"><div><h2>What drivers say</h2><p class="sub" id="revSub">What guests say after their trip.</p></div><b style="font-size:22px" id="revAvg"></b></div>
+  <div class="grid3" id="reviews"></div>
+</div></section>
+
+<section id="help"><div class="wrap">
+  <div class="head"><div><h2>Questions, answered</h2><p class="sub">Still stuck? Our team replies in under five minutes, any hour.</p></div><a class="btn ghost" href="help.html">Visit the help centre</a></div>
+  <div class="faq" id="faq"></div>
+</div></section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="assets/js/core/config.js"></script>
+<script src="assets/js/core/storage.js"></script>
+<script src="assets/js/core/utils.js"></script>
+<script src="assets/js/core/icons.js"></script>
+<script src="assets/js/data/images.js"></script>
+<script src="assets/js/core/media.js"></script>
+<script src="assets/js/core/currency.js"></script>
+<script src="assets/js/components/toast.js"></script>
+<script src="assets/js/services/auth.js"></script>
+<script src="assets/js/services/locations.js"></script>
+<script src="assets/js/services/deals.js"></script>
+<script src="assets/js/layout/header.js"></script>
+<script src="assets/js/layout/footer.js"></script>
+<script src="assets/js/components/dropdown.js"></script>
+<script src="assets/js/components/currency-menu.js"></script>
+<script src="assets/js/components/newsletter.js"></script>
+<script src="assets/js/components/date-picker.js"></script>
+<script src="assets/js/data/fleet.js"></script>
+<script src="assets/js/services/fleet.js"></script>
+<script src="assets/js/data/routes.js"></script>
+<script src="assets/js/services/oneway.js"></script>
+<script src="assets/js/pages/home.js"></script>
+</body>
+</html>

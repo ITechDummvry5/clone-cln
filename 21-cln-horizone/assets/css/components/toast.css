@@ -1,0 +1,5 @@
+/* Toast notifications (js/components/toast.js) */
+#hz-toasts{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:100;display:flex;flex-direction:column;gap:10px;align-items:center;width:min(92vw,460px);pointer-events:none}
+.hz-toast{pointer-events:auto;cursor:pointer;width:100%;padding:14px 18px;border-radius:var(--r-lg);font-size:14px;font-weight:500;color:var(--white);background:var(--ink);box-shadow:0 12px 32px var(--ink-a28);opacity:0;transform:translateY(14px);transition:opacity .22s,transform .22s}
+.hz-toast.in{opacity:1;transform:none}
+.hz-toast.err{background:var(--danger-solid)}.hz-toast.ok{background:var(--ok-solid)}.hz-toast.info{background:var(--ink)}

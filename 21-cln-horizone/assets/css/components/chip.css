@@ -1,0 +1,4 @@
+/* Chips / filter pills */
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:7px 16px;border:1px solid var(--line);border-radius:var(--r-pill);font-size:13px}
+.chip.on{background:var(--ink);color:var(--white);border-color:var(--ink)}

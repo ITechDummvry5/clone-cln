@@ -1,0 +1,24 @@
+/* Site header: logo, nav pill, tool buttons (rendered by js/layout/header.js) */
+.nav{position:absolute;top:0;left:0;right:0;z-index:5;padding:20px 0;color:var(--white)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:17px}
+.logo-img{display:block;height:30px;width:auto;max-width:140px;object-fit:contain}
+.logo i{width:30px;height:30px;border-radius:9px;background:var(--white);display:block}
+.pill{display:flex;gap:4px;padding:5px;border-radius:var(--r-pill);background:var(--glass);backdrop-filter:blur(14px)}
+.pill a{padding:7px 16px;border-radius:var(--r-pill);font-size:14px}
+.pill a.on,.pill a:hover{background:rgba(255,255,255,.9);color:var(--ink)}
+.tools{display:flex;gap:8px}.tools span{padding:8px 14px;border-radius:var(--r-pill);background:var(--glass);font-size:13px}
+.nav.dark{position:static;color:var(--ink);padding:20px 0 8px}
+.nav.dark .pill{background:var(--soft)}.nav.dark .pill a.on,.nav.dark .pill a:hover{background:var(--white);box-shadow:0 0 0 1px var(--line)}
+.nav.dark .logo i{background:var(--ink)}.nav.dark .tools span{background:var(--soft)}
+.tools{display:flex;gap:8px;align-items:center}
+.tbtn{display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 14px;border-radius:var(--r-pill);background:var(--glass);border:1px solid rgba(255,255,255,.35);color:inherit;font-size:13px;backdrop-filter:blur(14px)}
+.tbtn b{font-weight:600}.tbtn.round{width:38px;padding:0;justify-content:center}
+.tbtn:hover{background:rgba(255,255,255,.28)}
+.nav.dark .tbtn{background:var(--soft);border-color:var(--line);backdrop-filter:none}.nav.dark .tbtn:hover{background:#ececec}
+.burger{display:none}
+@media(max-width:1000px){.burger{display:block}}
+.tbtn .av{width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--white);display:grid;place-items:center;font-size:12px;font-weight:600}
+@media(max-width:640px){.tbtn.acct b,.tbtn.acct svg:last-child{display:none}.tbtn.acct{padding:0 8px}}
+.nav .tools .tbtn .av{background:var(--accent);color:var(--white);padding:0;border-radius:50%}
+@media(max-width:1000px){.pill{display:none}}

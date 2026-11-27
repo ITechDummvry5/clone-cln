@@ -1,0 +1,4 @@
+/* Quantity stepper */
+.cd-step{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:var(--r-pill);overflow:hidden;flex:none}
+.cd-step button{width:32px;height:32px;font-size:17px;line-height:1}.cd-step button:hover{background:var(--soft)}
+.cd-step b{min-width:22px;text-align:center;font-weight:500;font-size:13px}

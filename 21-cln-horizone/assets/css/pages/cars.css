@@ -1,0 +1,18 @@
+/* Cars results page: filters, toolbar, grid/list switch */
+.bar{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:var(--r);padding:12px 16px;margin-bottom:28px}
+.bar b{display:block;font-weight:500}.bar span{font-size:13px;color:var(--mute)}
+.layout{display:grid;grid-template-columns:260px 1fr;gap:32px;align-items:start;padding-bottom:72px}
+.filters{border:1px solid var(--line);border-radius:var(--r);padding:20px;position:sticky;top:16px}
+.filters header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.filters header button{font-size:13px;text-decoration:underline;color:var(--mute)}
+.fg{padding:16px 0;border-top:1px solid var(--line);margin-top:12px}.fg h4{font-size:14px;margin-bottom:10px}
+.seg{display:flex;background:var(--soft);border-radius:var(--r-md);padding:4px}.seg .chip{flex:1;border:0;border-radius:7px;text-align:center}.seg .chip.on{background:var(--white);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+.res h1{font-size:30px;font-weight:600}.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.top select{padding:9px 12px;border:1px solid var(--line);border-radius:var(--r-md);font:inherit;background:var(--white)}
+.views{display:inline-flex;gap:4px;margin-left:8px}.views button{width:34px;height:34px;border-radius:var(--r-sm);border:1px solid var(--line)}.views button.on{background:var(--ink);color:var(--white)}
+.note{background:var(--soft);border-radius:var(--r-md);padding:10px 14px;font-size:13px;color:var(--mute);margin-bottom:16px}
+@media(max-width:1000px){.layout{grid-template-columns:1fr}.filters{position:static}}
+.note{display:flex;gap:10px;align-items:center}.note svg{flex:none;color:var(--ink)}.note b{color:var(--ink)}
+.top select{appearance:none;-webkit-appearance:none;padding:11px 38px 11px 14px;background:var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center}
+.views{background:var(--soft);border-radius:var(--r-md);padding:4px;gap:2px}.views button{border:0;border-radius:7px;width:34px;height:30px;display:grid;place-items:center;color:var(--mute)}.views button.on{background:var(--white);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+#fleet.list{grid-template-columns:1fr;gap:14px}

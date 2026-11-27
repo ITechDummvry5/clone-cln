@@ -1,0 +1,10 @@
+{
+  "name": "horizone",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Horizone car-rental site (static HTML, CSS and JS)",
+  "scripts": {
+    "build": "node build.js",
+    "watch": "node build.js --watch"
+  }
+}

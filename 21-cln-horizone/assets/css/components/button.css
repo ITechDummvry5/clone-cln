@@ -1,0 +1,5 @@
+/* Buttons and small action rows */
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--white);padding:12px 22px;border-radius:var(--r-md);font-weight:500}
+.btn.light{background:var(--white);color:var(--ink)}.btn.ghost{background:var(--soft);color:var(--ink)}
+.go{width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--white);display:grid;place-items:center}
+.more{text-align:center;margin-top:28px}

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cars – Horizone</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/pages/cars.css">
+</head>
+<body data-page="cars" data-nav="dark">
+<div id="site-header"></div>
+
+<main class="wrap">
+  <div class="crumbs"><a href="index.html">Home</a> › Cars</div>
+  <div class="bar"><div><b>Any location</b><span>Mon, 23 Nov, 10:00 AM → Sat, 28 Nov, 10:00 AM · 5 days · Self-drive</span></div><a class="btn ghost" href="index.html">Modify search</a></div>
+
+  <div class="layout">
+    <aside class="filters" id="filters" aria-label="Filters">
+      <header><b>Filters</b><button id="reset">Reset all</button></header>
+      <div class="fg"><h4>Vehicle type</h4><div class="chips" data-f="type"></div></div>
+      <div class="fg"><h4>Transmission</h4><div class="chips seg" data-f="trans"></div></div>
+      <div class="fg"><h4>Fuel</h4><div class="chips" data-f="fuel"></div></div>
+      <div class="fg"><h4>Seats</h4><div class="chips" data-f="seats"></div></div>
+      <div class="fg"><h4>Guest rating</h4><div class="chips" data-f="rating"></div></div>
+    </aside>
+
+    <section class="res">
+      <div class="top">
+        <div><h1 id="count"></h1><p class="sub" id="fromPrice"></p></div>
+        <div><select id="sort" data-pick aria-label="Sort"><option value="rec">Recommended</option><option value="lo">Price: low to high</option><option value="hi">Price: high to low</option></select>
+          <span class="views"><button class="on" data-v="grid" aria-label="Grid view"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg></button><button data-v="list" aria-label="List view"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg></button></span></div>
+      </div>
+      <p class="note"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>Showing every car in the fleet. <b>Choose a pick-up location</b> to see what’s available there and the exact total.</span></p>
+      <div class="grid3" id="fleet"></div>
+    </section>
+  </div>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="assets/js/core/config.js"></script>
+<script src="assets/js/core/storage.js"></script>
+<script src="assets/js/core/utils.js"></script>
+<script src="assets/js/core/icons.js"></script>
+<script src="assets/js/data/images.js"></script>
+<script src="assets/js/core/media.js"></script>
+<script src="assets/js/core/currency.js"></script>
+<script src="assets/js/components/toast.js"></script>
+<script src="assets/js/services/auth.js"></script>
+<script src="assets/js/services/locations.js"></script>
+<script src="assets/js/layout/header.js"></script>
+<script src="assets/js/layout/footer.js"></script>
+<script src="assets/js/components/dropdown.js"></script>
+<script src="assets/js/components/currency-menu.js"></script>
+<script src="assets/js/components/newsletter.js"></script>
+<script src="assets/js/data/fleet.js"></script>
+<script src="assets/js/services/fleet.js"></script>
+<script src="assets/js/components/car-card.js"></script>
+<script src="assets/js/data/routes.js"></script>
+<script src="assets/js/services/oneway.js"></script>
+<script src="assets/js/services/booking-form.js"></script>
+<script src="assets/js/pages/cars.js"></script>
+<script src="assets/js/components/picker.js"></script>
+</body>
+</html>

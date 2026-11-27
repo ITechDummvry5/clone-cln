@@ -1,0 +1,48 @@
+/* Location page (location.html?city=...). Loaded after locations.css (routes, chips, city styles); cards come from components/car-card.css. */
+.lp-cta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:22px}.lp-cta span{font-size:14px;opacity:.85}
+.lp-desks{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+.lp-desk{display:flex;gap:16px;border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.lp-desk .ic{flex:none;width:44px;height:44px;border-radius:var(--r-md);background:var(--soft);display:grid;place-items:center;color:var(--mute)}
+.lp-desk small{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute)}.lp-desk h3{font-size:18px;font-weight:600;margin:4px 0}
+.lp-desk p{font-size:14px;margin:0}.lp-desk .hrs{color:var(--mute);margin-top:6px;font-size:13px}
+.lp-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:24px}.lp-head .sub{margin-bottom:0}
+.lp-more{margin-top:16px}.lp-more a{font-size:13px;padding:6px 14px;border:1px solid var(--line);border-radius:var(--r-sm)}.lp-more a:hover{background:var(--soft)}
+.lp-missing{padding:60px 0 100px;max-width:560px}.lp-missing h1{font-size:32px;font-weight:600;margin-bottom:10px}.lp-missing p{color:var(--mute);margin-bottom:24px}
+.lp-missing .chips{display:flex;flex-wrap:wrap;gap:8px}.lp-missing .chips a{font-size:13px;padding:6px 14px;border:1px solid var(--line);border-radius:var(--r-sm)}
+@media(max-width:1000px){.lp-desks{grid-template-columns:1fr}}
+
+/* hero extras */
+.lp-pills{display:flex;gap:8px;flex-wrap:wrap;list-style:none;margin:0;padding:0}.lp-pills li{background:var(--glass);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.28);border-radius:var(--r-pill);padding:6px 14px;font-size:13px}
+.lp-facts{padding:28px 0 0}
+/* about + good to know */
+.lp-about{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;align-items:start}
+.lp-about .lead{font-size:20px;line-height:1.5;margin:16px 0 14px}.lp-about p{color:var(--mute);max-width:620px;margin-bottom:24px}.lp-about .lead{color:var(--ink)}
+.lp-know{background:var(--soft);border-radius:var(--r);padding:24px}.lp-know h3{font-size:18px;font-weight:600;margin-bottom:6px}
+.lp-know .r{padding:14px 0;border-top:1px solid var(--line)}.lp-know .r:first-of-type{border-top:0}
+.lp-know small{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin-bottom:4px}.lp-know span{font-size:14px;line-height:1.5}
+/* best spots */
+.lp-spots{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.lp-spot{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--white);display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.lp-spot:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.08)}
+.lp-spot .pic{position:relative;aspect-ratio:4/3;background:var(--soft)}.lp-spot .pic img{width:100%;height:100%;object-fit:cover}
+.lp-spot .tag{position:absolute;top:12px;left:12px;background:var(--white);border-radius:var(--r-pill);padding:3px 10px;font-size:12px}
+.lp-spot .body{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}.lp-spot h3{font-size:17px;font-weight:600}.lp-spot p{font-size:14px;color:var(--mute);line-height:1.5}
+.lp-spot .foot{margin-top:auto;padding-top:12px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;color:var(--mute)}
+.lp-spot .foot span{display:inline-flex;align-items:center;gap:6px}.lp-spot .foot svg{width:15px;height:15px}.lp-spot .foot a{color:var(--ink);font-weight:500;white-space:nowrap}.lp-spot .foot a:hover{text-decoration:underline}
+/* pick-up band + steps */
+.lp-band{background:var(--soft)}.lp-band .lp-desk{background:var(--white);border-color:transparent}
+.lp-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.lp-step{padding:4px 8px 4px 0}.lp-step i{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--white);font-style:normal;font-size:14px;font-weight:600;margin-bottom:14px}
+.lp-step h3{font-size:17px;font-weight:600;margin-bottom:6px}.lp-step p{font-size:14px;color:var(--mute);line-height:1.5}
+/* faq */
+.lp-faq{display:grid;grid-template-columns:1fr 1.6fr;gap:48px;align-items:start}.lp-faq .faq{max-width:none}.lp-faq .faq details:first-child{padding-top:0}
+@media(max-width:1000px){.lp-spots{grid-template-columns:1fr 1fr}.lp-about,.lp-faq{grid-template-columns:1fr;gap:28px}.lp-steps{grid-template-columns:1fr}}
+@media(max-width:560px){.lp-spots{grid-template-columns:1fr}}
+
+/* location facts: same icon grid as the car page specs (4 columns x 2 rows) */
+.lp-specs{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--r-lg)}
+.lp-specs>div{display:flex;gap:12px;align-items:flex-start;padding:18px 16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.lp-specs>div:nth-child(4n){border-right:0}.lp-specs>div:nth-last-child(-n+4){border-bottom:0}
+.lp-specs svg{flex:none;color:var(--mute);margin-top:2px}.lp-specs p{margin:0}
+.lp-specs b{display:block;font-weight:500}.lp-specs span{display:block;font-size:12px;color:var(--mute);margin-top:2px}
+@media(max-width:1000px){.lp-specs{grid-template-columns:1fr 1fr}.lp-specs>div:nth-child(n){border-right:1px solid var(--line);border-bottom:1px solid var(--line)}.lp-specs>div:nth-child(2n){border-right:0}.lp-specs>div:nth-last-child(-n+2){border-bottom:0}}

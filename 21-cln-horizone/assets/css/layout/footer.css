@@ -1,0 +1,8 @@
+/* Site footer (rendered by js/layout/footer.js) */
+footer{background:var(--ink);color:var(--white);border-radius:var(--r-xl);margin:auto 24px 24px;padding:48px 0 28px;flex-shrink:0}
+footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 2fr;gap:28px}
+footer h4{font-size:13px;color:#999;font-weight:500;margin-bottom:12px}footer li{list-style:none;margin-bottom:8px}footer ul{padding:0}
+footer p{color:#aaa;font-size:14px}.sub-form{display:flex;background:#222;border-radius:var(--r-md);padding:5px}.sub-form input{flex:1;background:0;border:0;color:var(--white);padding:8px 12px;font:inherit;outline:0}
+.sub-form button{background:var(--white);color:var(--ink);padding:8px 16px;border-radius:7px;font-weight:500}
+.legal{display:flex;justify-content:space-between;border-top:1px solid #333;margin-top:40px;padding-top:20px;color:#888;font-size:13px;flex-wrap:wrap;gap:10px}
+@media(max-width:1000px){footer .cols{grid-template-columns:1fr 1fr}}

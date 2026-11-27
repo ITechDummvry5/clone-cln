@@ -1,0 +1,5 @@
+/* FAQ accordion */
+.faq{max-width:760px}.faq details{border-bottom:1px solid var(--line);padding:18px 0}
+.faq summary{cursor:pointer;font-weight:500;list-style:none;display:flex;justify-content:space-between}
+.faq summary::after{content:"+";color:var(--mute)}.faq details[open] summary::after{content:"–"}
+.faq p{color:var(--mute);margin-top:10px}

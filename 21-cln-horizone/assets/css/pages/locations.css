@@ -1,0 +1,87 @@
+/* Locations page */
+.lc{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--white);display:flex;flex-direction:column}
+.lc .pic{aspect-ratio:16/10;position:relative}.lc .badge{position:absolute;top:12px;left:12px;background:var(--white);border-radius:var(--r-pill);padding:3px 10px;font-size:12px}
+.lc .body{padding:18px;display:flex;flex-direction:column;gap:10px;flex:1}.lc small{color:var(--mute);font-size:12px}.lc h3{font-size:20px;font-weight:600}.lc p{color:var(--mute);font-size:14px}
+.lc .pt{display:flex;justify-content:space-between;font-size:13px;padding-top:8px}.lc .pt em{font-style:normal;color:var(--mute)}
+.lc .foot{display:flex;align-items:center;gap:8px;margin-top:auto;padding-top:12px;font-size:13px;color:var(--mute)}.lc .foot span{margin-right:auto}.lc .foot b{color:var(--ink)}
+.lc .btn{padding:8px 14px;font-size:13px}.lc .btn.det{background:var(--white);color:var(--ink);border:1px solid var(--line)}.lc .btn.det:hover,.lc .btn.det[aria-expanded=true]{background:var(--soft)}
+/* One-way routes: journey cards (the road line between the two cities; the marker drives toward the city you point at) */
+.routes{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.route{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px 16px;background:var(--white)}
+.rt-top{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:22px}
+.rt-ctry{font-size:12px;color:var(--mute)}
+.rt-fee{font-size:12px;font-weight:500;padding:2px 9px;border-radius:var(--r-pill);background:var(--ink);color:var(--white);white-space:nowrap}.rt-fee.free{background:var(--soft);color:var(--ink)}
+.rt-names{display:flex;justify-content:space-between;gap:12px;margin:10px 0 0;font-size:20px;font-weight:600;letter-spacing:-.01em;line-height:1.15}
+.rt-names span:last-child{text-align:right}.route .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.rt-line{position:relative;height:20px;margin-top:10px;background:repeating-linear-gradient(90deg,#c9c9c9 0 6px,transparent 6px 11px) center/100% 2px no-repeat}
+.rt-line::before,.rt-line::after{content:"";position:absolute;top:50%;width:10px;height:10px;border-radius:50%;transform:translateY(-50%);box-sizing:border-box;border:2px solid var(--ink);background:var(--ink)}
+.rt-line::before{left:0}.rt-line::after{right:0;background:var(--white)}
+.mk{position:absolute;z-index:1;top:50%;left:50%;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;transform:translate(-50%,-50%);display:grid;place-items:center;transition:left .5s cubic-bezier(.3,.7,.2,1)}
+.mk::after{content:"";width:5px;height:5px;border-top:2px solid #fff;border-right:2px solid #fff;transform:translateX(-1px) rotate(45deg);transition:transform .3s}
+.route:has(.rt-go a:first-child:is(:hover,:focus-visible)) .mk{left:calc(100% - 5px)}
+.route:has(.rt-go a:last-child:is(:hover,:focus-visible)) .mk{left:5px}
+.route:has(.rt-go a:last-child:is(:hover,:focus-visible)) .mk::after{transform:translateX(1px) rotate(-135deg)}
+.rt-km{margin:4px 0 12px;text-align:center;font-size:12px;color:var(--mute)}
+.rt-go{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.route .rt-go a{text-align:center;font-size:13px;font-weight:500;padding:8px 8px;border:1px solid var(--line);border-radius:var(--r-sm);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.route .rt-go a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+@media(max-width:620px){.routes{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.mk,.mk::after,.route{transition:none}}
+/* Details popover (built by pages/locations.js, drawn above the page) */
+.lc-pop{position:fixed;z-index:70;width:380px;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);overflow:auto;background:var(--white);color:var(--ink);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:0 14px 44px rgba(0,0,0,.22);padding:20px;scrollbar-width:none}
+.lc-pop::-webkit-scrollbar{display:none}
+.lc-pop h3{font-size:18px;font-weight:600}.lc-pop .lead{color:var(--ink);font-size:14px;margin:12px 0 16px;line-height:1.5}
+.lc-pop .r{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}.lc-pop .r .ic{flex:none;width:36px;height:36px;border-radius:var(--r-sm);background:var(--soft);display:grid;place-items:center;color:var(--mute)}
+.lc-pop .r b{display:block;font-size:13px;font-weight:600}.lc-pop .r span:not(.ic){display:block;font-size:13px;margin-top:2px}.lc-pop .r small{display:block;color:var(--mute);font-size:12px;margin-top:2px}
+.lc-pop ul{list-style:none;margin:6px 0 0;padding:14px 0 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px;font-size:13px}
+.lc-pop li{display:flex;gap:12px;align-items:center}.lc-pop li svg{flex:none;width:16px;height:16px;color:var(--mute)}
+/* city picture and name link to location.html */
+.lc a.pic{display:block}.lc h3 a:hover{text-decoration:underline}
+
+/* Pinterest-style masonry destination cards: each card keeps its own height. */
+#cities.grid3 {
+  display: block;
+  columns: 3;
+  column-gap: 16px;
+}
+#cities .lc {
+  display: inline-flex;
+  width: 100%;
+  margin: 0 0 16px;
+  vertical-align: top;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+}
+#cities .lc .pic {
+  display: block;
+  flex: none;
+  width: 100%;
+  overflow: hidden;
+  aspect-ratio: auto;
+  height: 260px;
+}
+#cities .lc:nth-child(5n + 1) .pic { height: 330px; }
+#cities .lc:nth-child(5n + 2) .pic { height: 215px; }
+#cities .lc:nth-child(5n + 3) .pic { height: 275px; }
+#cities .lc:nth-child(5n + 4) .pic { height: 235px; }
+#cities .lc:nth-child(5n) .pic { height: 300px; }
+#cities .lc .pic img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .45s ease;
+}
+#cities .lc .pic:hover img { transform: scale(1.035); }
+#cities .lc .body { flex: none; }
+@media (max-width: 900px) {
+  #cities.grid3 { columns: 2; }
+}
+@media (max-width: 580px) {
+  #cities.grid3 { columns: 1; }
+  #cities .lc .pic,
+  #cities .lc:nth-child(n) .pic { height: 240px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #cities .lc .pic img { transition: none; }
+}
