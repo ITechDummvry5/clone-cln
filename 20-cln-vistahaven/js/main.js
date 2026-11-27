@@ -53,7 +53,13 @@ function pageProperties() {
 function pageProperty() {
   const id = new URLSearchParams(location.search).get("id") || "palazzo-di-amore";
   const p = PROPERTIES.find(x => x.id === id) || PROPERTIES[1], a = AGENTS.find(x => x.id === p.agent);
-  document.title = p.title + " | " + SITE.name;
+  const blurb = p.overview.length > 155 ? p.overview.slice(0, 152).replace(/\s+\S*$/, "") + "..." : p.overview;
+  const path = "property.html?id=" + p.id, cover = IMAGES_PROPERTY[p.id];
+  setSeo({ title: `${p.title}, ${p.loc} | ${TYPE_LABEL[p.type]} | ${SITE.owner}`, description: blurb, path, image: cover });
+  addJsonLd("ld-listing", { "@context": "https://schema.org", "@type": "RealEstateListing", name: p.title, url: absUrl(path),
+    description: p.overview, image: cover && absUrl(cover),
+    offers: { "@type": "Offer", price: p.price, priceCurrency: "USD" },
+    contentLocation: { "@type": "Place", name: p.loc, geo: { "@type": "GeoCoordinates", latitude: p.lat, longitude: p.lng } } });
   const d = .012, bbox = [p.lng - d, p.lat - d, p.lng + d, p.lat + d].join("%2C");
   $("#detail").innerHTML = `
   <div class="gallery"><div class="ph main"><img data-img="${p.id}" alt="${p.title}"><span class="tag" style="left:14px;right:auto">${TYPE_LABEL[p.type]}</span></div>
@@ -70,7 +76,7 @@ function pageProperty() {
   <aside class="side"><h3 style="text-transform:none;font-size:22px">Property ${TYPE_LABEL[p.type]}</h3><b class="big">${money(p.price)}</b>
     <small>Get in touch for more about this property</small>
     <div class="ag"><img data-img="${a.id}" alt="${a.name}"><b>${a.name}</b><br><small>${a.role}</small></div>
-    <a class="btn btn-solid" href="mailto:${SITE.email}?subject=${encodeURIComponent("Info request: " + p.title)}">Request Info</a></aside></div>`;
+    <a class="btn btn-solid" href="contact.html?property=${encodeURIComponent(p.title)}#contact-form">Request Info</a></aside></div>`;
 }
 
 function pageAbout() {
@@ -83,6 +89,60 @@ function pageAbout() {
   countUp();
 }
 
+function pageContact() {
+  countUp();
+  const form = $("#contact-form"); if (!form) return;
+  const status = $("#form-status"), btn = $("button[type=submit]", form);
+  const prop = new URLSearchParams(location.search).get("property");
+  if (prop) $("#message").value = `Hi, I'd like more information about ${prop.slice(0, 80)}.`;
+
+  const rules = {
+    first:   v => v.trim() ? "" : "Please enter your first name.",
+    last:    v => v.trim() ? "" : "Please enter your last name.",
+    email:   v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? "" : "Please enter a valid email address.",
+    phone:   v => !v.trim() || /^\+?[\d\s().-]{7,20}$/.test(v.trim()) ? "" : "Please enter a valid phone number.",
+    message: v => v.trim().length >= 10 ? "" : "Tell us a little more (at least 10 characters)."
+  };
+  const check = id => {
+    const el = $("#" + id), msg = rules[id](el.value);
+    el.setAttribute("aria-invalid", !!msg); $("#err-" + id).textContent = msg; return !msg;
+  };
+  Object.keys(rules).forEach(id => {
+    const el = $("#" + id);
+    el.addEventListener("blur", () => check(id));
+    el.addEventListener("input", () => { if (el.getAttribute("aria-invalid") === "true") check(id); });
+  });
+  const show = (cls, html) => { status.className = "form-status " + cls; status.innerHTML = html; status.focus(); };
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    status.className = "form-status"; status.textContent = "";
+    const bad = Object.keys(rules).filter(id => !check(id));
+    if (bad.length) { $("#" + bad[0]).focus(); return; }
+    if ($("#website").value) return;                       // honeypot: bots fill this, people never see it
+    const f = new FormData(form), data = {
+      firstName: f.get("first").trim(), lastName: f.get("last").trim(), email: f.get("email").trim(),
+      phone: (f.get("phone") || "").trim(), interest: f.get("interest"), message: f.get("message").trim()
+    };
+    btn.disabled = true; const label = btn.textContent; btn.textContent = "Sending...";
+    try {
+      if (SITE.formEndpoint) {
+        const r = await fetch(SITE.formEndpoint, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(data) });
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        form.reset(); $$("[aria-invalid]", form).forEach(el => el.removeAttribute("aria-invalid"));
+        show("ok", `Thank you, ${data.firstName}! We received your message and will get back to you within one business day.`);
+      } else {
+        // No backend yet: hand the message to the visitor's email app, ready to send.
+        const body = `${data.message}\n\n${data.firstName} ${data.lastName}\n${data.email}${data.phone ? "\n" + data.phone : ""}\nInterested in: ${data.interest}`;
+        location.href = `mailto:${SITE.email}?subject=${encodeURIComponent("Call request: " + data.firstName + " " + data.lastName)}&body=${encodeURIComponent(body)}`;
+        show("ok", `Thanks, ${data.firstName}! Your email app should open with your message ready to send. If nothing opened, write to <a href="mailto:${SITE.email}"><u>${SITE.email}</u></a>.`);
+      }
+    } catch (err) {
+      show("bad", `Sorry, something went wrong sending your message. Please try again, or call us on ${SITE.phone}.`);
+    } finally { btn.disabled = false; btn.textContent = label; }
+  });
+}
+
 function pageAgents() { $("#agents-grid").innerHTML = AGENTS.map(agentCard).join(""); }
 
 const PAGES = {
@@ -90,7 +150,8 @@ const PAGES = {
   properties: { run: pageProperties, images: () => IMAGES_PROPERTIES },
   property:   { run: pageProperty,   images: () => IMAGES_PROPERTY },
   about:      { run: pageAbout,      images: () => IMAGES_ABOUT },
-  agents:     { run: pageAgents,     images: () => IMAGES_AGENTS }
+  agents:     { run: pageAgents,     images: () => IMAGES_AGENTS },
+  contact:    { run: pageContact,    images: () => IMAGES_CONTACT }
 };
 document.addEventListener("DOMContentLoaded", () => {
   const page = document.body.dataset.page, cfg = PAGES[page];

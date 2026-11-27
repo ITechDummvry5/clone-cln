@@ -1,6 +1,6 @@
 const IMAGES_ABOUT = {
-  hero: "assets/about/hero-team.jpg",
-  principles: "assets/about/principles-cliff-house.jpg",
-  isabella: "assets/agents/isabella.jpg", noah: "assets/agents/noah.jpg",
-  benjamin: "assets/agents/benjamin.jpg", emily: "assets/agents/emily.jpg"
+  hero: "assets/about/hero-team.webp",
+  principles: "assets/about/principles-cliff-house.webp",
+  isabella: "assets/agents/isabella.webp", noah: "assets/agents/noah.webp",
+  benjamin: "assets/agents/benjamin.webp", emily: "assets/agents/emily.webp"
 };

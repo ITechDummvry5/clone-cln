@@ -1,6 +1,6 @@
 const IMAGES_AGENTS = {
-  isabella: "assets/agents/isabella.jpg", noah: "assets/agents/noah.jpg",
-  benjamin: "assets/agents/benjamin.jpg", emily: "assets/agents/emily.jpg",
-  michael: "assets/agents/michael.jpg", charlotte: "assets/agents/charlotte.jpg",
-  sophia: "assets/agents/sophia.jpg", liam: "assets/agents/liam.jpg"
+  isabella: "assets/agents/isabella.webp", noah: "assets/agents/noah.webp",
+  benjamin: "assets/agents/benjamin.webp", emily: "assets/agents/emily.webp",
+  michael: "assets/agents/michael.webp", charlotte: "assets/agents/charlotte.webp",
+  sophia: "assets/agents/sophia.webp", liam: "assets/agents/liam.webp"
 };

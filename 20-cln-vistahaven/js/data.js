@@ -1,14 +1,18 @@
 const SITE = {
   name: "VISTAHAVEN", phone: "+1-800-555-1234", email: "info@vistahaven.com",
   address: "123 Serenity Boulevard, Los Angeles, CA 90012, United States",
-  year: 2025, owner: "VistaHaven"
+  year: 2025, owner: "VistaHaven",
+  url: "https://www.vistahaven.com",      // change to the real domain before launch
+  hours: "Mon to Fri, 9am to 6pm PT",
+  formEndpoint: ""                        // e.g. a Formspree/Getform URL. Empty = opens the visitor's email app instead
 };
 const NAV_LINKS = [
   { label: "Home",       href: "index.html#hero",            page: "home" },
   { label: "Services",   href: "index.html#feature-service", page: "" },
   { label: "Properties", href: "properties.html",            page: "properties" },
   { label: "About",      href: "about.html",                 page: "about" },
-  { label: "Agents",     href: "agents.html",                page: "agents" }
+  { label: "Agents",     href: "agents.html",                page: "agents" },
+  { label: "Contact",    href: "contact.html",               page: "contact", mobileOnly: true }
 ];
 const AMENITIES = ["TV","Air Conditioner","Washing Machine","Internet","Water Heater","Refrigerator","Sofa","Wardrobe"];
 const TYPE_LABEL = { Sell:"For Sell", Rent:"For Rent", Investment:"For Investment" };
