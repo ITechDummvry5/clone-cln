@@ -58,6 +58,7 @@
   let tab = TABS.some(t => t[0] === location.hash.slice(1)) ? location.hash.slice(1) : 'overview';
   const f = { q: '', status: 'all', city: 'all', sel: null };
   let flash = null;
+  let simgBusy = '', simgWith = true;   // sample images: busy text while the API is being called; "also load images" checkbox
   const enh = () => app.querySelectorAll('select:not([data-enh])').forEach(s => enhanceSelect(s, { float: true, compact: !!s.closest('.ac-tbl') }));
   const pill = s => `<span class="ac-pill ${esc(s)}">${esc(s)}</span>`;
   const earns = b => ['confirmed', 'completed'].includes(b.status);
@@ -920,7 +921,12 @@
       <div class="ac-card w" style="max-width:560px;margin-top:16px"><h2>Sample data</h2>
       <p class="s">The site starts empty. Fill it with demo locations, cars, deals, bookings and the ready-made dropdown lists, then remove it all again in one click. Everything here lives in this browser only.</p>
       ${(() => { const hasDemo = HZ.bookings().some(b => b.demo) || HZFLEET.hasSampleLists() || HZFLEET.hasSampleCars() || HZLOC.hasSample() || HZDEALS.hasSample();
-        return sampleOn() || hasDemo ? `<div style="display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px">${sampleOn() ? '<button type="button" class="ac-b" data-demo="add">Load sample data</button>' : ''}${hasDemo ? '<button type="button" class="ac-b g" data-demo="clear">Remove sample data</button>' : ''}</div>` : ''; })()}
+        return sampleOn() || hasDemo ? `<div style="display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px">${sampleOn() ? `<button type="button" class="ac-b" data-demo="add"${simgBusy ? ' disabled' : ''}>Load sample data</button>` : ''}${hasDemo ? `<button type="button" class="ac-b g" data-demo="clear"${simgBusy ? ' disabled' : ''}>Remove sample data</button>` : ''}</div>
+        ${sampleOn() ? `<label class="sw" style="margin:10px 0 0"><input type="checkbox" id="simgWith"${simgWith ? ' checked' : ''}><i></i><span>Also load real photos from the image API</span></label>` : ''}` : ''; })()}
+      ${sampleOn() || HZIMGAPI.has() ? `<hr style="border:0;border-top:1px solid var(--line);margin:18px 0 14px">
+      <h3 style="margin:0 0 4px;font-size:15px">Sample images (API)</h3>
+      <p class="s" style="margin:0">Finds a real photo for every car, location, car category, “best place to drive” and sample deal that has no picture yet, from the free Wikipedia image API. Only the image link is saved, so it takes almost no space. Your own pictures are never replaced. Needs an internet connection.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0 0">${sampleOn() ? `<button type="button" class="ac-b" data-simg="add"${simgBusy ? ' disabled' : ''}>${simgBusy ? 'Loading…' : 'Load sample images'}</button>` : ''}${HZIMGAPI.has() ? `<button type="button" class="ac-b g" data-simg="clear"${simgBusy ? ' disabled' : ''}>Remove sample images</button>` : ''}<span class="s" id="simgStatus" role="status" style="font-size:12px">${esc(simgBusy)}</span></div>` : ''}
       <hr style="border:0;border-top:1px solid var(--line);margin:18px 0 14px">
       <label class="sw"><input type="checkbox" id="sSample"${sampleOn() ? ' checked' : ''}><i></i><span>Sample data tools are <b>${sampleOn() ? 'on' : 'off'}</b></span></label>
       <p class="s" style="margin:8px 0 0;font-size:12px">Turn the tools off when the site is live. The Load button is hidden, and Remove stays available while sample data is still stored.</p>
@@ -986,18 +992,38 @@
     const dep = D.deposit === '' || D.deposit == null ? '' : curRound(D.deposit * curRate(base), base);
     const sel = (name, label, arr, cur) => `<div class="ac-f"><label for="lf-${name}">${label}</label><select id="lf-${name}" name="${name}"${arr.length ? '' : ' disabled'}>${arr.length ? arr.map(x => `<option${x === cur ? ' selected' : ''}>${esc(x)}</option>`).join('') : '<option value="">None yet. Add options below.</option>'}</select></div>`;
     const total = Object.keys(LIST_LABELS).reduce((t, k) => t + L[k].length, 0);
-    const boxes = Object.keys(LIST_LABELS).map(k => `<div class="fl-box"><p class="fl-t"><b>${listName(k)}</b><em>${L[k].length}</em></p><div class="geo-chips">${L[k].length ? L[k].map(x => optChip(x, k)).join('') : '<span class="s">None added yet.</span>'}</div></div>`).join('');
-    return `<div class="mr-grid mr-geo">
-      <section class="mr-card dark s4"><div class="mr-ch"><div><h2>Lists and defaults</h2><p>These fill the dropdowns in the Fleet form. Defaults pre-fill every new car.</p></div></div>
-        <div class="mr-big" style="--n:3">${total}</div><p class="rt-lbl">options across ${Object.keys(LIST_LABELS).length} lists</p>
-        <div class="cu-trips" style="margin:18px 0 0">${Object.keys(LIST_LABELS).map(k => `<div class="cu-bk"><span class="mr-tag glass">${L[k].length}</span><span><b>${listName(k)}</b></span><em></em></div>`).join('')}</div></section>
-      <section class="mr-card s8"><div class="mr-ch"><div><h2>Defaults for new cars</h2><p>Used when you press Add fleet. You can still change anything per car.</p></div></div>
-        <form id="fFleetDef" novalidate><div class="ac-3 fl-3">${sel('dtype', 'Car type', L.type, D.type)}${sel('dtrans', 'Gearbox', L.trans, D.trans)}${sel('dfuel', 'Fuel', L.fuel, D.fuel)}${sel('ddrive', 'Drivetrain', L.drive, D.drive)}
-          ${fld('Seats', 'dseats', D.seats ?? 5, { type: 'number', min: 1 })}${fld('Doors', 'ddoors', D.doors ?? 4, { type: 'number', min: 2 })}${fld('Large bags', 'dbags', D.bags ?? 3, { type: 'number', min: 0 })}${fld('Minimum driver age', 'dminAge', D.minAge ?? 21, { type: 'number', min: 18 })}
-          ${fld('Cars in stock', 'dunits', D.units ?? 1, { type: 'number', min: 0 })}${fld(`Security deposit (${esc(base)})`, 'ddeposit', dep, { type: 'number', min: 0, hint: 'Leave empty to type it per car.' })}</div><button class="ac-b">Save defaults</button></form></section>
-      <section class="mr-card s12"><div class="mr-ch"><div><h2>Dropdown lists</h2><p>The lists start empty. Add an option once and it appears in the Fleet form, or press “Load sample data” in Settings > Sample data. Click × to remove one. An option a car uses can’t be removed.</p></div></div>
-        <div class="geo-2"><form id="fOpt" novalidate><div class="ac-f"><label for="lf-olist">List</label><select id="lf-olist" name="olist">${Object.entries(LIST_LABELS).map(([k, v]) => `<option value="${k}">${listName(k)}</option>`).join('')}</select></div>${fld('New option', 'oval', '', { req: 1, ph: OPT_PH.brand })}<button class="ac-b">Add option</button></form>
-        <div class="fl-boxes">${boxes}</div></div></section></div>`;
+    const cars = carList(), keys = Object.keys(LIST_LABELS);
+    const useN = (k, v) => k === 'feature' ? cars.filter(x => (x.features || []).includes(v)).length : cars.filter(x => x[LIST_FIELD[k]] === v).length;
+    const CK = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-6.5"/></svg>';
+    const ring = (a, b) => { const C = 2 * Math.PI * 14, p = b ? a / b : 0;
+      return `<span class="fl-ring" role="img" aria-label="${a} of ${b}"><svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="14"/><circle class="p" cx="18" cy="18" r="14" stroke-dasharray="${(p * C).toFixed(1)} ${C.toFixed(1)}"/></svg><b>${a}/${b}</b></span>`; };
+    const DESC = { brand: 'Fills the Brand dropdown in the Fleet form.', type: 'Fills the Car type dropdown. The home page groups cars by type.', trans: 'Fills the Gearbox dropdown in the Fleet form.', fuel: 'Fills the Fuel dropdown. Electric feeds the Electric category.', drive: 'Fills the Drivetrain dropdown in the Fleet form.', feature: 'The tick-boxes you can switch on for each car.' };
+    const NUM = { brand: '02', type: '03', trans: '04', fuel: '05', drive: '06', feature: '07' };
+    const lcard = (k, cls, dark) => {
+      const items = L[k], used = items.filter(v => useN(k, v) > 0).length;
+      const rows = items.map(v => { const n = useN(k, v);
+        return `<li class="fl-row${n ? ' on' : ''}"><i class="fl-dot">${n ? CK : ''}</i><span>${esc(v)}</span>${n ? `<em>${plural(n, 'car')}</em>` : `<button type="button" class="fl-x" data-tip="Remove" aria-label="Remove ${esc(v)}" data-opt-del="${k}" data-b="${esc(v)}">${ICO.x}</button>`}</li>`; }).join('');
+      return `<section class="mr-card ${dark ? 'dark ' : ''}fl-card ${cls}"><div class="fl-top"><span class="fl-n">${NUM[k]}</span>${ring(used, items.length)}</div>
+        <h2>${listName(k)}</h2><p class="fl-d">${DESC[k]}</p>
+        ${items.length ? `<ul class="fl-rows">${rows}</ul>` : '<p class="fl-none">None added yet. Use “Add an option”.</p>'}
+        <div class="fl-foot"><span>In use</span><b>${used} of ${items.length}</b></div></section>`; };
+    const defHead = `<section class="mr-card fl-card fl-c12"><div class="fl-top"><span class="fl-n">08</span></div><h2>Defaults for new cars</h2><p class="fl-d">Used when you press Add fleet. You can still change anything per car.</p>
+        <form id="fFleetDef" novalidate><div class="fl-def">${sel('dtype', 'Car type', L.type, D.type)}${sel('dtrans', 'Gearbox', L.trans, D.trans)}${sel('dfuel', 'Fuel', L.fuel, D.fuel)}${sel('ddrive', 'Drivetrain', L.drive, D.drive)}${fld('Seats', 'dseats', D.seats ?? 5, { type: 'number', min: 1 })}
+          ${fld('Doors', 'ddoors', D.doors ?? 4, { type: 'number', min: 2 })}${fld('Large bags', 'dbags', D.bags ?? 3, { type: 'number', min: 0 })}${fld('Minimum driver age', 'dminAge', D.minAge ?? 21, { type: 'number', min: 18 })}${fld('Cars in stock', 'dunits', D.units ?? 1, { type: 'number', min: 0 })}${fld(`Security deposit (${esc(base)})`, 'ddeposit', dep, { type: 'number', min: 0, hint: 'Leave empty to type it per car.' })}</div>
+          <div class="fl-foot"><span>Pre-fills every new car</span><button class="ac-b">Save defaults</button></div></form></section>`;
+    const filled = keys.filter(k => L[k].length).length;
+    return `<div class="fl-wrap"><div class="fl-head"><div><span class="fl-eye">Fleet · Lists and defaults</span><h2>Set it once. <em>Reuse it everywhere.</em></h2></div><div class="fl-side"><span class="fl-eye">Total options</span><b>${total}</b></div></div>
+      <div class="mr-grid mr-geo fl-grid">
+      <section class="mr-card dark fl-card fl-c3 fl-tall"><div class="fl-top"><span class="fl-n">01</span>${ring(filled, keys.length)}</div>
+        <h2>Add an option</h2><p class="fl-d">Pick a list, type the new option and press Add. It shows up in the Fleet form right away. An option a car uses can’t be removed.</p>
+        <form id="fOpt" novalidate class="fl-add"><div class="ac-f"><label for="lf-olist">List</label><select id="lf-olist" name="olist">${keys.map(k => `<option value="${k}">${listName(k)}</option>`).join('')}</select></div>${fld('New option', 'oval', '', { req: 1, ph: OPT_PH.brand })}<button class="ac-b">Add option</button></form>
+        <ul class="fl-rows">${keys.map(k => `<li class="fl-row${L[k].length ? ' on' : ''}"><i class="fl-dot">${L[k].length ? CK : ''}</i><span>${listName(k)}</span><em>${L[k].length}</em></li>`).join('')}</ul>
+        <div class="fl-foot"><span>Total</span><b>${total} options</b></div></section>
+      ${lcard('type', 'fl-c3 fl-tall')}${lcard('brand', 'fl-c3 fl-tall')}
+      <div class="fl-c3 fl-stack">${lcard('trans', 'fl-c12')}${lcard('fuel', 'fl-c12', 1)}</div>
+      ${lcard('drive', 'fl-c4')}${lcard('feature', 'fl-c8 fl-wide')}
+      ${defHead}
+      ${catPicsCard()}</div></div>`;
   }
   function fleetDefSave(f) {
     const v = n => f.elements[n].value.trim(), L = HZFLEET.lists(), c = HZFLEET.cfg();
@@ -1586,6 +1612,16 @@
     ['heroes.deals', 'Deals hero', 'Top of the Deals page.', '1920 × 700', 70, 'g'],
     ['heroes.about', 'About hero', 'Top of the About page.', '1920 × 700', 70, 'g'],
     ['heroes.supplier', 'About photo', 'The side picture next to the fleet text on the About page. It has no overlay unless you add one.', '900 × 700', 0, 'f']];
+  // Home page \"Find the right car\" pictures, one per category. Managed in Fleet > Lists and defaults; saved with the landing images (HZSITE keys categories.<key>).
+  const CAT_PICS = [['suv', 'SUV', 'Cars of type SUV'], ['sedan', 'Sedan', 'Cars of type Sedan'], ['hatchback', 'Hatchback', 'Cars of type Hatchback'], ['electric', 'Electric', 'Cars with electric fuel'], ['minivan', 'Minivan & 7-seat', 'Cars of type Minivan'], ['sport', 'Sport & convertible', 'Cars of type Sport or Convertible']];
+  function catPicsCard() {
+    const cur = HZSITE.all(), n = CAT_PICS.filter(c => cur['categories.' + c[0]]).length;
+    const box = ([k, name, note]) => { const v = cur['categories.' + k] || '', def = (IMG.categories && IMG.categories[k]) || '';
+      return imgField(`${esc(name)} <small style="font-weight:400;color:var(--mute)">· ${esc(note)}</small>`, v, 0).replace('data-imgf', `data-imgf data-catpic="${k}" data-def="${esc(def)}"`).replace('<span>No image</span>', def ? `<img src="${esc(def)}" alt="">` : '<span>No image</span>'); };
+    return `<section class="mr-card s12"><div class="mr-ch"><div><h2>Category pictures</h2><p>The pictures in “Find the right car” on the home page, one per category. ${n ? plural(n, 'picture') + ' changed.' : 'Nothing changed yet, the site uses its built-in pictures.'} Upload a file, paste a link, or use <b>Settings > Sample data > Load sample images</b>. The X button goes back to the built-in one.</p></div>
+      <div class="mr-btns"><button type="button" class="ac-b g" data-cat-reset>Use all built-in</button><button type="button" class="ac-b" data-cat-save>Save category pictures</button></div></div>
+      <div class="ac-3 fl-3">${CAT_PICS.map(box).join('')}</div></section>`;
+  }
   function landingTab() {
     const cur = HZSITE.all(), dims = HZSITE.dimAll(), n = SITE_SLOTS.filter(x => cur[x[0]] || (typeof dims[x[0]] === 'number' && dims[x[0]] !== x[4])).length;
     const card = ([key, name, where, size, defDim, kind]) => {
@@ -1607,10 +1643,16 @@
     const rs = e.target.closest('[data-dim-reset]'); if (rs) { const r = rs.closest('.ac-land-c').querySelector('[data-dim]'); r.value = r.dataset.defdim; r.dispatchEvent(new Event('input', { bubbles: true })); return; }
     if (e.target.closest('[data-landing-save]')) act(() => {
       const m = {}, d = {};
+      Object.entries(HZSITE.all()).forEach(([k, v]) => { if (k.startsWith('categories.')) m[k] = v; });
       app.querySelectorAll('[data-slot]').forEach(b => { const v = imgOfBox(b); if (v) m[b.dataset.slot] = v; });
       app.querySelectorAll('[data-dim]').forEach(r => { if (r.value !== r.dataset.defdim) d[r.dataset.dim] = +r.value; });
       HZSITE.set(m); HZSITE.setDim(d); flash = { ok: true, m: 'Landing images saved. The live site now uses them.' }; });
-    if (e.target.closest('[data-landing-reset]')) act(() => { HZSITE.set({}); HZSITE.setDim({}); flash = { ok: true, m: 'Back to the built-in pictures and overlays.' }; });
+    if (e.target.closest('[data-cat-save]')) act(() => {
+      const m = { ...HZSITE.all() };
+      app.querySelectorAll('[data-catpic]').forEach(b => { const v = imgOfBox(b), k = 'categories.' + b.dataset.catpic; if (v) m[k] = v; else delete m[k]; });
+      HZSITE.set(m); flash = { ok: true, m: 'Category pictures saved. The home page now uses them.' }; });
+    if (e.target.closest('[data-cat-reset]')) act(() => { const m = { ...HZSITE.all() }; CAT_PICS.forEach(c => delete m['categories.' + c[0]]); HZSITE.set(m); flash = { ok: true, m: 'Category pictures are back to the built-in ones.' }; });
+    if (e.target.closest('[data-landing-reset]')) act(() => { { const keep = {}; Object.entries(HZSITE.all()).forEach(([k, v]) => { if (k.startsWith('categories.')) keep[k] = v; }); HZSITE.set(keep); } HZSITE.setDim({}); flash = { ok: true, m: 'Back to the built-in pictures and overlays.' }; });
   });
 
   // ---- Activity: who changed what and when (written by services/insights.js for every save made on this page).
@@ -1794,6 +1836,15 @@
   // Account menu: sign out, and close the menu when you click anywhere else.
   app.addEventListener('click', e => { if (e.target.closest('#adOut')) { HZ.signOut(); location.href = 'index.html'; } });
   document.addEventListener('click', e => { const d = app.querySelector('.mr-user[open]'); if (d && !d.contains(e.target)) d.removeAttribute('open'); });
+  // Call the image API (async), show progress in the Sample data card, then report. prefix = text kept in front of the result.
+  function loadImages(prefix = '') {
+    if (simgBusy) return;
+    simgBusy = 'Starting…'; render();
+    const step = (d, t) => { simgBusy = `Finding photos ${d} of ${t}…`; const el = app.querySelector('#simgStatus'); if (el) el.textContent = simgBusy; };
+    return HZIMGAPI.load(step).then(r => { flash = r.total ? { ok: true, m: `${prefix}Loaded ${r.found} of ${r.total} sample images.${r.found < r.total ? ' The rest keep their placeholder.' : ''}` } : { ok: true, m: `${prefix}Nothing to do: every car, location and deal already has a picture, or there are none yet (press “Load sample data” first).` }; })
+      .catch(e => { flash = { ok: false, m: e.user ? e.message : 'Could not load the images.' }; if (!e.user) console.error(e); })
+      .finally(() => { simgBusy = ''; render(); });
+  }
   const act = fn => { try { fn(); } catch (e) { flash = { ok: false, m: e.user ? e.message : 'Something went wrong.' }; if (!e.user) console.error(e); } render(); };
   const csvCell = v => { let s = String(v ?? ''); if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
 
@@ -1879,8 +1930,11 @@
     if (e.target.closest('[data-spot-add]')) { ed.d = collect(); ed.d.spots.push(blankSpot()); render(); const last = [...app.querySelectorAll('[data-spot]')].pop(); if (last) { last.scrollIntoView({ block: 'center', behavior: 'smooth' }); last.querySelector('input').focus({ preventScroll: true }); } return; }
     if (e.target.closest('[data-spot-del]')) { const y = scrollY, sp = e.target.closest('[data-spot]'); ed.d = collect(); ed.d.spots.splice([...app.querySelectorAll('[data-spot]')].indexOf(sp), 1); render(); scrollTo(0, y); return; }
     if (e.target.closest('[data-img-clear]')) { const box = e.target.closest('[data-imgf]'); box.querySelector('[data-imgurl]').value = ''; setImg(box, ''); return; }
+    const si = e.target.closest('[data-simg]');
+    if (si) { if (si.dataset.simg === 'clear') return act(() => { const n = HZIMGAPI.clear(); flash = { ok: true, m: n ? `Removed ${n} sample image${n === 1 ? '' : 's'}.` : 'No sample images to remove.' }; }); return loadImages(); }
     const d = e.target.closest('[data-demo]');
-    if (d) return act(() => { d.dataset.demo === 'add' ? (HZFLEET.loadSampleLists(), HZLOC.loadSample(), recountLocs(), HZFLEET.loadSampleCars(), recountLocs(), HZDEALS.loadSample(), HZ.seedDemo()) : (HZ.clearDemo(), HZFLEET.clearSampleLists(), HZFLEET.clearSampleCars(), HZLOC.clearSample(), HZDEALS.clearSample(), recountLocs()); flash = { ok: true, m: d.dataset.demo === 'add' ? 'Sample data loaded.' : 'Sample data removed.' }; });
+    if (d) { const add = d.dataset.demo === 'add'; let ok = false; act(() => { add ? (HZFLEET.loadSampleLists(), HZLOC.loadSample(), recountLocs(), HZFLEET.loadSampleCars(), recountLocs(), HZDEALS.loadSample(), HZ.seedDemo()) : (HZIMGAPI.clear(), HZ.clearDemo(), HZFLEET.clearSampleLists(), HZFLEET.clearSampleCars(), HZLOC.clearSample(), HZDEALS.clearSample(), recountLocs()); flash = { ok: true, m: add ? 'Sample data loaded.' : 'Sample data removed.' }; ok = true; });
+      if (add && ok && simgWith) loadImages('Sample data loaded. '); return; }
     const row = e.target.closest('tr[data-id], .rt-card[data-id], .rt-d[data-id]');
     if (row && e.target.closest('[data-view]')) return view(row.dataset.id);
     if (row && e.target.closest('[data-del]')) { act(() => { const b = HZ.bookings().find(x => x.id === row.dataset.id); if (b) toTrash('booking', b.id, [b.customer && b.customer.name, b.car].filter(Boolean).join(' · '), b); HZ.removeBooking(row.dataset.id); flash = { ok: true, m: 'Booking moved to Trash.' }; }); return; }
@@ -1922,6 +1976,7 @@
     const row = e.target.closest('tr[data-id]'), ur = e.target.closest('tr[data-uid]');
     if (e.target.matches('[data-status]') && row) return act(() => { HZ.setStatus(row.dataset.id, e.target.value); flash = { ok: true, m: `${row.dataset.id} marked ${e.target.value}.` }; });
     if (e.target.matches('[data-role]') && ur) return act(() => { HZ.setRole(ur.dataset.uid, e.target.value); flash = { ok: true, m: 'Role updated.' }; });
+    if (e.target.id === 'simgWith') { simgWith = e.target.checked; return; }
     if (e.target.id === 'sSample') return act(() => { HZ.setSampleData(e.target.checked); flash = { ok: true, m: e.target.checked ? 'Sample data tools turned on.' : 'Sample data tools turned off.' }; });
     
   });

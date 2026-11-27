@@ -18,7 +18,7 @@ assets/
   js/
     core/        config  storage  utils  icons  media  currency                  (no DOM side effects, used everywhere)
     data/        images  fleet  cities  routes                                     (content only)
-    services/    auth  oneway                                                      (accounts, bookings, settings, messages; one-way return rules)
+    services/    auth  oneway  sample-images                                                      (accounts, bookings, settings, messages; one-way return rules)
     layout/      header  footer                                                    (render the shared header and footer)
     components/  toast dropdown currency-menu newsletter picker date-picker             (reusable behaviour)
     pages/       home cars car location locations deals about help login account admin not-found (one file per page)
@@ -26,7 +26,7 @@ assets/
 
 ## Starts empty, sample data on demand
 
-A fresh install has **no cars, no locations, no bookings and empty dropdown lists** (only the admin account exists). `data/fleet.js` and `data/cities.js` are now the *sample set*: in the admin panel press **Load sample data** in Settings > Sample data to copy them in (cars, locations, demo bookings and the Fleet settings lists). Everything loaded is flagged as sample and can be edited or deleted one by one, or removed together with **Remove sample data**. The Settings > Sample data switch hides the tool when the site goes live.
+A fresh install has **no cars, no locations, no bookings and empty dropdown lists** (only the admin account exists). `data/fleet.js` and `data/cities.js` are now the *sample set*: in the admin panel press **Load sample data** in Settings > Sample data to copy them in (cars, locations, demo bookings and the Fleet settings lists). Everything loaded is flagged as sample and can be edited or deleted one by one, or removed together with **Remove sample data**. **Sample images (API):** the same card has *Load sample images*, which finds a real photo for every car, location, "best place to drive" and sample deal that has no picture yet, using the free Wikipedia image API (`services/sample-images.js`, needs internet, no key). Only the image link is saved. Your own pictures are never replaced, and *Remove sample images* (or *Remove sample data*) puts back exactly what it changed. The *Also load real photos* checkbox next to *Load sample data* does both in one click. The Settings > Sample data switch hides the tools when the site goes live.
 
 ## Where things go
 

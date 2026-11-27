@@ -98,6 +98,8 @@ const HZDEALS = (() => {
     const ids = homeList().map(d => d.id), i = ids.indexOf(id), j = i + dir; if (i < 0 || j < 0 || j >= ids.length) return;
     [ids[i], ids[j]] = [ids[j], ids[i]]; write(all().map(o => ids.includes(o.id) ? { ...o, homeOrder: ids.indexOf(o.id) + 1 } : o));
   }
+  // Set the picture of several deals at once: { id: url }. Used by Settings > Sample data > Sample images.
+  const setImgs = map => write(all().map(o => map[o.id] !== undefined ? { ...o, img: map[o.id] } : o));
   const setActive = (id, on) => write(all().map(o => o.id === id ? { ...o, active: !!on } : o));
   const remove = id => write(all().filter(o => o.id !== id));
   const removeAll = () => { guard(); HZStore.remove(KEY); };
@@ -114,5 +116,5 @@ const HZDEALS = (() => {
   }
   const clearSample = () => write(all().filter(d => !d.sample));
   const hasSample = () => all().some(d => d.sample);
-  return { all, live, home, homeList, setHome, moveHome, stats, notStarted, imgUrl, find, check, quote, used, expired, fmtDate, ruleText, save, setActive, remove, removeAll, loadSample, clearSample, hasSample, today };
+  return { all, live, home, setImgs, homeList, setHome, moveHome, stats, notStarted, imgUrl, find, check, quote, used, expired, fmtDate, ruleText, save, setActive, remove, removeAll, loadSample, clearSample, hasSample, today };
 })();

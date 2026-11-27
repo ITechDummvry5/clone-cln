@@ -16,7 +16,7 @@
 .rows div{display:grid;grid-template-columns:1fr 2fr;gap:20px;padding:18px 0;border-top:1px solid var(--line)}
 .rows p{color:var(--mute)}
 .banner{position:relative;min-height:360px;border-radius:var(--r-xl);overflow:hidden;color:var(--white);display:grid;place-items:center;text-align:center;padding:40px;margin:0 24px}
-.banner>img{position:absolute;inset:0;z-index:-1}.banner::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,var(--dim,.45));z-index:-1}
+.banner>img{position:absolute;inset:0;z-index:-2}.banner::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,var(--dim,.45));z-index:-1}
 .banner h2{max-width:640px;margin-bottom:12px}.banner .chips{justify-content:center;margin-top:22px}
 .rev{background:var(--soft);border-radius:var(--r);padding:22px;display:flex;flex-direction:column;gap:18px;justify-content:space-between}
 .rev .who{display:flex;gap:12px;align-items:center}.rev .who div:first-child{width:38px;height:38px;border-radius:50%;overflow:hidden}

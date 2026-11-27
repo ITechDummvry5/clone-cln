@@ -40,7 +40,7 @@ $('carChips').addEventListener('click', e => {
 renderCars();
 
 const CAT_LINK = { 'SUV': 'type=SUV', 'Sedan': 'type=Sedan', 'Hatchback': 'type=Hatchback', 'Electric': 'fuel=Electric', 'Minivan & 7-seat': 'type=Minivan', 'Sport & convertible': 'type=Sport' };
-$('catGrid').innerHTML = CATS.map(c => `<a class="cat" href="cars.html?${CAT_LINK[c[0]] || ''}"><div class="pic">${img(IMG.categories[c[3]])}</div><b>${c[0]}</b><span>${c[1]} models · from ${HZC.usd(c[2])}/day</span></a>`).join('');
+$('catGrid').innerHTML = CATS.map(c => `<a class="cat" href="cars.html?${CAT_LINK[c[0]] || ''}"><div class="pic">${img(pic('categories.' + c[3]))}</div><b>${c[0]}</b><span>${c[1]} models · from ${HZC.usd(c[2])}/day</span></a>`).join('');
 $('steps').innerHTML = STEPS.map((s, i) => `<div class="step"><span>${i + 1}</span><h3>${s[0]}</h3><p>${s[1]}</p></div>`).join('');
 $('cityGrid').innerHTML = CITIES.map(c => `<a class="city" href="cars.html?pickup=${encodeURIComponent(c[1])}">${img(IMG.cities[c[4]])}<div><small>${c[0]}</small><b>${c[1]}</b><span>${c[2]} cars · from ${HZC.usd(c[3])}/day</span></div></a>`).join('');
 $('cityLinks').innerHTML = CITY_LINKS.map(c => `<a href="cars.html?pickup=${encodeURIComponent(c)}">Car rental in ${c}</a>`).join('');
